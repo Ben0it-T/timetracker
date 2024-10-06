@@ -66,9 +66,10 @@ $smarty->compile_dir  = TEMPLATE_DIR.'_c';
 // Change http cache expiration time to 1 minute.
 session_cache_expire(1);
 
-$phpsessid_ttl = defined('PHPSESSID_TTL') ? PHPSESSID_TTL : 60*60*24;
 // Set lifetime for garbage collection.
-ini_set('session.gc_maxlifetime', $phpsessid_ttl);
+if (!defined('PHPSESSID_TTL')) define('PHPSESSID_TTL', 60*60*24);
+ini_set('session.gc_maxlifetime', PHPSESSID_TTL);
+
 // Set PHP session path, if defined to avoid garbage collection interference from other scripts.
 if (defined('PHP_SESSION_PATH') && realpath(PHP_SESSION_PATH)) {
   ini_set('session.save_path', realpath(PHP_SESSION_PATH));
@@ -80,14 +81,21 @@ if (!defined('SESSION_COOKIE_NAME')) define('SESSION_COOKIE_NAME', 'tt_PHPSESSID
 if (!defined('LOGIN_COOKIE_NAME')) define('LOGIN_COOKIE_NAME', 'tt_login');
 
 // Set session cookie lifetime.
-session_set_cookie_params($phpsessid_ttl);
+session_set_cookie_params(PHPSESSID_TTL);
 if (isset($_COOKIE[SESSION_COOKIE_NAME])) {
   // Extend PHP session cookie lifetime by PHPSESSID_TTL (if defined, otherwise 24 hours) 
   // so that users don't have to re-login during this period from now. 
-  setcookie(SESSION_COOKIE_NAME, $_COOKIE[SESSION_COOKIE_NAME],  time() + $phpsessid_ttl, '/');
+  setcookie(SESSION_COOKIE_NAME, $_COOKIE[SESSION_COOKIE_NAME],  time() + PHPSESSID_TTL, '/');
 }
 
-// Start or resume PHP session.
+// Set session storage
+if (!defined('SESSION_HANDLER')) define('SESSION_HANDLER', 'file');
+if (SESSION_HANDLER === 'db') {
+  import('ttSession');
+  $ttSession = new ttSession();
+}
+
+// Start session
 session_name(SESSION_COOKIE_NAME);
 @session_start();
 
@@ -136,8 +144,13 @@ $msg = new ActionErrors(); // Notification messages (not errrors) for user.
 import('ttUser');
 $user = new ttUser(null, $auth->getUserId());
 if ($user->custom_logo) {
-  $smarty->assign('custom_logo', 'img/'.$user->group_id.'.png');
-  $smarty->assign('mobile_custom_logo', '../img/'.$user->group_id.'.png');
+  if (file_exists('img/'.$user->group_id.'.png')) {
+    $smarty->assign('custom_logo', 'img/'.$user->group_id.'.png');
+    $smarty->assign('mobile_custom_logo', '../img/'.$user->group_id.'.png');
+  }
+  else {
+    $user->custom_logo = 0;
+  }
 }
 $smarty->assign('user', $user);
 
