@@ -1,13 +1,22 @@
+# General
+.DS_Store
+._*
+_*
+*~
+*.sublime-project
+*.sublime-workspace
+.idea/
+.vscode/
+Thumbs.db
+nbproject/
+
+# Config
 config.php
+
+# WEB-INF
 WEB-INF/templates_c/*.*
 WEB-INF/templates_c/import_*
 WEB-INF/templates_c/tt*
 WEB-INF/lib/tcpdf/
-nbproject/
 upload/
-.vscode/
-Thumbs.db
-*.DS_Store
-*~
-.idea/
 api/

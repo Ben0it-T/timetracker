@@ -15,19 +15,17 @@ $i18n_key_words = array(
 
 // Menus - short selection strings that are displayed on top of application web pages.
 // Example: https://timetracker.anuko.com (black menu on top).
-'menu.login' => 'Connexion',
-'menu.logout' => 'Quitter',
+'menu.login' => 'Connexion',          // Se connecter (Sign in)
+'menu.logout' => 'Déconnexion',       // Se déconnecter (Sign out)
 'menu.forum' => 'Forum',
 'menu.help' => 'Aide',
-// TODO: translate the following.
-// 'menu.register' => 'Register',
+'menu.register' => 'Créer un groupe', // S'inscrire (Sign up)
 'menu.profile' => 'Profil',
-// TODO: translate the following.
-// 'menu.group' => 'Group',
+'menu.group' => 'Groupe',
 'menu.plugins' => 'Plugins',
 'menu.time' => 'Temps',
+'menu.puncher' => 'Minuteur',
 // TODO: translate the following.
-// 'menu.puncher' => 'Punch',
 // 'menu.week' => 'Week',
 'menu.expenses' => 'Dépenses',
 'menu.reports' => 'Rapports',
@@ -37,8 +35,7 @@ $i18n_key_words = array(
 'menu.projects' => 'Projets',
 'menu.tasks' => 'Tâches',
 'menu.users' => 'Utilisateurs',
-// TODO: translate the following.
-// 'menu.groups' => 'Groups',
+'menu.groups' => 'Groupes',
 'menu.export' => 'Exporter',
 'menu.clients' => 'Clients',
 'menu.options' => 'Options',
@@ -53,9 +50,8 @@ $i18n_key_words = array(
 'error.access_denied' => 'Accès refusé.',
 'error.sys' => 'Erreur système.',
 'error.db' => 'Erreur de base de données.',
-// TODO: translate the following.
-// 'error.registered_recently' => 'Registered recently.',
-// 'error.feature_disabled' => 'Feature is disabled.',
+'error.registered_recently' => 'Inscrit récemment.',
+'error.feature_disabled' => 'La fonctionnalité est désactivée.',
 'error.field' => 'Donnée "{0}" incorrecte.',
 'error.empty' => 'Le champ "{0}" est vide.',
 'error.not_equal' => 'Le champ "{0}" n\\\'est pas égal au champ "{1}".',
@@ -67,18 +63,14 @@ $i18n_key_words = array(
 // TODO: translate the following.
 // 'error.record' => 'Select record.',
 'error.auth' => 'Nom d\\\'utilisateur ou mot de passe incorrect.',
-// TODO: translate the following.
-// 'error.2fa_code' => 'Invalid 2FA code.',
-// 'error.weak_password' => 'Weak password.',
+'error.2fa_code' => 'Code 2FA invalide.',
+'error.weak_password' => 'Mot de passe faible.',
 'error.user_exists' => 'Un utilisateur avec cet identifiant existe déjà.',
-// TODO: translate the following.
-// 'error.object_exists' => 'Object with this name already exists.',
+'error.object_exists' => 'Un objet portant ce nom existe déjà.',
 'error.invoice_exists' => 'Une facture avec ce numéro existe déjà.',
-// TODO: translate the following.
-// 'error.role_exists' => 'Role with this rank already exists.',
+'error.role_exists' => 'Un rôle avec ce rang existe déjà.',
 'error.no_invoiceable_items' => 'Il n\\\'y a pas d\\\'éléments à facturer.',
-// TODO: translate the following.
-// 'error.no_records' => 'There are no records.',
+'error.no_records' => 'Il n\\\'y a aucun enregistrement.',
 'error.no_login' => 'Aucun utilisateur avec cet identifiant.',
 'error.no_groups' => 'Votre base de données est vide. Connectez-vous comme administrateur et créez une nouvelle équipe.',  // TODO: replace "team" with "group".
 'error.upload' => 'Erreur de chargement du fichier.',
@@ -105,8 +97,7 @@ $i18n_key_words = array(
 // 'warn.confirm_save' => 'Date has changed. Confirm saving, not copying this item.',
 
 // Success messages.
-// TODO: translate the following.
-// 'msg.success' => 'Operation completed successfully.',
+'msg.success' => 'Opération réalisée avec succès.',
 
 // Labels for buttons.
 'button.login' => 'Connexion',
@@ -125,8 +116,7 @@ $i18n_key_words = array(
 'button.export' => 'Exporter l\\\'équipe', // TODO: replace "team" with "group".
 'button.import' => 'Importer une équipe', // TODO: replace "team" with "group".
 'button.close' => 'Fermer',
-// TODO: translate the following.
-// 'button.start' => 'Start',
+'button.start' => 'Début',
 'button.stop' => 'Arrêter',
 // TODO: translate the following.
 // 'button.approve' => 'Approve',
@@ -155,10 +145,9 @@ $i18n_key_words = array(
 'label.end_date' => 'Date de fin',
 'label.user' => 'Utilisateur',
 'label.users' => 'Utilisateurs',
-// TODO: translate the following.
-// 'label.group' => 'Group',
-// 'label.subgroups' => 'Subgroups',
-// 'label.roles' => 'Roles',
+'label.group' => 'Groupe',
+'label.subgroups' => 'Sous-groupes',
+'label.roles' => 'Rôles',
 'label.client' => 'Client',
 'label.clients' => 'Clients',
 'label.option' => 'Option',
@@ -171,13 +160,11 @@ $i18n_key_words = array(
 'label.start' => 'Début',
 'label.finish' => 'Fin',
 'label.duration' => 'Durée',
-'label.note' => 'Note',
-// TODO: translate the following.
-// 'label.notes' => 'Notes',
+'label.note' => 'Commentaire',
+'label.notes' => 'Commentaires',
 'label.item' => 'Item',
 'label.cost' => 'Coût',
-// TODO: translate the following.
-// 'label.ip' => 'IP',
+'label.ip' => 'Adresse IP',
 'label.day_total' => 'Total quotidien',
 'label.week_total' => 'Total hebdomadaire',
 'label.month_total' => 'Total mensuel',
@@ -191,12 +178,12 @@ $i18n_key_words = array(
 // TODO: translate the following.
 // 'label.day_view' => 'Day view',
 // 'label.week_view' => 'Week view',
-// 'label.puncher' => 'Puncher',
+'label.puncher' => 'Minuteur',
 'label.id' => 'ID',
 'label.language' => 'Langage',
 'label.decimal_mark' => 'Séparateur de décimal',
-'label.date_format' => 'Format date',
-'label.time_format' => 'Format heure',
+'label.date_format' => 'Format de date',
+'label.time_format' => 'Format de l\\\'heure',
 'label.week_start' => '1er jour de la semaine',
 'label.comment' => 'Commentaire',
 'label.status' => 'Statut',
@@ -249,9 +236,9 @@ $i18n_key_words = array(
 // 'label.template' => 'Template',
 // 'label.bind_templates_with_projects' => 'Bind templates with projects',
 // 'label.prepopulate_note' => 'Prepopulate Note field',
-// 'label.attachments' => 'Attachments',
-// 'label.files' => 'Files',
-// 'label.file' => 'File',
+'label.attachments' => 'Pièces jointes',
+'label.files' => 'Fichiers',
+'label.file' => 'Fichier',
 'label.active_users' => 'Utilisateurs actifs',
 'label.inactive_users' => 'Utilisateurs inactifs',
 
@@ -281,7 +268,7 @@ $i18n_key_words = array(
 'title.delete_time_record' => 'Suppression de l\\\'entrée de temps',
 // TODO: Translate the following.
 // 'title.time_files' => 'Time Record Files',
-// 'title.puncher' => 'Puncher',
+'title.puncher' => 'Minuteur',
 'title.expenses' => 'Dépenses',
 'title.edit_expense' => 'Modification d\\\'une dépense',
 'title.delete_expense' => 'Suppression d\\\'une dépense',
@@ -311,11 +298,10 @@ $i18n_key_words = array(
 'title.add_user' => 'Création d\\\'un utilisateur',
 'title.edit_user' => 'Modification d\\\'un utilisateur',
 'title.delete_user' => 'Suppression d\\\'un utilisateur',
-// TODO: translate the following.
-// 'title.roles' => 'Roles',
-// 'title.add_role' => 'Adding Role',
-// 'title.edit_role' => 'Editing Role',
-// 'title.delete_role' => 'Deleting Role',
+'title.roles' => 'Rôles',
+'title.add_role' => 'Ajout d\\\'un rôle',
+'title.edit_role' => 'Modification d\\\'un rôle',
+'title.delete_role' => 'Suppression d\\\'un rôle',
 'title.clients' => 'Clients',
 'title.add_client' => 'Ajout d\\\'un client',
 'title.edit_client' => 'Modification d\\\'un client',
@@ -336,8 +322,7 @@ $i18n_key_words = array(
 'title.export' => 'Exportation des données',
 'title.import' => 'Importation des données',
 'title.options' => 'Options',
-// TODO: translate the following.
-// 'title.display_options' => 'Display Options',
+'title.display_options' => 'Options d\\\'affichage',
 'title.profile' => 'Profil',
 'title.plugins' => 'Plugins',
 'title.cf_custom_fields' => 'Champs personalisés',
@@ -351,7 +336,8 @@ $i18n_key_words = array(
 'title.locking' => 'Vérouillage',
 // TODO: translate the following.
 // 'title.week_view' => 'Week View',
-// 'title.swap_roles' => 'Swapping Roles',
+'title.swap_roles' => 'Échanger les rôles',
+// TODO: translate the following.
 // 'title.work_units' => 'Work Units',
 // 'title.templates' => 'Templates',
 // 'title.add_template' => 'Adding Template',
@@ -514,8 +500,7 @@ $i18n_key_words = array(
 'form.tasks.inactive_tasks' => 'Tâches inactives',
 
 // Users form. See example at https://timetracker.anuko.com/users.php
-// TODO: translate the following.
-// 'form.users.uncompleted_entry_today' => 'User has an uncompleted time entry today',
+'form.users.uncompleted_entry_today' => 'L\\\'utilisateur a une saisie de temps incomplète aujourd\\\'hui',
 'form.users.uncompleted_entry' => 'L\\\'utilisateur a une entrée incomplète',
 'form.users.role' => 'Rôle',
 'form.users.manager' => 'Responsable',
@@ -524,17 +509,15 @@ $i18n_key_words = array(
 'form.users.default_rate' => 'Tarif horaire par défaut',
 
 // Editing User form. See example at https://timetracker.anuko.com/user_edit.php
-// TODO: translate the following.
-// 'form.user_edit.swap_roles' => 'Swap roles',
+'form.user_edit.swap_roles' => 'Échanger les rôles',
 
 // Roles form. See example at https://timetracker.anuko.com/roles.php
-// TODO: translate the following.
-// 'form.roles.active_roles' => 'Active Roles',
-// 'form.roles.inactive_roles' => 'Inactive Roles',
-// 'form.roles.rank' => 'Rank',
-// 'form.roles.rights' => 'Rights',
-// 'form.roles.assigned' => 'Assigned',
-// 'form.roles.not_assigned' => 'Not assigned',
+'form.roles.active_roles' => 'Rôles actifs',
+'form.roles.inactive_roles' => 'Rôles inactifs',
+'form.roles.rank' => 'Rang',
+'form.roles.rights' => 'Droits',
+'form.roles.assigned' => 'Droits attribués',
+'form.roles.not_assigned' => 'Droits non attribués',
 
 // Clients form. See example at https://timetracker.anuko.com/clients.php
 'form.clients.active_clients' => 'Clients actifs',
@@ -563,10 +546,9 @@ $i18n_key_words = array(
 // Group Settings form. See example at https://timetracker.anuko.com/group_edit.php.
 'form.group_edit.12_hours' => '12 heures',
 'form.group_edit.24_hours' => '24 heures',
-// TODO: translate the following.
-// 'form.group_edit.display_options' => 'Display options',
-// 'form.group_edit.holidays' => 'Holidays',
-'form.group_edit.tracking_mode' => 'Mode suivi',
+'form.group_edit.display_options' => 'Options d\\\'affichage',
+'form.group_edit.holidays' => 'Jours fériés',
+'form.group_edit.tracking_mode' => 'Mode de suivi',
 'form.group_edit.mode_time' => 'Heures',
 'form.group_edit.mode_projects' => 'Projets',
 'form.group_edit.mode_projects_and_tasks' => 'Projets et tâches',
@@ -574,20 +556,18 @@ $i18n_key_words = array(
 'form.group_edit.type_all' => 'Tous',
 'form.group_edit.type_start_finish' => 'Début et fin',
 'form.group_edit.type_duration' => 'Durée',
-// TODO: translate the following.
-// 'form.group_edit.punch_mode' => 'Punch mode',
-// 'form.group_edit.one_uncompleted' => 'One uncompleted',
-// 'form.group_edit.allow_overlap' => 'Allow overlap',
-// 'form.group_edit.future_entries' => 'Future entries',
-// 'form.group_edit.uncompleted_indicators' => 'Uncompleted indicators',
-// 'form.group_edit.confirm_save' => 'Confirm saving',
-// 'form.group_edit.advanced_settings' => 'Advanced settings',
+'form.group_edit.punch_mode' => 'Mode minuteur',
+'form.group_edit.one_uncompleted' => 'Une seule entrée incomplète autorisée',
+'form.group_edit.allow_overlap' => 'Autoriser le chevauchement',
+'form.group_edit.future_entries' => 'Autoriser la saisie pour les dates futures',
+'form.group_edit.uncompleted_indicators' => 'Indicateurs d\\\'entrées incomplètes',
+'form.group_edit.confirm_save' => 'Confirmer l\\\'enregistrement',
+'form.group_edit.advanced_settings' => 'Paramètres avancés',
 
 // Advanced Group Settings form. See example at https://timetracker.anuko.com/group_advanced_edit.php.
-// TODO: Translate the following.
-// 'form.group_advanced_edit.allow_ip' => 'Allow IP',
-// 'form.group_advanced_edit.password_complexity' => 'Password complexity',
-// 'form.group_advanced_edit.2fa' => 'Two factor authentication',
+'form.group_advanced_edit.allow_ip' => 'Adresses IP autorisées',
+'form.group_advanced_edit.password_complexity' => 'Complexité des mots de passe',
+'form.group_advanced_edit.2fa' => 'Authentification à deux facteurs',
 
 // Deleting Group form. See example at https://timetracker.anuko.com/delete_group.php
 // TODO: translate the following.
@@ -609,7 +589,7 @@ $i18n_key_words = array(
 // Swap roles form. See example at https://timetracker.anuko.com/swap_roles.php.
 // TODO: translate the following.
 // 'form.swap.hint' => 'Demote yourself to a lower role by swapping roles with someone else. This cannot be undone.',
-// 'form.swap.swap_with' => 'Swap roles with',
+'form.swap.swap_with' => 'Échanger les rôles avec',
 
 // Work Units configuration form. See example at https://timetracker.anuko.com/work_units.php after enabling Work units plugin.
 // TODO: translate the following.
@@ -650,9 +630,9 @@ $i18n_key_words = array(
 // 'form.timesheet_view.disapprove_body' => "Your timesheet %s was not approved.<p>%s",
 
 // Display Options form. See example at https://timetracker.anuko.com/display_options.php.
+'form.display_options.note_on_separate_row' => 'Commentaire sur une ligne séparée',
+'form.display_options.not_complete_days' => 'Journées incomplètes',
 // TODO: translate the following.
-// 'form.display_options.note_on_separate_row' => 'Note on separate row',
-// 'form.display_options.not_complete_days' => 'Not complete days',
 // 'form.display_options.inactive_projects' => 'Inactive projects',
 // 'form.display_options.cost_per_hour' => 'Cost per hour',
 // 'form.display_options.custom_css' => 'Custom CSS',
