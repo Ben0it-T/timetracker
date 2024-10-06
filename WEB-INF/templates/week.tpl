@@ -20,7 +20,7 @@ function fillDropdowns() {
 
 {if $show_navigation}
 <div class="optional-nav">
-  <a href="time.php?date={$selected_date->toString()}">{$i18n.label.day_view}</a>&nbsp;/&nbsp;<a href="week.php?date={$selected_date->toString()}">{$i18n.label.week_view}</a>
+  <a href="time.php?date={$selected_date->toString()}">{$i18n.label.day_view}</a>{if $user->isPluginEnabled('pu')}&nbsp;/&nbsp;<a href="puncher.php">{$i18n.label.puncher}</a>{/if}&nbsp;/&nbsp;<a href="week.php?date={$selected_date->toString()}">{$i18n.label.week_view}</a>
 </div>
 {/if}
 
