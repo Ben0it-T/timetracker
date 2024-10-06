@@ -623,4 +623,16 @@ CREATE TABLE `tt_site_config` (
   PRIMARY KEY  (`param_name`)
 );
 
-INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.3', now()); # TODO: change when structure changes.
+INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.4', now()); # TODO: change when structure changes.
+
+
+#
+# Structure for table tt_sessions.
+# This table stores sessions data
+#
+CREATE TABLE `tt_sessions` (
+  `id` varchar(32) NOT NULL,  # session id
+  `expire` int(10) unsigned,  # session expire
+  `data` text NOT NULL,       # session 
+  PRIMARY KEY (`id`)
+)
