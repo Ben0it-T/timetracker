@@ -1202,6 +1202,12 @@ if ($_POST) {
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.3', modified = now() where param_name = 'version_db' and param_value = '1.21.7'");
   }
 
+  if (array_key_exists('convert12203to12204', $_POST)) {
+    // Feature store sessions in database
+    ttExecute("CREATE TABLE `tt_sessions` (`id` varchar(32) NOT NULL, `expire` int(10) unsigned, `data` text NOT NULL, PRIMARY KEY (`id`))");
+    ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.4', modified = now() where param_name = 'version_db' and param_value = '1.22.3'");
+  }
+
   if (array_key_exists('cleanup', $_POST)) {
     $mdb2 = getConnection();
     $inactive_orgs = ttOrgHelper::getInactiveOrgs();
@@ -1220,32 +1226,33 @@ if ($_POST) {
     // ttExecute("delete from tt_custom_field_log where status is null");
     // ttExecute("delete from tt_expense_items where status is null");
 
-    ttExecute("OPTIMIZE TABLE tt_client_project_binds");
-    ttExecute("OPTIMIZE TABLE tt_clients");
-    ttExecute("OPTIMIZE TABLE tt_config");
-    ttExecute("OPTIMIZE TABLE tt_cron");
-    ttExecute("OPTIMIZE TABLE tt_timesheets");
-    ttExecute("OPTIMIZE TABLE tt_custom_field_log");
-    ttExecute("OPTIMIZE TABLE tt_custom_field_options");
-    ttExecute("OPTIMIZE TABLE tt_custom_fields");
-    ttExecute("OPTIMIZE TABLE tt_expense_items");
-    ttExecute("OPTIMIZE TABLE tt_fav_reports");
-    ttExecute("OPTIMIZE TABLE tt_invoices");
-    ttExecute("OPTIMIZE TABLE tt_log"); // This locks the production table for 4 minutes. Impossible to login, etc.
+    ttExecute("OPTIMIZE TABLE `tt_client_project_binds`");
+    ttExecute("OPTIMIZE TABLE `tt_clients`");
+    ttExecute("OPTIMIZE TABLE `tt_config`");
+    ttExecute("OPTIMIZE TABLE `tt_cron`");
+    ttExecute("OPTIMIZE TABLE `tt_timesheets`");
+    ttExecute("OPTIMIZE TABLE `tt_custom_field_log`");
+    ttExecute("OPTIMIZE TABLE `tt_custom_field_options`");
+    ttExecute("OPTIMIZE TABLE `tt_custom_fields`");
+    ttExecute("OPTIMIZE TABLE `tt_expense_items`");
+    ttExecute("OPTIMIZE TABLE `tt_fav_reports`");
+    ttExecute("OPTIMIZE TABLE `tt_invoices`");
+    ttExecute("OPTIMIZE TABLE `tt_log`"); // This locks the production table for 4 minutes. Impossible to login, etc.
                                         // TODO: what should we do about it?
-    ttExecute("OPTIMIZE TABLE tt_monthly_quotas");
-    ttExecute("OPTIMIZE TABLE tt_templates");
-    ttExecute("OPTIMIZE TABLE tt_project_template_binds");
-    ttExecute("OPTIMIZE TABLE tt_predefined_expenses");
-    ttExecute("OPTIMIZE TABLE tt_project_task_binds");
-    ttExecute("OPTIMIZE TABLE tt_projects");
-    ttExecute("OPTIMIZE TABLE tt_tasks");
-    ttExecute("OPTIMIZE TABLE tt_groups");
-    ttExecute("OPTIMIZE TABLE tt_tmp_refs");
-    ttExecute("OPTIMIZE TABLE tt_user_project_binds");
-    ttExecute("OPTIMIZE TABLE tt_users");
-    ttExecute("OPTIMIZE TABLE tt_roles");
-    ttExecute("OPTIMIZE TABLE tt_files");
+    ttExecute("OPTIMIZE TABLE `tt_monthly_quotas`");
+    ttExecute("OPTIMIZE TABLE `tt_templates`");
+    ttExecute("OPTIMIZE TABLE `tt_project_template_binds`");
+    ttExecute("OPTIMIZE TABLE `tt_predefined_expenses`");
+    ttExecute("OPTIMIZE TABLE `tt_project_task_binds`");
+    ttExecute("OPTIMIZE TABLE `tt_projects`");
+    ttExecute("OPTIMIZE TABLE `tt_tasks`");
+    ttExecute("OPTIMIZE TABLE `tt_groups`");
+    ttExecute("OPTIMIZE TABLE `tt_tmp_refs`");
+    ttExecute("OPTIMIZE TABLE `tt_user_project_binds`");
+    ttExecute("OPTIMIZE TABLE `tt_users`");
+    ttExecute("OPTIMIZE TABLE `tt_roles`");
+    ttExecute("OPTIMIZE TABLE `tt_files`");
+    ttExecute("OPTIMIZE TABLE `tt_sessions`");
   }
 
   print "Done.<br>\n";
@@ -1258,7 +1265,7 @@ if ($_POST) {
 <h2>DB Install</h2>
 <table width="80%" border="1" cellpadding="10" cellspacing="0">
   <tr>
-    <td width="80%"><b>Create database structure (v1.22.3)</b>
+    <td width="80%"><b>Create database structure (v1.22.4)</b>
     <br>(applies only to new installations, do not execute when updating)</br></td><td><input type="submit" name="crstructure" value="Create"></td>
   </tr>
 </table>
@@ -1309,6 +1316,10 @@ if ($_POST) {
   <tr valign="top">
     <td>Update database structure (v1.19 to v1.22.3)</td>
     <td><input type="submit" name="convert11900to12203" value="Update"></td>
+  </tr>
+  <tr valign="top">
+    <td>Update database structure (v1.22.3 to v1.22.4)</td>
+    <td><input type="submit" name="convert12203to12204" value="Update"></td>
   </tr>
 </table>
 

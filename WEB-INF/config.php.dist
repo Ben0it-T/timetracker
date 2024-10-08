@@ -68,6 +68,13 @@ define('WEEKEND_START_DAY', 6);
 // define('PHP_SESSION_PATH', '/tmp/timetracker'); // Directory must exist and be writable.
 
 
+// SESSION_HANDLER
+// Set session storage.
+// 'file' : file stroage. Default value
+// 'db'   : db stroage
+define('SESSION_HANDLER', 'file');
+
+
 // LOGIN_COOKIE_NAME
 //
 // Cookie name for user login to remember it between browser sessions.
