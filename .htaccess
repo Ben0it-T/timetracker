@@ -1,3 +1,4 @@
+Options -Indexes
 AddDefaultCharset utf-8
 
 # Restrict access to Time Tracker only from certain IPs.
