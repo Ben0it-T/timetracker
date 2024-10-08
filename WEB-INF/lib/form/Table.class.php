@@ -157,8 +157,9 @@ class Table extends FormElement {
     
     // Print rows.
     if (is_array($this->mData)) {
+      $rowHoverBackgroundColor = ($this->isInteractive() ? "onmouseover=\"setRowBackground(this, '".$this->mBgColorOver."')\" onmouseout=\"setRowBackground(this, null)\"" : "");
       for ($row = 0; $row < count($this->mData); $row++) {
-        $html .= "\n<tr bgcolor=\"".$this->mBgColor."\" onmouseover=\"setRowBackground(this, '".$this->mBgColorOver."')\" onmouseout=\"setRowBackground(this, null)\">\n";
+        $html .= "\n<tr bgcolor=\"".$this->mBgColor."\" ".$rowHoverBackgroundColor.">\n";
         for ($col = 0; $col < $this->getColumnCount(); $col++) {
           if (0 == $col && strtolower(get_class($this->mColumns[$col]->getRenderer())) == 'checkboxcellrenderer') {
             // Checkbox for the row. Determine if selected.
