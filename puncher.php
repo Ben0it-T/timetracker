@@ -4,6 +4,7 @@ License: See license.txt */
 
 require_once('initialize.php');
 import('form.Form');
+import('ttConfigHelper');
 import('ttUserHelper');
 import('ttGroupHelper');
 import('ttClientHelper');
@@ -41,6 +42,8 @@ if ($request->isPost()) {
 }
 // End of access checks.
 
+$config = new ttConfigHelper($user->getConfig());
+
 $showClient = $user->isPluginEnabled('cl');
 $showBillable = $user->isPluginEnabled('iv');
 $trackingMode = $user->getTrackingMode();
@@ -68,10 +71,34 @@ $enable_controls = ($uncompletedToday == null);
 // Obtain first found uncompleted record, not necessarily for today. Used to prohibit entry in "One uncompleted" mode.
 $uncompleted = ttTimeHelper::getUncompleted($user->getUser());
 
+$showNoteColumn = !$config->getDefinedValue('time_note_on_separate_row');
+$showNoteRow = $config->getDefinedValue('time_note_on_separate_row');
+if ($showNoteRow) {
+  // Determine column span for note field.
+  $colspan = 0;
+  if ($showClient) $colspan++;
+  if ($showRecordCustomFields && isset($custom_fields) && $custom_fields->timeFields) {
+    foreach ($custom_fields->timeFields as $timeField) {
+      $colspan++;
+    }
+  }
+  if ($showProject) $colspan++;
+  if ($showTask) $colspan++;
+  if ($showStart) $colspan += 2; // Another for show finish.
+  $colspan++; // There is always a duration.
+  if ($showFiles) $colspan++;
+  $colspan++; // There is always an edit column.
+  // $colspan++; // There is always a delete column.
+  // $colspan--; // Remove one column for label.
+  $smarty->assign('colspan', $colspan);
+}
+
+
 // Initialize variables.
 $cl_start = $browser_time;
 $cl_finish = $browser_time;
-$cl_duration = $cl_note = null;
+$cl_duration = null;
+
 // Disabled controls are not posted. Therefore, && $enable_controls condition in several places below.
 // This allows us to get values from session when controls are disabled and reset to null when not.
 $cl_billable = 1;
@@ -85,6 +112,8 @@ $cl_project = $request->getParameter('project', ($request->isPost() && $enable_c
 $_SESSION['project'] = $cl_project;
 $cl_task = $request->getParameter('task', ($request->isPost() && $enable_controls ? null : @$_SESSION['task']));
 $_SESSION['task'] = $cl_task;
+$cl_note = $request->getParameter('note', ($request->isPost() && $enable_controls ? null : @$_SESSION['note']));
+$_SESSION['note'] = $cl_note;
 
 // Handle time custom fields.
 $timeCustomFields = array();
@@ -147,9 +176,10 @@ if (isset($custom_fields) && $custom_fields->timeFields) {
 $project_list = $client_list = array();
 if ($showProject) {
   // Dropdown for projects assigned to user.
-  $project_list = $user->getAssignedProjects();
+  $options['include_templates'] = $user->isPluginEnabled('tp') && $config->getDefinedValue('bind_templates_with_projects');
+  $project_list = $user->getAssignedProjects($options);
   $form->addInput(array('type'=>'combobox',
-    'onchange'=>'fillTaskDropdown(this.value);',
+    'onchange'=>'fillTaskDropdown(this.value);fillTemplateDropdown(this.value);prepopulateNote();',
     'name'=>'project',
     'enable'=>$enable_controls,
     'value'=>$cl_project,
@@ -204,6 +234,27 @@ $form->addInput(array('type'=>'hidden','name'=>'browser_today','value'=>'')); //
 // A hidden control for current time from user's browser.
 $form->addInput(array('type'=>'hidden','name'=>'browser_time','value'=>''));  // User current time, which gets filled in on button click.
 
+// If we have templates, add a dropdown to select one.
+if ($user->isPluginEnabled('tp')){
+  $template_list = ttGroupHelper::getActiveTemplates();
+  if (count($template_list) >= 1) {
+    $form->addInput(array('type'=>'combobox',
+      'onchange'=>'fillNote(this.value);',
+      'name'=>'template',
+      'enable'=>$enable_controls,
+      'data'=>$template_list,
+      'datakeys'=>array('id','name'),
+      'empty'=>array(''=>$i18n->get('dropdown.select'))));
+    $smarty->assign('template_dropdown', 1);
+    $smarty->assign('bind_templates_with_projects', $config->getDefinedValue('bind_templates_with_projects'));
+    $smarty->assign('prepopulate_note', $config->getDefinedValue('prepopulate_note'));
+    $smarty->assign('template_list', $template_list);
+  }
+}
+
+// Note control.
+$form->addInput(array('type'=>'textarea','name'=>'note','value'=>$cl_note,'enable'=>$enable_controls));
+
 // Start and stop buttons.
 $enable_start = $uncompletedToday ? false : true;
 if (!$uncompletedToday)
@@ -232,6 +283,10 @@ if ($request->isPost()) {
     }
     if ($showTask && $taskRequired) {
       if (!$cl_task) $err->add($i18n->get('error.task'));
+    }
+    if (!ttValidString($cl_note, true)) $err->add($i18n->get('error.field'), $i18n->get('label.note'));
+    if ($user->isPluginEnabled('tp') && !ttValidTemplateText($cl_note)) {
+      $err->add($i18n->get('error.field'), $i18n->get('label.note'));
     }
     // Finished validating user input.
 
@@ -328,6 +383,8 @@ $smarty->assign('day_total', ttTimeHelper::getTimeForDay($cl_date));
 $smarty->assign('time_records', $timeRecords);
 $smarty->assign('show_record_custom_fields', $user->isOptionEnabled('record_custom_fields'));
 $smarty->assign('show_start', true);
+$smarty->assign('show_note_column', $showNoteColumn);
+$smarty->assign('show_note_row', $showNoteRow);
 $smarty->assign('client_list', $client_list);
 $smarty->assign('project_list', $project_list);
 $smarty->assign('task_list', $task_list);

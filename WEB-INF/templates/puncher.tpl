@@ -103,11 +103,25 @@ startTimer();
   </tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
 {/if}
+{if (isset($template_dropdown) && $template_dropdown)}
+  <tr class = "small-screen-label"><td><label for="template">{$i18n.label.template}:</label></td></tr>
+  <tr>
+    <td class = "large-screen-label"><label for="template">{$i18n.label.template}:</label></td>
+    <td class="td-with-input">{$forms.timeRecordForm.template.control}</td>
+  </tr>
+  <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
+{/if}
+  <tr class = "small-screen-label"><td><label for="note">{$i18n.label.note}:</label></td></tr>
+  <tr>
+    <td class="large-screen-label"><label for="note">{$i18n.label.note}:</label></td>
+    <td colspan="2">{$forms.timeRecordForm.note.control}</td>
+  </tr>
   <tr><td colspan="2">{$i18n.label.required_fields}</td></tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
 </table>
 {if isset($forms.timeRecordForm.btn_start.control)}<div class="button-set">{$forms.timeRecordForm.btn_start.control}</div>{/if}
 {if isset($forms.timeRecordForm.btn_stop.control)}<div class="button-set">{$forms.timeRecordForm.btn_stop.control}</div>{/if}
+
 {if $time_records}
 <div class="record-list">
 <table class="x-scrollable-table">
