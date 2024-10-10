@@ -67,6 +67,7 @@ if ($user->isPluginEnabled('cf')) {
 // Obtain first uncompleted record for today. If there are multiples, we operate with first found.
 $uncompletedToday = ttTimeHelper::getFirstUncompletedForDate($user->getUser(), $date_today->toString());
 $enable_controls = ($uncompletedToday == null);
+$time_rec = ($uncompletedToday == null ? null : ttTimeHelper::getRecord($uncompletedToday['id']));
 
 // Obtain first found uncompleted record, not necessarily for today. Used to prohibit entry in "One uncompleted" mode.
 $uncompleted = ttTimeHelper::getUncompleted($user->getUser());
@@ -101,27 +102,64 @@ $cl_duration = null;
 
 // Disabled controls are not posted. Therefore, && $enable_controls condition in several places below.
 // This allows us to get values from session when controls are disabled and reset to null when not.
+
+//$cl_billable = 1;
+//if ($user->isPluginEnabled('iv')) {
+//  $cl_billable = $request->getParameter('billable', ($request->isPost() && $enable_controls ? null : @$_SESSION['billable']));
+//  $_SESSION['billable'] = $cl_billable;
+//}
+//$cl_client = $request->getParameter('client', ($request->isPost() && $enable_controls ? null : @$_SESSION['client']));
+//$_SESSION['client'] = $cl_client;
+//$cl_project = $request->getParameter('project', ($request->isPost() && $enable_controls ? null : @$_SESSION['project']));
+//$_SESSION['project'] = $cl_project;
+//$cl_task = $request->getParameter('task', ($request->isPost() && $enable_controls ? null : @$_SESSION['task']));
+//$_SESSION['task'] = $cl_task;
+//$cl_note = $request->getParameter('note', ($request->isPost() && $enable_controls ? null : @$_SESSION['note']));
+//$_SESSION['note'] = $cl_note;
+
+// if there is an uncompleted record for today (enable_controls is false)
+// then get values from the first uncompleted record for today
+// else get get values from session
 $cl_billable = 1;
-if ($user->isPluginEnabled('iv')) {
-  $cl_billable = $request->getParameter('billable', ($request->isPost() && $enable_controls ? null : @$_SESSION['billable']));
+$cl_note = "";
+if ($enable_controls) {
+  // get get values from session
+  if ($user->isPluginEnabled('iv')) {
+  $cl_billable = $request->getParameter('billable', ($request->isPost() ? null : @$_SESSION['billable']));
   $_SESSION['billable'] = $cl_billable;
+  }
+  $cl_client = $request->getParameter('client', ($request->isPost() ? null : @$_SESSION['client']));
+  $_SESSION['client'] = $cl_client;
+  $cl_project = $request->getParameter('project', ($request->isPost() ? null : @$_SESSION['project']));
+  $_SESSION['project'] = $cl_project;
+  $cl_task = $request->getParameter('task', ($request->isPost() ? null : @$_SESSION['task']));
+  $_SESSION['task'] = $cl_task;
+  $cl_note = trim($request->getParameter('note', ($request->isPost() ? null : @$_SESSION['note'])));
+  $_SESSION['note'] = $cl_note;
 }
-$cl_client = $request->getParameter('client', ($request->isPost() && $enable_controls ? null : @$_SESSION['client']));
-$_SESSION['client'] = $cl_client;
-$cl_project = $request->getParameter('project', ($request->isPost() && $enable_controls ? null : @$_SESSION['project']));
-$_SESSION['project'] = $cl_project;
-$cl_task = $request->getParameter('task', ($request->isPost() && $enable_controls ? null : @$_SESSION['task']));
-$_SESSION['task'] = $cl_task;
-$cl_note = $request->getParameter('note', ($request->isPost() && $enable_controls ? null : @$_SESSION['note']));
-$_SESSION['note'] = $cl_note;
+else {
+  // get values from the first uncompleted record for today
+  $cl_billable = $time_rec['billable'];
+  $cl_client = $time_rec['client_id'];
+  $cl_project = $time_rec['project_id'];
+  $cl_task = $time_rec['task_id'];
+  $cl_note = trim($time_rec['comment']);
+}
 
 // Handle time custom fields.
 $timeCustomFields = array();
 if (isset($custom_fields) && $custom_fields->timeFields) {
   foreach ($custom_fields->timeFields as $timeField) {
     $control_name = 'time_field_'.$timeField['id'];
-    $cl_control_name = $request->getParameter($control_name, ($request->isPost() && $enable_controls ? null : @$_SESSION[$control_name]));
-    $_SESSION[$control_name] = $cl_control_name;
+    //$cl_control_name = $request->getParameter($control_name, ($request->isPost() && $enable_controls ? null : @$_SESSION[$control_name]));
+    //$_SESSION[$control_name] = $cl_control_name;
+    if ($enable_controls) {
+      $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? null : @$_SESSION[$control_name]));
+      $_SESSION[$control_name] = $cl_control_name;
+    }
+    else {
+      $cl_control_name = $custom_fields->getTimeFieldValue($uncompletedToday['id'], $timeField['id'], $timeField['type']);
+    }
     $timeCustomFields[$timeField['id']] = array('field_id' => $timeField['id'],
       'control_name' => $control_name,
       'label' => $timeField['label'],
