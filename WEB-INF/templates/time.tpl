@@ -177,7 +177,7 @@ function handleStop(buttonElement) {
     {/if}
     <td class="time-cell">{if ($record.duration == '0:00' && $record.start <> '')}<font color="#ff0000">{$i18n.form.time.uncompleted}</font>{else}{$record.duration}{/if}</td>
     {if $show_note_column}
-    <td class="text-cell">{if $record.comment}{$record.comment|escape}{else}&nbsp;{/if}</td>
+    <td class="text-cell">{if $record.comment}{nl2br($record.comment|escape)}{else}&nbsp;{/if}</td>
     {/if}
     {if $show_files}
       {if $record.has_files}

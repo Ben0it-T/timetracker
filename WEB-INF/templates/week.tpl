@@ -151,7 +151,7 @@ function fillDropdowns() {
     <td class="time-cell">{if $record.finish}{$record.finish}{else}&nbsp;{/if}</td>
     {/if}
     <td class="time-cell">{if ($record.duration == '0:00' && $record.start <> '')}<font color="#ff0000">{$i18n.form.time.uncompleted}</font>{else}{$record.duration}{/if}</td>
-    <td class="text-cell">{if $record.comment}{$record.comment|escape}{else}&nbsp;{/if}</td>
+    <td class="text-cell">{if $record.comment}{nl2br($record.comment|escape)}{else}&nbsp;{/if}</td>
     {if $show_files}
       {if $record.has_files}
     <td><a href="time_files.php?id={$record.id}"><img class="table_icon" alt="{$i18n.label.files}" src="img/icon-files.png"></a></td>
