@@ -394,9 +394,9 @@ function handleCheckboxes() {
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
 {/if}
 {if $show_project}
-  <tr class = "small-screen-label"><td><label for="project">{$i18n.label.project}:</label></td></tr>
+  <tr class = "small-screen-label"><td><label for="project[]">{$i18n.label.project}:</label></td></tr>
   <tr>
-    <td class="large-screen-label"><label for="project">{$i18n.label.project}:</label></td>
+    <td class="large-screen-label"><label for="project[]">{$i18n.label.project}:</label></td>
     <td class="td-with-input">{$forms.reportForm.project.control}</td>
   </tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
