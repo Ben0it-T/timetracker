@@ -235,7 +235,6 @@ if ($request->isPost()) {
 
 $smarty->assign('group_dropdown', count($groups) > 1);
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="handlePluginCheckboxes();"');
 $smarty->assign('title', $i18n->get('title.edit_group'));
 $smarty->assign('content_page_name', 'group_edit.tpl');
 $smarty->display('index.tpl');
