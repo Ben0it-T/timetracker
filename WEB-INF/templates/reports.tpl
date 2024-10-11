@@ -211,7 +211,8 @@ function fillDropdowns() {
   if(document.body.contains(document.reportForm.client))
     fillProjectDropdown(document.reportForm.client.value);
 
-  fillTaskDropdown(document.reportForm.project.value);
+  if(document.body.contains(document.reportForm.project))
+    fillTaskDropdown(document.reportForm.project.value);
 }
 
 // Build JavaScript array for assigned projects out of passed in PHP array.
