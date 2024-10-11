@@ -171,7 +171,7 @@ License: See license.txt *}
     {if $bean->getAttribute('chfinish')}<td class="time-cell">{$item.finish}</td>{/if}
     {if $bean->getAttribute('chduration')}<td class="time-cell">{$item.duration}</td>{/if}
     {if $bean->getAttribute('chunits')}<td class="number-cell">{$item.units}</td>{/if}
-    {if $bean->getAttribute('chnote') && !$note_on_separate_row}<td class="text-cell">{$item.note|escape}</td>{/if}
+    {if $bean->getAttribute('chnote') && !$note_on_separate_row}<td class="text-cell">{nl2br($item.note|escape)}</td>{/if}
     {if $bean->getAttribute('chcost')}
       {if $show_cost_per_hour}<td class="money-value-cell">{if $user->can('manage_invoices') || $user->isClient()}{$item.cost_per_hour}{/if}</td>{/if}
       <td class="money-value-cell">{if $user->can('manage_invoices') || $user->isClient()}{$item.cost}{else}{$item.expense}{/if}</td>
@@ -199,7 +199,7 @@ License: See license.txt *}
     {if $note_on_separate_row && $bean->getAttribute('chnote') && $item.note}
   <tr>
     <th class="invoice-label">{$i18n.label.note}</th>
-    <td colspan="{$colspan}" class="text-cell">{$item.note|escape}</td>
+    <td colspan="{$colspan}" class="text-cell">{nl2br($item.note|escape)}</td>
   </tr>
     {/if}
     {$prev_date = $item.date}
