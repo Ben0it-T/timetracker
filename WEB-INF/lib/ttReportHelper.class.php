@@ -1521,7 +1521,7 @@ class ttReportHelper {
           if ($options['show_work_units'])
             $body .= '<td style="'.$cellRightAligned.'">'.$record['units'].'</td>';
           if ($show_note_column)
-            $body .= '<td style="'.$cellLeftAligned.'">'.htmlspecialchars($record['note']).'</td>';
+            $body .= '<td style="'.$cellLeftAligned.'">'.nl2br(htmlspecialchars($record['note'])).'</td>';
           if ($show_cost_per_hour)
             $body .= '<td style="'.$cellRightAligned.'">'.$record['cost_per_hour'].'</td>';
           if ($options['show_cost'])
@@ -1549,7 +1549,7 @@ class ttReportHelper {
           if ($show_note_row && $record['note']) {
             $body .= '<tr style="'.$row_style.'">';
             $body .= '<td style="'.$cellRightAligned.'">'.$i18n->get('label.note').':</td>';
-            $body .= '<td colspan="'.$colspan.'">'.$record['note'].'</td>';
+            $body .= '<td colspan="'.$colspan.'">'.nl2br(htmlspecialchars($record['note'])).'</td>';
             $body .= '</tr>';
           }
           $prev_date = $record['date'];
