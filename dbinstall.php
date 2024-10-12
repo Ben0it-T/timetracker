@@ -1208,6 +1208,12 @@ if ($_POST) {
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.4', modified = now() where param_name = 'version_db' and param_value = '1.22.3'");
   }
 
+  if (array_key_exists('convert12204to12205', $_POST)) {
+    // Feature store sessions in database
+    ttExecute("ALTER TABLE `tt_users` CHANGE `password` `password` VARCHAR(255)");
+    ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.5', modified = now() where param_name = 'version_db' and param_value = '1.22.4'");
+  }
+
   if (array_key_exists('cleanup', $_POST)) {
     $mdb2 = getConnection();
     $inactive_orgs = ttOrgHelper::getInactiveOrgs();
@@ -1265,7 +1271,7 @@ if ($_POST) {
 <h2>DB Install</h2>
 <table width="80%" border="1" cellpadding="10" cellspacing="0">
   <tr>
-    <td width="80%"><b>Create database structure (v1.22.4)</b>
+    <td width="80%"><b>Create database structure (v1.22.5)</b>
     <br>(applies only to new installations, do not execute when updating)</br></td><td><input type="submit" name="crstructure" value="Create"></td>
   </tr>
 </table>
@@ -1320,6 +1326,10 @@ if ($_POST) {
   <tr valign="top">
     <td>Update database structure (v1.22.3 to v1.22.4)</td>
     <td><input type="submit" name="convert12203to12204" value="Update"></td>
+  </tr>
+  <tr valign="top">
+    <td>Update database structure (v1.22.4 to v1.22.5)</td>
+    <td><input type="submit" name="convert12204to12205" value="Update"></td>
   </tr>
 </table>
 

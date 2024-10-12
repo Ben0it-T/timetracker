@@ -88,7 +88,7 @@ INSERT INTO `tt_roles` (`group_id`, `name`, `rank`, `rights`) VALUES (0, 'Top ma
 CREATE TABLE `tt_users` (
   `id` int(11) NOT NULL auto_increment,            # user id
   `login` varchar(80) COLLATE utf8mb4_bin NOT NULL,# user login
-  `password` varchar(50) default NULL,             # password hash
+  `password` varchar(255) default NULL,             # password hash
   `name` varchar(80) default NULL,                 # user name
   `group_id` int(11) NOT NULL,                     # group id
   `org_id` int(11) default NULL,                   # organization id
@@ -623,7 +623,7 @@ CREATE TABLE `tt_site_config` (
   PRIMARY KEY  (`param_name`)
 );
 
-INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.4', now()); # TODO: change when structure changes.
+INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.5', now()); # TODO: change when structure changes.
 
 
 #
