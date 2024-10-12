@@ -632,9 +632,8 @@ $i18n_key_words = array(
 // Display Options form. See example at https://timetracker.anuko.com/display_options.php.
 'form.display_options.note_on_separate_row' => 'Commentaire sur une ligne séparée',
 'form.display_options.not_complete_days' => 'Journées incomplètes',
-// TODO: translate the following.
-// 'form.display_options.inactive_projects' => 'Inactive projects',
-// 'form.display_options.cost_per_hour' => 'Cost per hour',
-// 'form.display_options.custom_css' => 'Custom CSS',
-// 'form.display_options.custom_translation' => 'Custom translation',
+'form.display_options.inactive_projects' => 'Projets inactifs',
+'form.display_options.cost_per_hour' => 'Coût par heure',
+'form.display_options.custom_css' => 'CSS personnalisé',
+'form.display_options.custom_translation' => 'Traduction personnalisée',
 );
