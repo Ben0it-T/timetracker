@@ -142,7 +142,13 @@ class ttRegistrator {
     $mdb2 = getConnection();
 
     $login = $mdb2->quote($this->login);
-    $password = 'md5('.$mdb2->quote($this->password1).')';
+    if (AUTH_DB_HASH_ALGORITHM !== '') {
+      $password = $mdb2->quote(password_hash($this->password1, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+    }
+    else {
+      // md5 hash
+      $password = 'md5('.$mdb2->quote($this->password1).')';
+    }
     $name = $mdb2->quote($this->user_name);
     $email = $mdb2->quote($this->email);
     $created = 'now()';

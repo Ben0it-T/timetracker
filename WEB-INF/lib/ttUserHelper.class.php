@@ -79,9 +79,16 @@ class ttUserHelper {
     global $user;
     $mdb2 = getConnection();
 
-    $password = $mdb2->quote($fields['password']);
-    if($hash)
-      $password = 'md5('.$password.')';
+    if($hash) {
+      if (AUTH_DB_HASH_ALGORITHM !== '') {
+        $password = $mdb2->quote(password_hash($fields['password'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+      }
+      else {
+        // md5 hash
+        $password = 'md5('.$mdb2->quote($fields['password']).')';
+      }
+    }
+
     $email = isset($fields['email']) ? $fields['email'] : '';
     $group_id = (int) $fields['group_id'];
     $org_id = (int) $fields['org_id'];
@@ -142,8 +149,15 @@ class ttUserHelper {
       $login_part = ", login = ".$mdb2->quote($fields['login']);
     }
 
-    if (isset($fields['password']))
-      $pass_part = ', password = md5('.$mdb2->quote($fields['password']).')';
+    if (isset($fields['password'])) {
+      if (AUTH_DB_HASH_ALGORITHM !== '') {
+        $pass_part = ', password = ' . $mdb2->quote(password_hash($fields['password'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+      }
+      else {
+        // md5 hash
+        $pass_part = ', password = md5('.$mdb2->quote($fields['password']).')';
+      }
+    }
 
     if (isset($fields['name']))
       $name_part = ', name = '.$mdb2->quote($fields['name']);
@@ -342,7 +356,13 @@ class ttUserHelper {
   static function setPassword($user_id, $password) {
     $mdb2 = getConnection();
 
-    $sql = "update tt_users set password = md5(".$mdb2->quote($password).") where id = $user_id";
+    if (AUTH_DB_HASH_ALGORITHM !== '') {
+      $sql = "update `tt_users` set `password` = '".password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)."' where `id` = $user_id";
+    }
+    else {
+      // md5 hash
+      $sql = "update tt_users set password = md5(".$mdb2->quote($password).") where id = $user_id";
+    }
     $affected = $mdb2->exec($sql);
 
     if (!is_a($affected, 'PEAR_Error')) {

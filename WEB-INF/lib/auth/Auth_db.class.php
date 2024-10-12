@@ -19,9 +19,41 @@ class Auth_db extends Auth {
   {
     $mdb2 = getConnection();
 
+    if (AUTH_DB_HASH_ALGORITHM !== '') {
+      $sql = "SELECT id, password as hash FROM tt_users"." WHERE login = ".$mdb2->quote($login)." AND status = 1";
+      $res = $mdb2->query($sql);
+      if (is_a($res, 'PEAR_Error')) {
+        die($res->getMessage());
+      }
+      $val = $res->fetchRow();
+      if (isset($val['id']) && $val['id'] > 0) {
+        if (password_verify($password, $val['hash'])) {
+          if (password_needs_rehash($val['hash'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)) {
+            $sql = "update `tt_users` set `password` = '".password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)."' where `id` = " . $mdb2->quote($val['id']);
+            $affected = $mdb2->exec($sql);
+            if (is_a($res, 'PEAR_Error')) die($res->getMessage());
+          }
+          return array('login'=>$login,'id'=>$val['id']);
+        }
+      }
+    }
+    else {
+      // md5 hash
+      $sql = "SELECT id FROM tt_users"." WHERE login = ".$mdb2->quote($login)." AND password = md5(".$mdb2->quote($password).") AND status = 1";
+      $res = $mdb2->query($sql);
+      if (is_a($res, 'PEAR_Error')) {
+        die($res->getMessage());
+      }
+      $val = $res->fetchRow();
+      if (isset($val['id']) && $val['id'] > 0) {
+        return array('login'=>$login,'id'=>$val['id']);
+      }
+    }
+    return false;
+
+    /*
     // Try md5 password match first.
-    $sql = "SELECT id FROM tt_users".
-      " WHERE login = ".$mdb2->quote($login)." AND password = md5(".$mdb2->quote($password).") AND status = 1";
+    $sql = "SELECT id FROM tt_users"." WHERE login = ".$mdb2->quote($login)." AND password = md5(".$mdb2->quote($password).") AND status = 1";
 
     $res = $mdb2->query($sql);
     if (is_a($res, 'PEAR_Error')) {
@@ -74,6 +106,7 @@ class Auth_db extends Auth {
     }
 
     return false;
+    */
   }
 
   function isPasswordExternal() {

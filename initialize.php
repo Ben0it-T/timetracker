@@ -51,8 +51,61 @@ if (strrpos(DSN, 'mysql://', -strlen(DSN)) !== FALSE) {
 check_extension('mbstring');
 
 // If auth params are not defined (in config.php) - initialize with an empty array.
-if (!isset($GLOBALS['AUTH_MODULE_PARAMS']) || !is_array($GLOBALS['AUTH_MODULE_PARAMS']))
+if (!isset($GLOBALS['AUTH_MODULE_PARAMS']) || !is_array($GLOBALS['AUTH_MODULE_PARAMS'])) {
   $GLOBALS['AUTH_MODULE_PARAMS'] = array();
+}
+
+// if password hash algorithm is not defined (in config.php)
+if (!defined('AUTH_DB_HASH_ALGORITHM')) define('AUTH_DB_HASH_ALGORITHM', '');
+
+if (AUTH_DB_HASH_ALGORITHM !== '') {
+  if (in_array(AUTH_DB_HASH_ALGORITHM, array("DEFAULT", "BCRYPT", "ARGON2I", "ARGON2ID"))) {
+    switch (AUTH_DB_HASH_ALGORITHM) {
+      case 'BCRYPT':
+        define('PASSWORD_ALGORITHM', PASSWORD_BCRYPT);
+        if (!defined('AUTH_DB_HASH_ALGORITHM_OPTIONS')) {
+          define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array(
+            'cost' => 10
+          ));
+        }
+        break;
+
+      case 'ARGON2I':
+        define('PASSWORD_ALGORITHM', PASSWORD_ARGON2I);
+        if (!defined('AUTH_DB_HASH_ALGORITHM_OPTIONS')) {
+          define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array(
+            'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+            'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+            'threads' => PASSWORD_ARGON2_DEFAULT_THREADS
+          ));
+        }
+        break;
+
+      case 'ARGON2ID':
+        define('PASSWORD_ALGORITHM', PASSWORD_ARGON2ID);
+        if (!defined('AUTH_DB_HASH_ALGORITHM_OPTIONS')) {
+          define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array(
+            'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+            'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+            'threads' => PASSWORD_ARGON2_DEFAULT_THREADS
+          ));
+        }
+        break;
+      
+      default:
+        define('PASSWORD_ALGORITHM', PASSWORD_DEFAULT);
+        if (!defined('AUTH_DB_HASH_ALGORITHM_OPTIONS')) {
+          define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array(
+            'cost' => 10
+          ));
+        }
+        break;
+    }
+  }
+  else {
+    die ("This hash algorithm is not alowed. Check your config file.");
+  }
+}
 
 // Smarty initialization.
 import('smarty.Smarty');

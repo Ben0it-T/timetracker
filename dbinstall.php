@@ -212,6 +212,12 @@ if ($_POST) {
         }
       }
     }
+    
+    if (AUTH_DB_HASH_ALGORITHM !== '') {
+      // Update admin password
+      $sql = "update `tt_users` set `password` = '".password_hash("secret", PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)."' where `login` = 'admin'";
+      ttExecute($sql);
+    }
   }
 
   if (array_key_exists('convert5to7', $_POST)) {

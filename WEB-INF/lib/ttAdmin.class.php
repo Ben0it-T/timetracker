@@ -119,8 +119,15 @@ class ttAdmin {
     $user_id = $fields['user_id'];
     $login_part = 'login = '.$mdb2->quote($fields['new_login']);
     $password_part = '';
-    if ($fields['password1'])
-      $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+    if ($fields['password1']) {
+      if (AUTH_DB_HASH_ALGORITHM !== '') {
+        $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+      }
+      else {
+        // md5 hash
+        $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+      }
+    }
     $name_part = ', name = '.$mdb2->quote($fields['user_name']);
     $email_part = ', email = '.$mdb2->quote($fields['email']);
     $sql = 'update tt_users set '.$login_part.$password_part.$name_part.$email_part.$modified_part.' where id = '.$user_id;
@@ -139,8 +146,15 @@ class ttAdmin {
     $user_id = $user->id;
     $login_part = 'login = '.$mdb2->quote($fields['login']);
     $password_part = '';
-    if (isset($fields['password1']))
-      $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+    if (isset($fields['password1'])) {
+      if (AUTH_DB_HASH_ALGORITHM !== '') {
+        $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+      }
+      else {
+        // md5 hash
+        $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+      }
+    }
     $name_part = ', name = '.$mdb2->quote($fields['name']);
     $email_part = ', email = '.$mdb2->quote($fields['email']);
     $modified_part = ', modified = now(), modified_ip = '.$mdb2->quote($_SERVER['REMOTE_ADDR']).', modified_by = '.$user->id;
@@ -274,7 +288,15 @@ class ttAdmin {
 
     $role_id = ttRoleHelper::getTopManagerRoleID();
     $login = $mdb2->quote($fields['login']);
-    $password = 'md5('.$mdb2->quote($fields['password']).')';
+
+    if (AUTH_DB_HASH_ALGORITHM !== '') {
+      $password = $mdb2->quote(password_hash($fields['password'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+    }
+    else {
+      // md5 hash
+      $password = 'md5('.$mdb2->quote($fields['password']).')';
+    }
+
     $name = $mdb2->quote($fields['user_name']);
     $group_id = (int) $fields['group_id'];
     $org_id = $group_id;
