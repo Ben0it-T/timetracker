@@ -147,6 +147,10 @@ define('AUTH_MODULE', 'db');
 //  - ARGON2ID : Argon2id hashing algorithm (only available if PHP has been compiled with Argon2 support)
 define('AUTH_DB_HASH_ALGORITHM', 'BCRYPT');
 
+// Password hash options
+// 
+define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array('cost' => 10));
+
 
 // LDAP authentication examples.
 // Go to https://www.anuko.com/time-tracker/install-guide/ldap-auth/index.htm for detailed configuration instructions.
