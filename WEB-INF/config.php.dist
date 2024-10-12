@@ -139,6 +139,15 @@ define('REPORT_FOOTER', true);
 //   ldap - authentication against an LDAP directory such as OpenLDAP or Windows Active Directory.
 define('AUTH_MODULE', 'db');
 
+// Password hash algorithm
+// Possible values
+//  - DEFAULT  ; bcrypt algorithm
+//  - BCRYPT   : crypt blowfish algorithm
+//  - ARGON2I  : Argon2i hashing algorithm (only available if PHP has been compiled with Argon2 support)
+//  - ARGON2ID : Argon2id hashing algorithm (only available if PHP has been compiled with Argon2 support)
+define('AUTH_DB_HASH_ALGORITHM', 'BCRYPT');
+
+
 // LDAP authentication examples.
 // Go to https://www.anuko.com/time-tracker/install-guide/ldap-auth/index.htm for detailed configuration instructions.
 
