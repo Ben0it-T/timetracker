@@ -14,6 +14,7 @@ nbproject/
 config.php
 
 # WEB-INF
+WEB-INF/cache/
 WEB-INF/templates_c/*.*
 WEB-INF/templates_c/import_*
 WEB-INF/templates_c/tt*

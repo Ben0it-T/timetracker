@@ -24,7 +24,9 @@ if (version_compare(phpversion(), '8.1', '>=')) {
 define("APP_VERSION", "1.22.22.5818");
 define("APP_DIR", dirname(__FILE__));
 define("LIBRARY_DIR", APP_DIR."/WEB-INF/lib");
-define("TEMPLATE_DIR", APP_DIR."/WEB-INF/templates");
+define("TEMPLATE_DIR", APP_DIR."/WEB-INF/templates");        // smarty templates dir
+define("SMARTY_CACHE_DIR", APP_DIR."/WEB-INF/cache");        // smarty cache dir
+define("SMARTY_CONFIGS_DIR", APP_DIR."/WEB-INF/configs");    // smarty configs dir
 // Date format for database and URI parameters.
 define('DB_DATEFORMAT', '%Y-%m-%d');
 define('MAX_RANK', 512); // Max user rank.
@@ -110,9 +112,11 @@ if (AUTH_DB_HASH_ALGORITHM !== '') {
 // Smarty initialization.
 import('smarty.Smarty');
 $smarty = new Smarty;
-$smarty->use_sub_dirs = false;
-$smarty->template_dir = TEMPLATE_DIR;
-$smarty->compile_dir  = TEMPLATE_DIR.'_c';
+$smarty->setUseSubDirs(false);
+$smarty->setTemplateDir(TEMPLATE_DIR);
+$smarty->setConfigDir(SMARTY_CONFIGS_DIR);
+$smarty->setCompileDir(TEMPLATE_DIR.'_c');
+$smarty->setCacheDir(SMARTY_CACHE_DIR);
 
 // Note: these 3 settings below used to be in .htaccess file. Moved them here to eliminate "error 500" problems
 // with some shared hostings that do not have AllowOverride Options or AllowOverride All in their apache configurations.
