@@ -9,8 +9,8 @@
   {* main menu for admin *}
 <div class="sitemap-item-group">
   <div class="sitemap-item"><a href="logout.php">{$i18n.menu.logout}</a></div>
-  <div class="sitemap-item"><a href="{constant('FORUM_LINK')}" target="_blank">{$i18n.menu.forum}</a></div>
-  <div class="sitemap-item"><a href="{constant('HELP_LINK')}" target="_blank">{$i18n.menu.help}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.FORUM_LINK}" target="_blank">{$i18n.menu.forum}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.HELP_LINK}" target="_blank">{$i18n.menu.help}</a></div>
 </div>
   {* end of main menu for admin *}
   {else}
@@ -38,14 +38,14 @@
   <div class="sitemap-item"><a href="invoices.php">{$i18n.title.invoices}</a></div>
     {/if}
     {if ($user->exists() && $user->isPluginEnabled('ch') && ($user->can('view_own_charts') || $user->can('view_charts') || $user->can('view_all_charts'))) &&
-        (constant('MODE_PROJECTS') == $user->getTrackingMode() || constant('MODE_PROJECTS_AND_TASKS') == $user->getTrackingMode() ||
+        ($smarty.const.MODE_PROJECTS == $user->getTrackingMode() || $smarty.const.MODE_PROJECTS_AND_TASKS == $user->getTrackingMode() ||
         $user->isPluginEnabled('cl'))}
   <div class="sitemap-item"><a href="charts.php">{$i18n.menu.charts}</a></div>
     {/if}
-    {if ($user->can('view_own_projects') || $user->can('manage_projects')) && (constant('MODE_PROJECTS') == $user->getTrackingMode() || constant('MODE_PROJECTS_AND_TASKS') == $user->getTrackingMode())}
+    {if ($user->can('view_own_projects') || $user->can('manage_projects')) && ($smarty.const.MODE_PROJECTS == $user->getTrackingMode() || $smarty.const.MODE_PROJECTS_AND_TASKS == $user->getTrackingMode())}
   <div class="sitemap-item"><a href="projects.php">{$i18n.menu.projects}</a></div>
     {/if}
-    {if (constant('MODE_PROJECTS_AND_TASKS') == $user->getTrackingMode() && ($user->can('view_own_tasks') || $user->can('manage_tasks')))}
+    {if ($smarty.const.MODE_PROJECTS_AND_TASKS == $user->getTrackingMode() && ($user->can('view_own_tasks') || $user->can('manage_tasks')))}
   <div class="sitemap-item"><a href="tasks.php">{$i18n.menu.tasks}</a></div>
     {/if}
     {if $user->can('view_users') || $user->can('manage_users')}
@@ -71,8 +71,8 @@
     {if $user->can('manage_features')}
   <div class="sitemap-item"><a href="plugins.php">{$i18n.menu.plugins}</a></div>
     {/if}
-  <div class="sitemap-item"><a href="{constant('FORUM_LINK')}" target="_blank">{$i18n.menu.forum}</a></div>
-  <div class="sitemap-item"><a href="{constant('HELP_LINK')}" target="_blank">{$i18n.menu.help}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.FORUM_LINK}" target="_blank">{$i18n.menu.forum}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.HELP_LINK}" target="_blank">{$i18n.menu.help}</a></div>
 </div>
   {* end of main menu for authorized user *}
   {/if}
@@ -80,11 +80,11 @@
   {* main menu for non authorized user *}
 <div class="sitemap-item-group">
   <div class="sitemap-item"><a href="login.php">{$i18n.menu.login}</a></div>
-  {if isTrue('MULTIORG_MODE') && constant('AUTH_MODULE') == 'db'}
+  {if $smarty.const.MULTIORG_MODE == true && $smarty.const.AUTH_MODULE == 'db'}
   <div class="sitemap-item"><a href="register.php">{$i18n.menu.register}</a></div>
   {/if}
-  <div class="sitemap-item"><a href="{constant('FORUM_LINK')}" target="_blank">{$i18n.menu.forum}</a></div>
-  <div class="sitemap-item"><a href="{constant('HELP_LINK')}" target="_blank">{$i18n.menu.help}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.FORUM_LINK}" target="_blank">{$i18n.menu.forum}</a></div>
+  <div class="sitemap-item"><a href="{$smarty.const.HELP_LINK}" target="_blank">{$i18n.menu.help}</a></div>
 </div>
   {* end of main menu for non authorized user *}
 {/if}

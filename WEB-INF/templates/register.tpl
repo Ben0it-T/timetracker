@@ -49,9 +49,9 @@ License: See license.txt *}
     <td class="td-with-input">{$forms.groupForm.password2.control}</td>
   </tr>
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
-  <tr class = "small-screen-label"><td><label for="manager_email">{$i18n.label.email}{if isTrue('EMAIL_REQUIRED')} (*){/if}:</label></td></tr>
+  <tr class = "small-screen-label"><td><label for="manager_email">{$i18n.label.email}{if $smarty.const.EMAIL_REQUIRED == true} (*){/if}:</label></td></tr>
   <tr>
-    <td class="large-screen-label"><label for="manager_email">{$i18n.label.email}{if isTrue('EMAIL_REQUIRED')} (*){/if}:</label></td>
+    <td class="large-screen-label"><label for="manager_email">{$i18n.label.email}{if $smarty.const.EMAIL_REQUIRED == true} (*){/if}:</label></td>
     <td class="td-with-input">{$forms.groupForm.manager_email.control}</td>
   </tr>
   <tr><td colspan="2">{$i18n.label.required_fields}</td></tr>
