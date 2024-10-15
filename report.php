@@ -325,6 +325,7 @@ $smarty->assign('show_cost_per_hour', $show_cost_per_hour);
 $smarty->assign('note_on_separate_row', $user->getConfigOption('report_note_on_separate_row'));
 $smarty->assign('colspan', $colspan);
 $smarty->assign('bean', $bean);
+$smarty->assign('pdf_export', (file_exists(LIBRARY_DIR.'/tcpdf') ? true : false));
 $smarty->assign('title', $i18n->get('title.report').": ".$totals['start_date']." - ".$totals['end_date']);
 $smarty->assign('content_page_name', 'report.tpl');
 $smarty->display('index.tpl');

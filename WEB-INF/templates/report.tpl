@@ -5,7 +5,7 @@ License: See license.txt *}
   function chLocation(newLocation) { document.location = newLocation; }
 </script>
 
-<div class="section-header">{$i18n.form.report.export} {if file_exists('WEB-INF/lib/tcpdf')}<a href="topdf.php">PDF</a>,{/if} <a href="tofile.php?type=xml">XML</a> {$i18n.label.or} <a href="tofile.php?type=csv">CSV</a></div>
+<div class="section-header">{$i18n.form.report.export} {if $pdf_export == true}<a href="topdf.php">PDF</a>,{/if} <a href="tofile.php?type=xml">XML</a> {$i18n.label.or} <a href="tofile.php?type=csv">CSV</a></div>
 {$forms.reportViewForm.open}
 {* totals only report *}
 {if $bean->getAttribute('chtotalsonly')}
