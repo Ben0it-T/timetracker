@@ -15,19 +15,19 @@ License: See license.txt *}
     {foreach $custom_fields as $field}
   <tr>
     <td class="text-cell">{$field['label']|escape}</td>
-      {if CustomFields::ENTITY_TIME == $field['entity_type']}
+      {if $field_entity.time == $field['entity_type']}
     <td>{$i18n.entity.time}</td>
-      {elseif CustomFields::ENTITY_USER == $field['entity_type']}
+      {elseif $field_entity.user == $field['entity_type']}
     <td>{$i18n.entity.user}</td>
-      {elseif CustomFields::ENTITY_PROJECT == $field['entity_type']}
+      {elseif $field_entity.project == $field['entity_type']}
     <td>{$i18n.entity.project}</td>
       {else}
     <td></td>
       {/if}
-      {if CustomFields::TYPE_TEXT == $field['type']}
+      {if $field_type.text == $field['type']}
     <td>{$i18n.label.type_text}</td>
     <td></td>
-      {elseif CustomFields::TYPE_DROPDOWN == $field['type']}
+      {elseif $field_type.dropdown == $field['type']}
     <td>{$i18n.label.type_dropdown}</td>
     <td><a href="cf_dropdown_options.php?field_id={$field['id']}">{$i18n.label.configure}</a></td>
       {/if}

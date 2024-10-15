@@ -34,5 +34,14 @@ if ($request->isPost()) {
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
 $smarty->assign('custom_fields', $fields);
 $smarty->assign('title', $i18n->get('title.cf_custom_fields'));
+$smarty->assign('field_entity', array(
+  'time' => CustomFields::ENTITY_TIME,
+  'user' => CustomFields::ENTITY_USER,
+  'project' => CustomFields::ENTITY_PROJECT,
+));
+$smarty->assign('field_type', array(
+  'text' => CustomFields::TYPE_TEXT,
+  'dropdown' => CustomFields::TYPE_DROPDOWN
+));
 $smarty->assign('content_page_name', 'cf_custom_fields.tpl');
 $smarty->display('index.tpl');
