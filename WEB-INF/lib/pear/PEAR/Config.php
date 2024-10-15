@@ -79,11 +79,7 @@ if (getenv('PHP_PEAR_HTTP_PROXY')) {
 if (getenv('PHP_PEAR_INSTALL_DIR')) {
     define('PEAR_CONFIG_DEFAULT_PHP_DIR', getenv('PHP_PEAR_INSTALL_DIR'));
 } else {
-    if (@file_exists($PEAR_INSTALL_DIR) && is_dir($PEAR_INSTALL_DIR)) {
-        define('PEAR_CONFIG_DEFAULT_PHP_DIR', $PEAR_INSTALL_DIR);
-    } else {
-        define('PEAR_CONFIG_DEFAULT_PHP_DIR', $PEAR_INSTALL_DIR);
-    }
+    define('PEAR_CONFIG_DEFAULT_PHP_DIR', $PEAR_INSTALL_DIR);
 }
 
 // Default for metadata_dir
@@ -264,7 +260,7 @@ if (getenv('PHP_PEAR_SIG_KEYDIR')) {
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.1
+ * @version    Release: 1.10.15
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -727,7 +723,7 @@ class PEAR_Config extends PEAR
 
         $t_conf = new PEAR_Config($user_file, $system_file, false, $strict);
         if ($t_conf->_errorsFound > 0) {
-             return $t_conf->lastError;
+             return $t_conf->_lastError;
         }
 
         $GLOBALS['_PEAR_Config_instance'] = &$t_conf;
@@ -775,7 +771,7 @@ class PEAR_Config extends PEAR
             }
 
             $this->_errorsFound++;
-            $this->lastError = $data;
+            $this->_lastError = $data;
 
             return $data;
         }
@@ -928,7 +924,7 @@ class PEAR_Config extends PEAR
             }
 
             $this->_errorsFound++;
-            $this->lastError = $data;
+            $this->_lastError = $data;
 
             return $data;
         }
@@ -2086,13 +2082,13 @@ class PEAR_Config extends PEAR
         return $a;
     }
 
-    function _prependPath($path, $prepend)
+    static function _prependPath($path, $prepend)
     {
         if (strlen($prepend) > 0) {
             if (OS_WINDOWS && preg_match('/^[a-z]:/i', $path)) {
                 if (preg_match('/^[a-z]:/i', $prepend)) {
                     $prepend = substr($prepend, 2);
-                } elseif ($prepend{0} != '\\') {
+                } elseif ($prepend[0] != '\\') {
                     $prepend = "\\$prepend";
                 }
                 $path = substr($path, 0, 2) . $prepend . substr($path, 2);
