@@ -6,27 +6,29 @@
  *
  * LICENSE:
  *
- * Copyright (c) 2001-2010, Richard Heyes
+ * Copyright (c) 2001-2017, Chuck Hagenbuch & Richard Heyes
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
- * o Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- * o Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * o The names of the authors may not be used to endorse or promote
- *   products derived from this software without specific prior written
- *   permission.
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
  * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
@@ -38,8 +40,8 @@
  * @package     Mail
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Chuck Hagenbuch <chuck@horde.org
- * @copyright   2001-2010 Richard Heyes
- * @license     http://opensource.org/licenses/bsd-license.php New BSD License
+ * @copyright   2001-2017 Richard Heyes
+ * @license     http://opensource.org/licenses/BSD-3-Clause New BSD License
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/Mail/
  */
@@ -58,7 +60,8 @@
  * How do I use it?
  *
  * $address_string = 'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;';
- * $structure = Mail_RFC822::parseAddressList($address_string, 'example.com', true)
+ * $parser = new Mail_RFC822();
+ * $structure = $parser->parseAddressList($address_string, 'example.com', true);
  * print_r($structure);
  *
  * @author  Richard Heyes <richard@phpguru.org>
@@ -170,10 +173,14 @@ class Mail_RFC822 {
      */
     public function parseAddressList($address = null, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
     {
-        if (!isset($this) || !isset($this->mailRFC822)) {
-            $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
-            return $obj->parseAddressList();
-        }
+      if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+          if (!isset($this) || !isset($this->mailRFC822)) {
+              $warn = "Calling non-static methods statically is no longer supported since PHP 8";
+              trigger_error($warn, E_USER_NOTICE);
+              $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
+              return $obj->parseAddressList();
+          }
+      }
 
         if (isset($address))        $this->address        = $address;
         if (isset($default_domain)) $this->default_domain = $default_domain;
@@ -225,6 +232,9 @@ class Mail_RFC822 {
      */
     protected function _splitAddresses($address)
     {
+        $is_group = false;
+        $split_char = ',';
+
         if (!empty($this->limit) && count($this->addresses) == $this->limit) {
             return '';
         }
@@ -435,6 +445,7 @@ class Mail_RFC822 {
      */
     protected function _validateAddress($address)
     {
+        $structure = null;
         $is_group = false;
         $addresses = array();
 
@@ -475,7 +486,7 @@ class Mail_RFC822 {
         }
 
         // Trim the whitespace from all of the address strings.
-        array_map('trim', $addresses);
+        $addresses = array_map('trim', $addresses);
 
         // Validate each mailbox.
         // Format could be one of: name <geezer@domain.com>
@@ -612,6 +623,7 @@ class Mail_RFC822 {
         $phrase  = '';
         $comment = '';
         $comments = array();
+        $addr_spec = null;
 
         // Catch any RFC822 comments and store them separately.
         $_mailbox = $mailbox;
@@ -769,6 +781,7 @@ class Mail_RFC822 {
     {
         // Note the different use of $subdomains and $sub_domains
         $subdomains = explode('.', $domain);
+        $sub_domains = array();
 
         while (count($subdomains) > 0) {
             $sub_domains[] = $this->_splitCheck($subdomains, '.');
@@ -813,7 +826,7 @@ class Mail_RFC822 {
      */
     protected function _validateDliteral($dliteral)
     {
-        return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) && $matches[1] != '\\';
+        return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) && ((! isset($matches[1])) || $matches[1] != '\\');
     }
 
     /**
