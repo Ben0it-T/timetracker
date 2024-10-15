@@ -94,6 +94,12 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
 
     public $varchar_max_length = 255;
 
+
+    // Added 2024-10-15
+    // PHP Deprecated: Creation of dynamic property MDB2_Driver_mysqli::$loaded_version_modules is deprecated
+    // Ideally, this should be fixed in MDB2 package.
+    public $loaded_version_modules = array();
+
     // }}}
     // {{{ constructor
 
