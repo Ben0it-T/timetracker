@@ -122,7 +122,7 @@ class MDB2_Date
     public static function date2Mdbstamp($hour = null, $minute = null, $second = null,
         $month = null, $day = null, $year = null)
     {
-        return MDB2_Date::unix2Mdbstamp(mktime($hour, $minute, $second, $month, $day, $year, -1));
+        return MDB2_Date::unix2Mdbstamp(mktime($hour, $minute, $second, $month, $day, $year)); // The "is_dst" parameter for function mktime() is deprecated since PHP 5.1 and removed since PHP 7.0
     }
     // }}}
 
@@ -156,7 +156,7 @@ class MDB2_Date
     {
         $arr = MDB2_Date::mdbstamp2Date($mdb_timestamp);
 
-        return mktime($arr['hour'], $arr['minute'], $arr['second'], $arr['month'], $arr['day'], $arr['year'], -1);
+        return mktime($arr['hour'], $arr['minute'], $arr['second'], $arr['month'], $arr['day'], $arr['year']); // The "is_dst" parameter for function mktime() is deprecated since PHP 5.1 and removed since PHP 7.0
     }
     // }}}
 
