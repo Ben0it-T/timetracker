@@ -9,7 +9,10 @@ MDB2 PACKAGE
   - https://pear.php.net/package/MDB2/download
   - Version : 2.5.0b5
   - Modified version
-    - Nik on Oct 19, 2020 to avoid flooding logs with warnings.
+    - Nik on Oct 19, 2020
+      MDB2.php : to avoid flooding logs with warnings.
+    - Ben0it-T on Oct 16, 2024
+      MDB2/Date.php : mktime, is_dst parameter for function mktime() is deprecated
 
 MDB2_Driver_mysql package
   - https://pear.php.net/package/MDB2_Driver_mysql/download
