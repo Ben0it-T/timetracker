@@ -150,7 +150,7 @@ function ttValidString($val, $emptyValid = false, $maxChars = 0)
 // ttValidCss is used to check user input for custom css.
 function ttValidCss($val)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return true;
 
@@ -169,7 +169,7 @@ function ttValidCss($val)
 // ttValidTranslation is used to check user input for custom translation.
 function ttValidTranslation($val)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return true;
 
@@ -186,7 +186,7 @@ function ttValidTranslation($val)
 // ttValidTranslationLine is used to check an individual line in custom translation.
 function ttValidTranslationLine($val)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return false; // Empty line is not valid.
 
@@ -211,14 +211,15 @@ function ttValidTranslationLine($val)
 // We identify these parts by 3 "stop sign" emojis (aka "octagonal sign" U+1F6D1).
 function ttValidTemplateText($val)
 {
-  $valid = strpos($val, '🛑🛑🛑') === false; // no 3 "stop sign" emojis in a row.
+  
+  $valid = (is_null($val) ? false : strpos($val, '🛑🛑🛑') === false); // no 3 "stop sign" emojis in a row.
   return $valid;
 }
 
 // ttValidEmail is used to check user input to validate an email string.
 function ttValidEmail($val, $emptyValid = false)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
   	
@@ -236,7 +237,7 @@ function ttValidEmail($val, $emptyValid = false)
 // ttValidEmailList is used to check user input to validate an email string.
 function ttValidEmailList($val, $emptyValid = false)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
   	
@@ -254,7 +255,7 @@ function ttValidEmailList($val, $emptyValid = false)
 // ttValidFloat is used to check user input to validate a float value.
 function ttValidFloat($val, $emptyValid = false)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
     
@@ -368,7 +369,7 @@ function ttValidTime($val)
 // ttValidInteger is used to check user input to validate an integer.
 function ttValidInteger($val, $emptyValid = false)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
     
@@ -434,7 +435,7 @@ function ttValidCronSpec($val)
 // ttValidCondition is used to check user input to validate a notification condition.
 function ttValidCondition($val, $emptyValid = true)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0)
     return ($emptyValid ? true : false);
 
@@ -455,7 +456,7 @@ function ttValidCondition($val, $emptyValid = true)
 // For example, IPv4-mapped IPv6 addresses will fail. This may need to be fixed.
 function ttValidIP($val, $emptyValid = false)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0 && $emptyValid)
     return true;
 
@@ -475,7 +476,7 @@ function ttValidIP($val, $emptyValid = false)
 // The above means Jan 1 and Dec 31 are holidays in all years, while Apr 20 is only in 2019.
 function ttValidHolidays($val)
 {
-  $val = trim($val);
+  $val = is_null($val) ? '' : trim($val);
   if (strlen($val) == 0) return true;
 
   $dates = explode(',', $val);

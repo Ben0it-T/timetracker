@@ -432,7 +432,7 @@ class ttInvoiceHelper {
     $body .= '<table>';
     $body .= '<tr><td><b>'.$i18n->get('label.date').':</b> '.$invoice['date'].'</td></tr>';
     $body .= '<tr><td><b>'.$i18n->get('label.client').':</b> '.htmlspecialchars($client['name']).'</td></tr>';
-    $body .= '<tr><td><b>'.$i18n->get('label.client_address').':</b> '.htmlspecialchars($client['address']).'</td></tr>';
+    $body .= '<tr><td><b>'.$i18n->get('label.client_address').':</b> '.(is_null($client['address']) ? '' : htmlspecialchars($client['address'])).'</td></tr>';
     $body .= '</table>';
 
     $body .= '<p></p>';

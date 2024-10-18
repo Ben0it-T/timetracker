@@ -36,22 +36,43 @@ foreach ($tasks as $task_item)
   $all_tasks[$task_item['id']] = $task_item['name'];
 $show_tasks = MODE_PROJECTS_AND_TASKS == $user->getTrackingMode() && count($tasks) > 0;
 
+
+// Handle project custom fields.
+if (isset($custom_fields) && $custom_fields->projectFields) {
+  foreach ($custom_fields->projectFields as $projectField) {
+    $control_name = 'user_field_'.$projectField['id'];
+    $cl_control_name = $request->isPost() ? $request->getParameter($control_name) : '';
+    $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
+    $projectCustomFields[$projectField['id']] = array(
+      'field_id' => $projectField['id'],
+      'control_name' => $control_name,
+      'label' => $projectField['label'],
+      'type' => $projectField['type'],
+      'required' => $projectField['required'],
+      'value' => $cl_control_name
+    );
+  }
+}
+
+
 $cl_name = $cl_description = '';
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('project_name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('project_name')) ? '' : trim($request->getParameter('project_name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
   $cl_users = $request->getParameter('users', array());
   $cl_tasks = $request->getParameter('tasks', array());
   // If we have project custom fields - collect input.
   if (isset($custom_fields) && $custom_fields->projectFields) {
     foreach ($custom_fields->projectFields as $projectField) {
       $control_name = 'project_field_'.$projectField['id'];
-      $projectCustomFields[$projectField['id']] = array('field_id' => $projectField['id'],
+      $projectCustomFields[$projectField['id']] = array(
+        'field_id' => $projectField['id'],
         'control_name' => $control_name,
         'label' => $projectField['label'],
         'type' => $projectField['type'],
         'required' => $projectField['required'],
-        'value' => trim($request->getParameter($control_name)));
+        'value' => is_null($request->getParameter($control_name)) ? '' : trim($request->getParameter($control_name))
+      );
     }
   }
 } else {

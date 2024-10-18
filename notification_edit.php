@@ -40,12 +40,12 @@ if ($request->isPost()) {
 $fav_reports = ttFavReportHelper::getReports();
 
 if ($request->isPost()) {
-  $cl_cron_spec = trim($request->getParameter('cron_spec'));
-  $cl_email = trim($request->getParameter('email'));
-  $cl_cc = trim($request->getParameter('cc'));
-  $cl_subject = trim($request->getParameter('subject'));
-  $cl_comment = trim($request->getParameter('comment'));
-  $cl_report_condition = trim($request->getParameter('report_condition'));
+  $cl_cron_spec = is_null($request->getParameter('cron_spec')) ? '' : trim($request->getParameter('cron_spec'));
+  $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
+  $cl_cc = is_null($request->getParameter('cc')) ? '' : trim($request->getParameter('cc'));
+  $cl_subject = is_null($request->getParameter('subject')) ? '' : trim($request->getParameter('subject'));
+  $cl_comment = is_null($request->getParameter('comment')) ? '' : trim($request->getParameter('comment'));
+  $cl_report_condition = is_null($request->getParameter('report_condition')) ? '' : trim($request->getParameter('report_condition'));
 } else {
   $notification = ttNotificationHelper::get($notification_id);
   $cl_fav_report_id = $notification['report_id'];
@@ -77,7 +77,7 @@ if ($request->isPost()) {
   // Validate user input.
   if (!$cl_fav_report_id) $err->add($i18n->get('error.report'));
   if (!ttValidCronSpec($cl_cron_spec)) $err->add($i18n->get('error.field'), $i18n->get('label.schedule'));
-  if (!ttValidEmailList($cl_email)) $err->add($i18n->get('error.field'), $i18n->get('form.email'));
+  if (!ttValidEmailList($cl_email)) $err->add($i18n->get('error.field'), $i18n->get('label.email'));
   if (!ttValidEmailList($cl_cc, true)) $err->add($i18n->get('error.field'), $i18n->get('label.cc'));
   if (!ttValidString($cl_subject, true)) $err->add($i18n->get('error.field'), $i18n->get('label.subject'));
   if (!ttValidString($cl_comment, true)) $err->add($i18n->get('error.field'), $i18n->get('label.comment'));

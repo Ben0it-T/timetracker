@@ -27,8 +27,8 @@ if (!$task) {
 $projects = ttGroupHelper::getActiveProjects();
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
   $cl_status = $request->getParameter('status');
   $cl_projects = $request->getParameter('projects');
   if ($cl_projects == null) $cl_projects = array();

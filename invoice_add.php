@@ -24,7 +24,7 @@ if ($request->isPost()) {
   $cl_date = $request->getParameter('date');
   $cl_client = (int)$request->getParameter('client');
   $cl_project = $request->getParameter('project');
-  $cl_number = trim($request->getParameter('number'));
+  $cl_number = is_null($request->getParameter('number')) ? '' : trim($request->getParameter('number'));
   $cl_start = $request->getParameter('start');
   $cl_finish = $request->getParameter('finish');
 }

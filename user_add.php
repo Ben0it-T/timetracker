@@ -38,28 +38,16 @@ $cl_role_id = $cl_client_id = $cl_quota_percent = $cl_rate = null;
 $cl_projects = array();
 $assigned_projects = array();
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_login = trim($request->getParameter('login'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('pas1');
     $cl_password2 = $request->getParameter('pas2');
   }
-  $cl_email = trim($request->getParameter('email'));
+  $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
   $cl_role_id = $request->getParameter('role');
   $cl_client_id = $request->getParameter('client');
   $cl_quota_percent = $request->getParameter('quota_percent');
-  // If we have user custom fields - collect input.
-  if (isset($custom_fields) && $custom_fields->userFields) {
-    foreach ($custom_fields->userFields as $userField) {
-      $control_name = 'user_field_'.$userField['id'];
-      $userCustomFields[$userField['id']] = array('field_id' => $userField['id'],
-        'control_name' => $control_name,
-        'label' => $userField['label'],
-        'type' => $userField['type'],
-        'required' => $userField['required'],
-        'value' => trim($request->getParameter($control_name)));
-    }
-  }
   $cl_rate = $request->getParameter('rate');
   $cl_projects = $request->getParameter('projects');
   if (is_array($cl_projects)) {
@@ -89,6 +77,23 @@ $form->addInput(array('type'=>'combobox','onchange'=>'handleClientRole()','name'
 if ($user->isPluginEnabled('cl'))
   $form->addInput(array('type'=>'combobox','name'=>'client','value'=>$cl_client_id,'data'=>$clients,'datakeys'=>array('id', 'name'),'empty'=>array(''=>$i18n->get('dropdown.select'))));
 
+// Handle user custom fields.
+if (isset($custom_fields) && $custom_fields->userFields) {
+  foreach ($custom_fields->userFields as $userField) {
+    $control_name = 'user_field_'.$userField['id'];
+    $cl_control_name = $request->isPost() ? $request->getParameter($control_name) : '';
+    $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
+    $userCustomFields[$userField['id']] = array(
+      'field_id' => $userField['id'],
+      'control_name' => $control_name,
+      'label' => $userField['label'],
+      'type' => $userField['type'],
+      'required' => $userField['required'],
+      'value' => $cl_control_name
+    );
+  }
+}
+
 // If we have custom fields - add controls for them.
 if (isset($custom_fields) && $custom_fields->userFields) {
   foreach ($custom_fields->userFields as $userField) {
@@ -96,10 +101,12 @@ if (isset($custom_fields) && $custom_fields->userFields) {
     if ($userField['type'] == CustomFields::TYPE_TEXT) {
       $form->addInput(array('type'=>'text','name'=>$field_name,'value'=>$userCustomFields[$userField['id']]['value']));
     } elseif ($userField['type'] == CustomFields::TYPE_DROPDOWN) {
-      $form->addInput(array('type'=>'combobox','name'=>$field_name,
-      'data'=>CustomFields::getOptions($userField['id']),
-      'value'=>$userCustomFields[$userField['id']]['value'],
-      'empty'=>array(''=>$i18n->get('dropdown.select'))));
+      $form->addInput(array(
+        'type'=>'combobox','name'=>$field_name,
+        'data'=>CustomFields::getOptions($userField['id']),
+        'value'=>$userCustomFields[$userField['id']]['value'],
+        'empty'=>array(''=>$i18n->get('dropdown.select')))
+      );
     }
   }
 }

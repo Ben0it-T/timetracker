@@ -1403,6 +1403,7 @@ class ttReportHelper {
       $body .= '</tr>';
 
       // Initialize variables to print subtotals.
+      $print_subtotals = false;
       if ($items && $grouping) {
         $print_subtotals = true;
         $first_pass = true;
@@ -1491,7 +1492,7 @@ class ttReportHelper {
             }
           }
           if ($options['show_client'])
-            $body .= '<td style="'.$cellLeftAligned.'">'.htmlspecialchars($record['client']).'</td>';
+            $body .= '<td style="'.$cellLeftAligned.'">'.(is_null($record['client']) ? '' : htmlspecialchars($record['client'])).'</td>';
           if ($options['show_project'])
             $body .= '<td style="'.$cellLeftAligned.'">'.htmlspecialchars($record['project']).'</td>';
           // Project custom fields.
@@ -1521,7 +1522,7 @@ class ttReportHelper {
           if ($options['show_work_units'])
             $body .= '<td style="'.$cellRightAligned.'">'.$record['units'].'</td>';
           if ($show_note_column)
-            $body .= '<td style="'.$cellLeftAligned.'">'.nl2br(htmlspecialchars($record['note'])).'</td>';
+            $body .= '<td style="'.$cellLeftAligned.'">'.nl2br((is_null($record['note']) ? '' : htmlspecialchars($record['note']))).'</td>';
           if ($show_cost_per_hour)
             $body .= '<td style="'.$cellRightAligned.'">'.$record['cost_per_hour'].'</td>';
           if ($options['show_cost'])

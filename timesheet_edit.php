@@ -24,8 +24,8 @@ if (!$timesheet) {
 // End of access checks.
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('timesheet_name'));
-  $cl_comment = trim($request->getParameter('comment'));
+  $cl_name = is_null($request->getParameter('timesheet_name')) ? '' : trim($request->getParameter('timesheet_name'));
+  $cl_comment = is_null($request->getParameter('comment')) ? '' : trim($request->getParameter('comment'));
   $cl_status = $request->getParameter('status');
 } else {
   $cl_name = $timesheet['name'];

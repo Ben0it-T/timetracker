@@ -19,8 +19,8 @@ if (!$user->isPluginEnabled('ex')) {
 
 $cl_name = $cl_cost = null;
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_cost = trim($request->getParameter('cost'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_cost = is_null($request->getParameter('cost')) ? '' : trim($request->getParameter('cost'));
 }
 
 $form = new Form('predefinedExpenseForm');

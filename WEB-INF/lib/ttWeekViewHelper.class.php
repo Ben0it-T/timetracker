@@ -468,10 +468,12 @@ class ttWeekViewHelper {
     if (isset($custom_fields) && $custom_fields->timeFields) {
       foreach ($custom_fields->timeFields as $timeField) {
         $field_name = 'time_field_'.$timeField['id'];
-        if ($timeField['type'] == CustomFields::TYPE_TEXT)
-           $field_value = base64_encode($record[$field_name]);
-        else if ($timeField['type'] == CustomFields::TYPE_DROPDOWN)
-           $field_value =  $record[$field_name.'_option_id'];
+        if ($timeField['type'] == CustomFields::TYPE_TEXT) {
+          $field_value = !is_null($record[$field_name]) ? base64_encode($record[$field_name]) : '';
+        }
+        else if ($timeField['type'] == CustomFields::TYPE_DROPDOWN) {
+          $field_value =  $record[$field_name.'_option_id'];
+        }
         $row_identifier .= ",$field_name:$field_value";
       }
     }

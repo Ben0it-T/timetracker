@@ -45,11 +45,11 @@ $show_project = MODE_PROJECTS == $trackingMode || MODE_PROJECTS_AND_TASKS == $tr
 // Initialize variables.
 $cl_date = $cl_client = $cl_project = $cl_item_name = $cl_cost = $cl_paid = null;
 if ($request->isPost()) {
-  $cl_date = trim($request->getParameter('date'));
+  $cl_date = is_null($request->getParameter('date')) ? '' : trim($request->getParameter('date'));
   $cl_client = $request->getParameter('client');
   $cl_project = $request->getParameter('project');
-  $cl_item_name = trim($request->getParameter('item_name'));
-  $cl_cost = trim($request->getParameter('cost'));
+  $cl_item_name = is_null($request->getParameter('item_name')) ? '' : trim($request->getParameter('item_name'));
+  $cl_cost = is_null($request->getParameter('cost')) ? '' : trim($request->getParameter('cost'));
   if ($user->isPluginEnabled('ps'))
     $cl_paid = (bool)$request->getParameter('paid');
 } else {

@@ -21,15 +21,15 @@ if (!defined('CURRENCY_DEFAULT')) define('CURRENCY_DEFAULT', '$');
 $cl_group_name = $cl_currency = $cl_lang = $cl_manager_name = $cl_manager_login =
 $cl_password1 = $cl_password2 = $cl_manager_email = '';
 if ($request->isPost()) {
-  $cl_group_name = trim($request->getParameter('group_name'));
-  $cl_currency = trim($request->getParameter('currency'));
+  $cl_group_name = is_null($request->getParameter('group_name')) ? '' : trim($request->getParameter('group_name'));
+  $cl_currency = is_null($request->getParameter('currency')) ? '' : trim($request->getParameter('currency'));
   if (!$cl_currency) $cl_currency = CURRENCY_DEFAULT;
   $cl_lang = $request->getParameter('lang');
-  $cl_manager_name = trim($request->getParameter('manager_name'));
-  $cl_manager_login = trim($request->getParameter('manager_login'));
+  $cl_manager_name = is_null($request->getParameter('manager_name')) ? '' : trim($request->getParameter('manager_name'));
+  $cl_manager_login = is_null($request->getParameter('manager_login')) ? '' : trim($request->getParameter('manager_login'));
   $cl_password1 = $request->getParameter('password1');
   $cl_password2 = $request->getParameter('password2');
-  $cl_manager_email = trim($request->getParameter('manager_email'));
+  $cl_manager_email = is_null($request->getParameter('manager_email')) ? '' : trim($request->getParameter('manager_email'));
 } else {
   $cl_currency = CURRENCY_DEFAULT;
   $cl_lang = $i18n->lang; // Browser setting from initialize.php.

@@ -105,7 +105,7 @@ class ttExpenseHelper {
     $res = $mdb2->query($sql);
     if (!is_a($res, 'PEAR_Error')) {
       $val = $res->fetchRow();
-      $val['total'] = str_replace('.', $user->getDecimalMark(), $val['total']);
+      $val['total'] = is_null($val['total']) ? '' : str_replace('.', $user->getDecimalMark(), $val['total']);
       return $val['total'];
     }
     return false;

@@ -12,6 +12,7 @@ class ActionForm {
     var $mVariables = array();
     var $mForm		= null;
     var $mInitForm	= false;
+    var $name       = "";
 
     function __construct($name, &$form, $request=null) {
     	$this->setName($name);

@@ -24,14 +24,14 @@ $org_details = ttAdmin::getOrgDetails($group_id);
 if (!$org_details) $err->add($i18n->get('error.db'));
 
 if ($request->isPost()) {
-  $cl_group_name = trim($request->getParameter('group_name'));
-  $cl_manager_name = trim($request->getParameter('manager_name'));
-  $cl_manager_login = trim($request->getParameter('manager_login'));
+  $cl_group_name = is_null($request->getParameter('group_name')) ? '' : trim($request->getParameter('group_name'));
+  $cl_manager_name = is_null($request->getParameter('manager_name')) ? '' : trim($request->getParameter('manager_name'));
+  $cl_manager_login = is_null($request->getParameter('manager_login')) ? '' : trim($request->getParameter('manager_login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('password1');
     $cl_password2 = $request->getParameter('password2');
   }
-  $cl_manager_email = trim($request->getParameter('manager_email'));
+  $cl_manager_email = is_null($request->getParameter('manager_email')) ? '' : trim($request->getParameter('manager_email'));
 } else {
   $cl_group_name = $org_details['group_name'];
   $cl_manager_name = $org_details['manager_name'];

@@ -24,8 +24,8 @@ if (!$predefined_expense) {
 // End of access checks.
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_cost = trim($request->getParameter('cost'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_cost = is_null($request->getParameter('cost')) ? '' : trim($request->getParameter('cost'));
 } else {
   $cl_name = $predefined_expense['name'];
   $cl_cost = $predefined_expense['cost'];

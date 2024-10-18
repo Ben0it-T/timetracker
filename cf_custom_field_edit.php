@@ -46,7 +46,7 @@ if ($err->no()) {
 }
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
   $cl_type = $request->getParameter('type');
   $cl_required = $request->getParameter('required');
   if (!$cl_required)

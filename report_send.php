@@ -17,10 +17,10 @@ if (!(ttAccessAllowed('view_own_reports') || ttAccessAllowed('view_reports'))) {
 $uc = new ttUserConfig();
 
 if ($request->isPost()) {
-  $cl_receiver = trim($request->getParameter('receiver'));
-  $cl_cc = trim($request->getParameter('cc'));
-  $cl_subject = trim($request->getParameter('subject'));
-  $cl_comment = trim($request->getParameter('comment'));
+  $cl_receiver = is_null($request->getParameter('receiver')) ? '' : trim($request->getParameter('receiver'));
+  $cl_cc = is_null($request->getParameter('cc')) ? '' :trim($request->getParameter('cc'));
+  $cl_subject = is_null($request->getParameter('subject')) ? '' : trim($request->getParameter('subject'));
+  $cl_comment = is_null($request->getParameter('comment')) ? '' : trim($request->getParameter('comment'));
 } else {
   $cl_receiver = $uc->getValue(SYSC_LAST_REPORT_EMAIL);
   $cl_cc = $uc->getValue(SYSC_LAST_REPORT_CC);

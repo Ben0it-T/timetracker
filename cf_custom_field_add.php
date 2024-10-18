@@ -18,7 +18,7 @@ if (!$user->isPluginEnabled('cf')) {
 // End of access checks.
 
 if ($request->isPost()) {
-  $cl_field_name = trim($request->getParameter('name'));
+  $cl_field_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
   $cl_entity_type = (int)$request->getParameter('entity');
   $cl_field_type = (int)$request->getParameter('type');
   $cl_required = (int)$request->getParameter('required');

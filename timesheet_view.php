@@ -26,7 +26,7 @@ if (!$timesheet) {
 // End of access checks.
 
 if ($request->isPost()) {
-  $cl_comment = trim($request->getParameter('comment'));
+  $cl_comment = is_null($request->getParameter('comment')) ? '' : trim($request->getParameter('comment'));
   $approver_id = $request->getParameter('approver');
 }
 

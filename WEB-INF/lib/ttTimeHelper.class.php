@@ -65,7 +65,8 @@ class ttTimeHelper {
 
   // isValidTime validates a value as a time string.
   static function isValidTime($value) {
-    if (strlen($value)==0 || !isset($value)) return false;
+    $value_len = is_null($value) ? 0 : strlen($value);
+    if ($value_len==0 || !isset($value)) return false;
 
     // 24 hour patterns.
     if ($value == '24:00' || $value == '2400') return true;
@@ -251,7 +252,7 @@ class ttTimeHelper {
     $res = null;
 
     // Algorithm: use regular expressions to find a matching pattern, starting with most popular patterns first.
-    $tmp_val = trim($value);
+    $tmp_val = (is_null($value) ? '' : trim($value));
 
     // 24 hour patterns.
     if (preg_match('/^([01][0-9]|2[0-3]):[0-5][0-9]$/', $tmp_val)) { // 00:00 - 23:59

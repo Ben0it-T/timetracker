@@ -17,15 +17,15 @@ if (!ttAccessAllowed('administer_site')) {
 $cl_group_name = $cl_lang = $cl_manager_name = $cl_manager_login =
 $cl_password1 = $cl_password2 = $cl_manager_email = '';
 if ($request->isPost()) {
-  $cl_group_name = trim($request->getParameter('group_name'));
+  $cl_group_name = is_null($request->getParameter('group_name')) ? '' : trim($request->getParameter('group_name'));
   $cl_lang = $request->getParameter('lang');
-  $cl_manager_name = trim($request->getParameter('manager_name'));
-  $cl_manager_login = trim($request->getParameter('manager_login'));
+  $cl_manager_name = is_null($request->getParameter('manager_name')) ? '' : trim($request->getParameter('manager_name'));
+  $cl_manager_login = is_null($request->getParameter('manager_login')) ? '' :  trim($request->getParameter('manager_login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('password1');
     $cl_password2 = $request->getParameter('password2');
   }
-  $cl_manager_email = trim($request->getParameter('manager_email'));
+  $cl_manager_email = is_null($request->getParameter('manager_email')) ? '' :  trim($request->getParameter('manager_email'));
 } else
   $cl_lang = $i18n->lang; // Browser setting from initialize.php.
 

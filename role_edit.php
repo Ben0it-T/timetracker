@@ -23,8 +23,8 @@ $assigned_rights = explode(',', $role['rights']);
 $available_rights = array_diff($user->rights, $assigned_rights);
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
   $cl_rank = $request->getParameter('rank');
   $cl_status = $request->getParameter('status');
 } else {

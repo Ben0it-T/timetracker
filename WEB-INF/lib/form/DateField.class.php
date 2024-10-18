@@ -9,6 +9,8 @@ class DateField extends TextField {
   var $mWeekStartDay = 0;
   var $mDateFormat  = "d/m/Y";
   var $lToday      = "Today";
+  var $mMonthNames;
+  var $mWeekDayShortNames;
 
   var $lCalendarButtons = array('today'=>'Today', 'close'=>'Close');
 

@@ -15,8 +15,8 @@ if (!ttAccessAllowed('manage_subgroups')) {
 
 $cl_name = $cl_description = '';
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('group_name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('group_name')) ? '' : trim($request->getParameter('group_name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
 }
 
 $form = new Form('groupForm');

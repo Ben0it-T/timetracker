@@ -67,7 +67,7 @@ if ($request->isPost()) {
   $cl_finish = is_null($request->getParameter('finish')) ? null : trim($request->getParameter('finish'));
   $cl_duration = is_null($request->getParameter('duration')) ? null : trim($request->getParameter('duration'));
   $cl_date = $request->getParameter('date');
-  $cl_note = trim($request->getParameter('note'));
+  $cl_note = is_null($request->getParameter('note')) ? null : trim($request->getParameter('note'));
   // If we have time custom fields - collect input.
   if (isset($custom_fields) && $custom_fields->timeFields) {
     foreach ($custom_fields->timeFields as $timeField) {
@@ -77,7 +77,7 @@ if ($request->isPost()) {
         'label' => $timeField['label'],
         'type' => $timeField['type'],
         'required' => $timeField['required'],
-        'value' => trim($request->getParameter($control_name)));
+        'value' => is_null($request->getParameter($control_name)) ? null : trim($request->getParameter($control_name)));
     }
   }
   $cl_client = $request->getParameter('client');
@@ -116,7 +116,8 @@ if ($request->isPost()) {
   $cl_paid = $time_rec['paid'];
 
   // Add an info message to the form if we are editing an uncompleted record.
-  if (strlen($cl_start) > 0 && $cl_start == $cl_finish && $cl_duration == '0:00') {
+  $cl_start_len = is_null($cl_start) ? 0 : strlen($cl_start);
+  if ($cl_start_len > 0 && $cl_start == $cl_finish && $cl_duration == '0:00') {
     $cl_finish = null;
     $cl_duration = null;
     $msg->add($i18n->get('form.time_edit.uncompleted'));

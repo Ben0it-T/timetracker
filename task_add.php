@@ -23,8 +23,8 @@ $projects = ttGroupHelper::getActiveProjects();
 
 $cl_name = $cl_description = '';
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
   $cl_projects = $request->getParameter('projects');
 } else {
   foreach ($projects as $project_item)

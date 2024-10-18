@@ -20,6 +20,8 @@ class ttRegistrator {
   var $user_id = null;    // User id after registration.
   var $err = null;        // Error object, passed to us as reference.
                           // We use it to communicate errors to caller.
+  var $password1 = null;
+  var $password2 = null;
 
   // Constructor.
   function __construct($fields, &$err) {

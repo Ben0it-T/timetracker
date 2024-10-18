@@ -165,7 +165,7 @@ function chLocation(newLocation) { document.location = newLocation; }
   <tr><td><div class="small-screen-form-control-separator"></div></td></tr>
 {/if}
 </table>
-<div class="button-set">{$forms.groupForm.btn_save.control} {$forms.groupForm.btn_delete.control}</div>
+<div class="button-set">{$forms.groupForm.btn_save.control} {if isset($forms.groupForm.btn_delete)}{$forms.groupForm.btn_delete.control}{/if}</div>
 {$forms.groupForm.close}
 
 <script>

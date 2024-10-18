@@ -32,6 +32,7 @@ class ttGroup {
   var $config = null;           // Comma-separated list of miscellaneous config options.
   var $configHelper = null;     // An instance of ttConfigHelper class.
   var $custom_css = null;       // Custom css.
+  var $custom_translation = null; // Custom translation.
 
   var $custom_logo = 0;         // Whether to use a custom logo for group.
   var $lock_spec = null;        // Cron specification for record locking.
@@ -89,6 +90,7 @@ class ttGroup {
       $this->config = $val['config'];
       $this->configHelper = new ttConfigHelper($val['config']);
       $this->custom_css = $val['custom_css'];
+      $this->custom_translation = $val['custom_translation'];
       // Set user config options.
       $this->punch_mode = $this->configHelper->getDefinedValue('punch_mode');
       $this->allow_overlap = $this->configHelper->getDefinedValue('allow_overlap');

@@ -41,8 +41,8 @@ foreach ($tasks as $task_item)
 $show_tasks = MODE_PROJECTS_AND_TASKS == $user->getTrackingMode() && count($tasks) > 0;
 
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('project_name'));
-  $cl_description = trim($request->getParameter('description'));
+  $cl_name = is_null($request->getParameter('project_name')) ? '' : trim($request->getParameter('project_name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
   $cl_status = $request->getParameter('status');
   $cl_users = $request->getParameter('users', array());
   $cl_tasks = $request->getParameter('tasks', array());
@@ -55,7 +55,7 @@ if ($request->isPost()) {
         'label' => $projectField['label'],
         'type' => $projectField['type'],
         'required' => $projectField['required'],
-        'value' => trim($request->getParameter($control_name)));
+        'value' => (is_null($request->getParameter($control_name)) ? '' : trim($request->getParameter($control_name))));
     }
   }
 } else {
@@ -75,7 +75,7 @@ if ($request->isPost()) {
   }
   $cl_status = $project['status'];
   $cl_users = ttProjectHelper::getAssignedUsers($cl_project_id);
-  $cl_tasks = explode(',', $project['tasks']);
+  $cl_tasks = is_null($project['tasks']) ? array() : explode(',', $project['tasks']);
 }
 
 $form = new Form('projectForm');

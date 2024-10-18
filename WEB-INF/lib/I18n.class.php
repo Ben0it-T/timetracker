@@ -46,7 +46,7 @@ class I18n {
       }
       eval("\$value = \$this->keys".$str.";");
     } else {
-      $value = $this->keys[$key];
+      $value = isset($this->keys[$key]) ? $this->keys[$key] : '';
     }
     return $value;
   }

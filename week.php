@@ -145,13 +145,16 @@ if (isset($custom_fields) && $custom_fields->timeFields) {
   foreach ($custom_fields->timeFields as $timeField) {
     $control_name = 'time_field_'.$timeField['id'];
     $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? null : @$_SESSION[$control_name]));
+    $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
     $_SESSION[$control_name] = $cl_control_name;
-    $timeCustomFields[$timeField['id']] = array('field_id' => $timeField['id'],
+    $timeCustomFields[$timeField['id']] = array(
+      'field_id' => $timeField['id'],
       'control_name' => $control_name,
       'label' => $timeField['label'],
       'type' => $timeField['type'],
       'required' => $timeField['required'],
-      'value' => trim($cl_control_name));
+      'value' => $cl_control_name
+    );
   }
 }
 
@@ -233,8 +236,9 @@ class WeekViewCellRenderer extends DefaultCellRenderer {
     $field = new TextField($field_name);
     // Disable control if the date is locked.
     global $lockedDays;
-    if ($lockedDays[$column])
-      $field->setEnabled(false);
+    if (isset($lockedDays[$column])) {
+      if ($lockedDays[$column]) $field->setEnabled(false);
+    }
     $field->setFormName($table->getFormName());
     $field->setStyle('width: 60px;'); // TODO: need to style everything properly, eventually.
     // Provide visual separation for new entry row.
@@ -247,7 +251,7 @@ class WeekViewCellRenderer extends DefaultCellRenderer {
         $field->setValue($table->getValueAt($row,$column)['duration']); // Duration for even rows.
       } else {
         $field->setValue($table->getValueAt($row,$column)['note']);     // Comment for odd rows.
-        $field->setTitle(htmlspecialchars($table->getValueAt($row,$column)['note'])); // Tooltip to help view the entire comment.
+        $field->setTitle(!is_null($table->getValueAt($row,$column)['note']) ? htmlspecialchars($table->getValueAt($row,$column)['note']) : '' ); // Tooltip to help view the entire comment.
       }
     } else {
       $field->setValue($table->getValueAt($row,$column)['duration']);

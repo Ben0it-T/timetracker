@@ -22,8 +22,8 @@ if ($request->isPost()) {
   $cl_report_note_on_separate_row = (bool)$request->getParameter('report_note_on_separate_row');
   $cl_report_inactive_projects = (bool)($request->getParameter('report_inactive_projects'));
   $cl_report_cost_per_hour = (bool)$request->getParameter('report_cost_per_hour');
-  $cl_custom_css = trim($request->getParameter('custom_css'));
-  $cl_custom_translation = trim($request->getParameter('custom_translation'));
+  $cl_custom_css = is_null($request->getParameter('custom_css')) ? '' : trim($request->getParameter('custom_css'));
+  $cl_custom_translation = is_null($request->getParameter('custom_translation')) ? '' : trim($request->getParameter('custom_translation'));
 } else {
   $cl_time_note_on_separate_row = $config->getDefinedValue('time_note_on_separate_row');
   $cl_time_not_complete_days = $config->getDefinedValue('time_not_complete_days');

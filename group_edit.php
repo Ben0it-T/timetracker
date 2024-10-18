@@ -54,14 +54,14 @@ $config = $user->getConfigHelper();
 if (!defined('CURRENCY_DEFAULT')) define('CURRENCY_DEFAULT', '$');
 
 if ($request->isPost() && !$groupChanged) {
-  $cl_currency = trim($request->getParameter('currency'));
+  $cl_currency = is_null($request->getParameter('currency')) ? '' : trim($request->getParameter('currency'));
   if (!$cl_currency) $cl_currency = CURRENCY_DEFAULT;
   $cl_lang = $request->getParameter('lang');
   $cl_decimal_mark = $request->getParameter('decimal_mark');
   $cl_date_format = $request->getParameter('date_format');
   $cl_time_format = $request->getParameter('time_format');
   $cl_start_week = $request->getParameter('start_week');
-  $cl_holidays = trim($request->getParameter('holidays'));
+  $cl_holidays = is_null($request->getParameter('holidays')) ? '' : trim($request->getParameter('holidays'));
   $cl_tracking_mode = $request->getParameter('tracking_mode');
   $cl_project_required = $request->getParameter('project_required');
   $cl_record_type = $request->getParameter('record_type');

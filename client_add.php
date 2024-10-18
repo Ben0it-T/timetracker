@@ -22,8 +22,8 @@ $projects = ttGroupHelper::getActiveProjects();
 $cl_name = $cl_address = $cl_tax = '';
 $cl_projects = array();
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_address = trim($request->getParameter('address'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_address = is_null($request->getParameter('address')) ? '' : trim($request->getParameter('address'));
   $cl_tax = $request->getParameter('tax');
   $cl_projects = $request->getParameter('projects');
 } else {

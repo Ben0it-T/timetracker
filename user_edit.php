@@ -46,13 +46,13 @@ $cl_name = $cl_login = $cl_password1 = $cl_password2 = $cl_email =
 $cl_role_id = $cl_client_id = $cl_quota_percent = $cl_rate = null;
 $assigned_projects = array();
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_login = trim($request->getParameter('login'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('pas1');
     $cl_password2 = $request->getParameter('pas2');
   }
-  $cl_email = trim($request->getParameter('email'));
+  $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
   $cl_role_id = $request->getParameter('role');
   $cl_client_id = $request->getParameter('client');
   $cl_status = $request->getParameter('status');
@@ -66,7 +66,7 @@ if ($request->isPost()) {
         'label' => $userField['label'],
         'type' => $userField['type'],
         'required' => $userField['required'],
-        'value' => trim($request->getParameter($control_name)));
+        'value' => is_null($request->getParameter($control_name)) ? '' : trim($request->getParameter($control_name)));
     }
   }
   $cl_rate = $request->getParameter('rate');

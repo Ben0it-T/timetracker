@@ -19,12 +19,12 @@ if (!$user->isPluginEnabled('ts')) {
 
 $cl_name = $cl_client = $cl_project = $cl_start = $cl_finish = $cl_comment = null;
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('timesheet_name'));
+  $cl_name = is_null($request->getParameter('timesheet_name')) ? '' : trim($request->getParameter('timesheet_name'));
   $cl_client = $request->getParameter('client');
   $cl_project = $request->getParameter('project');
   $cl_start = $request->getParameter('start');
   $cl_finish = $request->getParameter('finish');
-  $cl_comment = trim($request->getParameter('comment'));
+  $cl_comment = is_null($request->getParameter('comment')) ? '' : trim($request->getParameter('comment'));
 }
 
 $user_id = $user->getUser();

@@ -52,7 +52,7 @@ if (!($entity_type == 'time' || $entity_type != 'expense' || $entity_type != 'ti
 // End of access checks.
 
 if ($request->isPost()) {
-  $cl_description = trim($request->getParameter('description'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
 } else {
   $cl_description = $file['description'];
 }

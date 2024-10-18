@@ -25,6 +25,7 @@ if (!$user->behalf_id && !$user->can('track_own_time') && !$user->adjustBehalfId
   header('Location: access_denied.php'); // Trying as self, but no right for self, and noone to work on behalf.
   exit();
 }
+$userChanged = false;
 if ($request->isPost()) {
   $userChanged = (bool)$request->getParameter('user_changed'); // Reused in multiple places below.
   if ($userChanged && !($user->can('track_time') && $user->isUserValid((int)$request->getParameter('user')))) {
@@ -178,13 +179,16 @@ if (isset($custom_fields) && $custom_fields->timeFields) {
   foreach ($custom_fields->timeFields as $timeField) {
     $control_name = 'time_field_'.$timeField['id'];
     $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? null : @$_SESSION[$control_name]));
+    $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
     $_SESSION[$control_name] = $cl_control_name;
-    $timeCustomFields[$timeField['id']] = array('field_id' => $timeField['id'],
+    $timeCustomFields[$timeField['id']] = array(
+      'field_id' => $timeField['id'],
       'control_name' => $control_name,
       'label' => $timeField['label'],
       'type' => $timeField['type'],
       'required' => $timeField['required'],
-      'value' => is_null($cl_control_name) ? null : trim($cl_control_name));
+      'value' => $cl_control_name
+    );
   }
 }
 
@@ -275,7 +279,7 @@ if ($showProject) {
     // Build a client list out of active clients. Use only clients that are relevant to user.
     // Also trim their associated project list to only assigned projects (to user).
     foreach($active_clients as $client) {
-      $projects_assigned_to_client = explode(',', $client['projects']);
+      $projects_assigned_to_client = is_null($client['projects']) ? array() : explode(',', $client['projects']);
       if (is_array($projects_assigned_to_client) && is_array($projects_assigned_to_user))
         $intersection = array_intersect($projects_assigned_to_client, $projects_assigned_to_user);
       if ($intersection) {

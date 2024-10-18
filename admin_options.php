@@ -16,13 +16,13 @@ if (!ttAccessAllowed('administer_site')) {
 
 $cl_name = $cl_login = $cl_password1 = $cl_password2 = $cl_email = '';
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_login = trim($request->getParameter('login'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('password1');
     $cl_password2 = $request->getParameter('password2');
   }
-  $cl_email = trim($request->getParameter('email'));
+  $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
 } else {
   $cl_name = $user->name;
   $cl_login = $user->login;

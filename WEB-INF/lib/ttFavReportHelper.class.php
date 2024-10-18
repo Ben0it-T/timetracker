@@ -646,7 +646,7 @@ class ttFavReportHelper {
     if (isset($custom_fields) && $custom_fields->timeFields) {
       foreach ($custom_fields->timeFields as $timeField) {
         $field_name = 'time_field_'.$timeField['id'];
-        $field_value = str_replace(',','&#44',$bean->getAttribute($field_name)); 
+        $field_value = is_null($bean->getAttribute($field_name)) ? '' : str_replace(',','&#44',$bean->getAttribute($field_name)); 
         $checkbox_field_name = 'show_'.$field_name;
         $checkbox_field_value = (int) $bean->getAttribute($checkbox_field_name);
         if ($field_value) $reportSpecArray[] = $field_name.':'.$field_value;
@@ -658,7 +658,7 @@ class ttFavReportHelper {
     if (isset($custom_fields) && $custom_fields->userFields) {
       foreach ($custom_fields->userFields as $userField) {
         $field_name = 'user_field_'.$userField['id'];
-        $field_value = str_replace(',','&#44',$bean->getAttribute($field_name));
+        $field_value = is_null($bean->getAttribute($field_name)) ? '' : str_replace(',','&#44',$bean->getAttribute($field_name));
         $checkbox_field_name = 'show_'.$field_name;
         $checkbox_field_value = (int) $bean->getAttribute($checkbox_field_name);
         if ($field_value) $reportSpecArray[] = $field_name.':'.$field_value;
@@ -670,7 +670,7 @@ class ttFavReportHelper {
     if (isset($custom_fields) && $custom_fields->projectFields) {
       foreach ($custom_fields->projectFields as $projectField) {
         $field_name = 'project_field_'.$projectField['id'];
-        $field_value = str_replace(',','&#44',$bean->getAttribute($field_name));
+        $field_value = is_null($bean->getAttribute($field_name)) ? '' : str_replace(',','&#44',$bean->getAttribute($field_name));
         $checkbox_field_name = 'show_'.$field_name;
         $checkbox_field_value = (int) $bean->getAttribute($checkbox_field_name);
         if ($field_value) $reportSpecArray[] = $field_name.':'.$field_value;

@@ -55,9 +55,7 @@ class TextField extends FormElement {
       if (!empty($this->max_length)) $html .= " maxlength=\"$this->max_length\"";
       if (!empty($this->on_change)) $html .= " onchange=\"$this->on_change\"";
     }
-
-    $html .= " value=\"".htmlspecialchars($this->getValue())."\"";
-
+    $html .= " value=\"". (is_null($this->getValue()) ? '' : htmlspecialchars($this->getValue())) ."\"";
     if(!$this->isEnabled()) $html .= " readonly";
     $html .= ">\n";
     return $html;

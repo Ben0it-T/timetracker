@@ -26,7 +26,7 @@ if (!$timesheet) {
 
 $cl_description = null;
 if ($request->isPost()) {
-  $cl_description = trim($request->getParameter('description'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
 }
 
 $fileHelper = new ttFileHelper($err);

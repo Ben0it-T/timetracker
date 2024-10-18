@@ -148,7 +148,7 @@ startTimer();
   {if $show_note_column}
     <th>{$i18n.label.note}</th>
   {/if}
-  {if $show_files}
+  {if isset($show_files) }
     <th></th>
   {/if}
     <th></th>
@@ -180,7 +180,7 @@ startTimer();
     {if $show_note_column}
     <td class="text-cell">{if $record.comment}{nl2br($record.comment|escape)}{else}&nbsp;{/if}</td>
     {/if}
-    {if $show_files}
+    {if isset($show_files) }
       {if $record.has_files}
     <td><a href="time_files.php?id={$record.id}"><img class="table_icon" alt="{$i18n.label.files}" src="img/icon-files.png"></a></td>
       {else}

@@ -19,11 +19,11 @@ $group = ttGroupHelper::getGroupAttrs($user->getGroup());
 $config = $user->getConfigHelper();
 
 if ($request->isPost()) {
-  $cl_group = trim($request->getParameter('group_name'));
-  $cl_description = trim($request->getParameter('description'));
-  $cl_bcc_email = trim($request->getParameter('bcc_email'));
-  $cl_allow_ip = trim($request->getParameter('allow_ip'));
-  $cl_password_complexity = trim($request->getParameter('password_complexity'));
+  $cl_group = is_null($request->getParameter('group_name')) ? '' : trim($request->getParameter('group_name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
+  $cl_bcc_email = is_null($request->getParameter('bcc_email')) ? '' : trim($request->getParameter('bcc_email'));
+  $cl_allow_ip = is_null($request->getParameter('allow_ip')) ? '' : trim($request->getParameter('allow_ip'));
+  $cl_password_complexity = is_null($request->getParameter('password_complexity')) ? '' : trim($request->getParameter('password_complexity'));
   $cl_2fa = (bool) $request->getParameter('2fa');
 } else {
   $cl_group = $group['name'];

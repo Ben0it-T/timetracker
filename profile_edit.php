@@ -24,13 +24,13 @@ $current_login = $user->behalf_id ? $user_details['login'] : $user->login;
 
 $cl_name = $cl_login = $cl_password1 = $cl_password2 = $cl_email = null;
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_login = trim($request->getParameter('login'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
     $cl_password1 = $request->getParameter('password1');
     $cl_password2 = $request->getParameter('password2');
   }
-  $cl_email = trim($request->getParameter('email'));
+  $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
 } else {
   if ($user->behalf_id) {
     $cl_name = $user_details['name'];

@@ -31,9 +31,9 @@ if ($bindTemplatesWithProjects)
 
 $cl_name = $cl_description = $cl_content = $cl_status = null;
 if ($request->isPost()) {
-  $cl_name = trim($request->getParameter('name'));
-  $cl_description = trim($request->getParameter('description'));
-  $cl_content = trim($request->getParameter('content'));
+  $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
+  $cl_description = is_null($request->getParameter('description')) ? '' : trim($request->getParameter('description'));
+  $cl_content = is_null($request->getParameter('content')) ? '' : trim($request->getParameter('content'));
   $cl_status = $request->getParameter('status');
   if ($bindTemplatesWithProjects)
     $cl_projects = $request->getParameter('projects');

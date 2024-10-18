@@ -31,7 +31,7 @@ if ($err->no()) {
 }
 
 if ($request->isPost()) {
-  $cl_option_name = trim($request->getParameter('name'));
+  $cl_option_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
 
   // Validate user input.
   if (!ttValidString($cl_option_name)) $err->add($i18n->get('error.field'), $i18n->get('label.thing_name'));

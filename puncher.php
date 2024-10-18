@@ -134,7 +134,8 @@ if ($enable_controls) {
   $_SESSION['project'] = $cl_project;
   $cl_task = $request->getParameter('task', ($request->isPost() ? null : @$_SESSION['task']));
   $_SESSION['task'] = $cl_task;
-  $cl_note = trim($request->getParameter('note', ($request->isPost() ? null : @$_SESSION['note'])));
+  $cl_note = $request->getParameter('note', ($request->isPost() ? null : @$_SESSION['note']));
+  $cl_note = is_null($cl_note) ? '' : trim($cl_note);
   $_SESSION['note'] = $cl_note;
 }
 else {
@@ -143,7 +144,7 @@ else {
   $cl_client = $time_rec['client_id'];
   $cl_project = $time_rec['project_id'];
   $cl_task = $time_rec['task_id'];
-  $cl_note = trim($time_rec['comment']);
+  $cl_note = is_null($time_rec['comment']) ? '' : trim($time_rec['comment']);
 }
 
 // Handle time custom fields.
@@ -160,12 +161,15 @@ if (isset($custom_fields) && $custom_fields->timeFields) {
     else {
       $cl_control_name = $custom_fields->getTimeFieldValue($uncompletedToday['id'], $timeField['id'], $timeField['type']);
     }
-    $timeCustomFields[$timeField['id']] = array('field_id' => $timeField['id'],
+    $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
+    $timeCustomFields[$timeField['id']] = array(
+      'field_id' => $timeField['id'],
       'control_name' => $control_name,
       'label' => $timeField['label'],
       'type' => $timeField['type'],
       'required' => $timeField['required'],
-      'value' => trim($cl_control_name));
+      'value' => $cl_control_name
+    );
   }
 }
 

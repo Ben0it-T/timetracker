@@ -39,6 +39,9 @@ class Submit extends FormElement {
     if (empty($this->id))
       $this->id = $this->name;
 
+    if (is_array($this->value))
+      return '';
+    
     // Output HTML.
     $html = "\n\t<input type=\"submit\" name=\"$this->name\" id=\"$this->id\"";
     $html .= " value=\"$this->value\"";
