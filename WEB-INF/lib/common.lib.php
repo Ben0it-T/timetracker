@@ -425,7 +425,7 @@ function ttValidCronSpec($val)
 
   // But this works.
   $regexp = '/^'.$fields_re.'$/';
-	
+	if (is_null($val)) return false;
   if (!preg_match($regexp, $val))
     return false;
 
