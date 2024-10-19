@@ -102,6 +102,8 @@
 		 * GD image
 		 */
 		protected $img;
+		protected $width;
+		protected $height;
 
 		/**
 		 * Drawing primitives

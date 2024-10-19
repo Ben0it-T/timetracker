@@ -26,6 +26,13 @@
 		protected $pieCenterX;
 		protected $pieCenterY;
 
+		protected $total;
+		protected $percent;
+		protected $pieWidth;
+		protected $pieHeight;
+		protected $pieDepth;
+
+
 		/**
 		 * Constructor of a pie chart.
 		 *

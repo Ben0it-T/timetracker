@@ -30,6 +30,9 @@
 		public $VERTICAL_CENTER_ALIGN = 16;
 		public $VERTICAL_BOTTOM_ALIGN = 32;
 
+		public $fontCondensed;
+		public $fontCondensedBold;
+
 		/**
 		 * Creates a new text drawing helper.
 		 */
