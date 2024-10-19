@@ -506,7 +506,8 @@ if ($request->isPost()) {
           'start'=>$record['start'],
           'finish'=>$browser_time,
           'note'=>$record['comment'],
-          'billable'=>$record['billable']));
+          'billable'=>$record['billable'],
+          'paid' => $record['paid']));
       if (!$res)
         $err->add($i18n->get('error.db'));
     } else {
