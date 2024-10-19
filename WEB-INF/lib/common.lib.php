@@ -661,6 +661,6 @@ function ttRandomString($length = 32) {
 // This mitigates a risk of CSV injection, see https://owasp.org/www-community/attacks/CSV_Injection
 // Additionally, it replaces each quote character with a double quote.
 function ttNeutralizeForCsv($val) {
-  $result = ltrim($val, '=+-@');
+  $result = is_null($val) ? '' : ltrim($val, '=+-@');
   return str_replace('"', '""', $result);
 }

@@ -105,6 +105,7 @@ class ttGroupExportHelper {
     $res = $mdb2->query($sql);
     $result = false;
     if (!is_a($res, 'PEAR_Error')) {
+      $result = array();
       while ($val = $res->fetchRow()) {
         $result[] = $val;
       }
@@ -119,7 +120,7 @@ class ttGroupExportHelper {
     $group = $this->getGroupAttrs();
     $group_part = "<group group_key=\"".htmlspecialchars($group['group_key'])."\"";
     $group_part .= " name=\"".htmlspecialchars($group['name'])."\"";
-    $group_part .= " description=\"".htmlspecialchars($group['description'])."\"";
+    $group_part .= " description=\"".(is_null($group['description']) ? '' : htmlspecialchars($group['description']))."\"";
     $group_part .= " currency=\"".htmlspecialchars($group['currency'])."\"";
     $group_part .= " decimal_mark=\"".$group['decimal_mark']."\"";
     $group_part .= " lang=\"".$group['lang']."\"";
@@ -137,8 +138,8 @@ class ttGroupExportHelper {
     $group_part .= " workday_minutes=\"".$group['workday_minutes']."\"";
     $group_part .= " custom_logo=\"".$group['custom_logo']."\"";
     $group_part .= " config=\"".$group['config']."\"";
-    $group_part .= " custom_css=\"".htmlspecialchars($group['custom_css'])."\"";
-    $group_part .= " custom_translation=\"".htmlspecialchars($group['custom_translation'])."\"";
+    $group_part .= " custom_css=\"".(is_null($group['custom_css']) ? '' : htmlspecialchars($group['custom_css']))."\"";
+    $group_part .= " custom_translation=\"".(is_null($group['custom_translation']) ? '' : htmlspecialchars($group['custom_translation']))."\"";
     $group_part .= ">\n";
 
     // Write group info.
@@ -206,9 +207,9 @@ class ttGroupExportHelper {
     foreach ($roles as $role) {
       $role_part = $this->indentation.'    '."<role id=\"".$this->roleMap[$role['id']]."\"";
       $role_part .= " name=\"".htmlspecialchars($role['name'])."\"";
-      $role_part .= " description=\"".htmlspecialchars($role['description'])."\"";
+      $role_part .= " description=\"".(is_null($role['description']) ? '' : htmlspecialchars($role['description']))."\"";
       $role_part .= " rank=\"".$role['rank']."\"";
-      $role_part .= " rights=\"".htmlspecialchars($role['rights'])."\"";
+      $role_part .= " rights=\"".(is_null($role['rights']) ? '' : htmlspecialchars($role['rights']))."\"";
       $role_part .= " status=\"".$role['status']."\"";
       $role_part .= "></role>\n";
       fwrite($this->file, $role_part);
@@ -223,7 +224,7 @@ class ttGroupExportHelper {
       foreach ($tasks as $task) {
         $task_part = $this->indentation.'    '."<task id=\"".$this->taskMap[$task['id']]."\"";
         $task_part .= " name=\"".htmlspecialchars($task['name'])."\"";
-        $task_part .= " description=\"".htmlspecialchars($task['description'])."\"";
+        $task_part .= " description=\"".(is_null($task['description']) ? '' : htmlspecialchars($task['description']))."\"";
         $task_part .= " status=\"".$task['status']."\"";
         $task_part .= "></task>\n";
         fwrite($this->file, $task_part);
@@ -247,7 +248,7 @@ class ttGroupExportHelper {
         }
         $project_part = $this->indentation.'    '."<project id=\"".$this->projectMap[$project_item['id']]."\"";
         $project_part .= " name=\"".htmlspecialchars($project_item['name'])."\"";
-        $project_part .= " description=\"".htmlspecialchars($project_item['description'])."\"";
+        $project_part .= " description=\"".(is_null($project_item['description']) ? '' : htmlspecialchars($project_item['description']))."\"";
         $project_part .= " tasks=\"".$tasks_str."\"";
         $project_part .= " status=\"".$project_item['status']."\"";
         $project_part .= "></project>\n";
@@ -271,7 +272,7 @@ class ttGroupExportHelper {
         }
         $client_part = $this->indentation.'    '."<client id=\"".$this->clientMap[$client_item['id']]."\"";
         $client_part .= " name=\"".htmlspecialchars($client_item['name'])."\"";
-        $client_part .= " address=\"".htmlspecialchars($client_item['address'])."\"";
+        $client_part .= " address=\"".(is_null($client_item['address']) ? '' : htmlspecialchars($client_item['address']))."\"";
         $client_part .= " tax=\"".$client_item['tax']."\"";
         $client_part .= " projects=\"".$projects_str."\"";
         $client_part .= " status=\"".$client_item['status']."\"";
@@ -334,12 +335,12 @@ class ttGroupExportHelper {
         $timesheet_part .= " client_id=\"".@$this->clientMap[$timesheet_item['client_id']]."\"";
         $timesheet_part .= " project_id=\"".@$this->projectMap[$timesheet_item['project_id']]."\"";
         $timesheet_part .= " name=\"".htmlspecialchars($timesheet_item['name'])."\"";
-        $timesheet_part .= " comment=\"".htmlspecialchars($timesheet_item['comment'])."\"";
+        $timesheet_part .= " comment=\"".(is_null($timesheet_item['comment']) ? '' : htmlspecialchars($timesheet_item['comment']))."\"";
         $timesheet_part .= " start_date=\"".$timesheet_item['start_date']."\"";
         $timesheet_part .= " end_date=\"".$timesheet_item['end_date']."\"";
         $timesheet_part .= " submit_status=\"".$timesheet_item['submit_status']."\"";
         $timesheet_part .= " approve_status=\"".$timesheet_item['approve_status']."\"";
-        $timesheet_part .= " approve_comment=\"".htmlspecialchars($timesheet_item['approve_comment'])."\"";
+        $timesheet_part .= " approve_comment=\"".(is_null($timesheet_item['approve_comment']) ? '' : htmlspecialchars($timesheet_item['approve_comment']))."\"";
         $timesheet_part .= " status=\"".$timesheet_item['status']."\"";
         $timesheet_part .= "></timesheet>\n";
         fwrite($this->file, $timesheet_part);
@@ -407,7 +408,7 @@ class ttGroupExportHelper {
         $custom_field_part = $this->indentation.'    '."<custom_field id=\"".$this->customFieldMap[$custom_field['id']]."\"";
         $custom_field_part .= " entity_type=\"".$custom_field['entity_type']."\"";
         $custom_field_part .= " type=\"".$custom_field['type']."\"";
-        $custom_field_part .= " label=\"".htmlspecialchars($custom_field['label'])."\"";
+        $custom_field_part .= " label=\"".(is_null($custom_field['label']) ? '' : htmlspecialchars($custom_field['label']))."\"";
         $custom_field_part .= " required=\"".$custom_field['required']."\"";
         $custom_field_part .= " status=\"".$custom_field['status']."\"";
         $custom_field_part .= "></custom_field>\n";
@@ -424,7 +425,7 @@ class ttGroupExportHelper {
       foreach ($custom_field_options as $option) {
         $custom_field_option_part = $this->indentation.'    '."<custom_field_option id=\"".$this->customFieldOptionMap[$option['id']]."\"";
         $custom_field_option_part .= " field_id=\"".$this->customFieldMap[$option['field_id']]."\"";
-        $custom_field_option_part .= " value=\"".htmlspecialchars($option['value'])."\"";
+        $custom_field_option_part .= " value=\"".(is_null($option['value']) ? '' : htmlspecialchars($option['value']))."\"";
         $custom_field_option_part .= " status=\"".$option['status']."\"";
         $custom_field_option_part .= "></custom_field_option>\n";
         fwrite($this->file, $custom_field_option_part);
@@ -443,7 +444,7 @@ class ttGroupExportHelper {
         $custom_field_log_part = $this->indentation.'    '."<custom_field_log_entry log_id=\"".$this->logMap[$entry['log_id']]."\"";
         $custom_field_log_part .= " field_id=\"".$this->customFieldMap[$entry['field_id']]."\"";
         $custom_field_log_part .= " option_id=\"".@$this->customFieldOptionMap[$entry['option_id']]."\"";
-        $custom_field_log_part .= " value=\"".htmlspecialchars($entry['value'])."\"";
+        $custom_field_log_part .= " value=\"".(is_null($entry['value']) ? '' : htmlspecialchars($entry['value']))."\"";
         $custom_field_log_part .= " status=\"".$entry['status']."\"";
         $custom_field_log_part .= "></custom_field_log_entry>\n";
         fwrite($this->file, $custom_field_log_part);
@@ -500,7 +501,7 @@ class ttGroupExportHelper {
       foreach ($templates as $template) {
         $template_part = $this->indentation.'    '."<template id=\"".$this->templateMap[$template['id']]."\"";
         $template_part .= " name=\"".htmlspecialchars($template['name'])."\"";
-        $template_part .= " description=\"".htmlspecialchars($template['description'])."\"";
+        $template_part .= " description=\"".(is_null($template['description']) ? '' : htmlspecialchars($template['description']))."\"";
         $template_part .= " content=\"".$this->encodeLineBreaks($template['content'])."\"";
         $template_part .= " status=\"".$template['status']."\"";
         $template_part .= "></template>\n";
@@ -608,11 +609,11 @@ class ttGroupExportHelper {
         $notification_part .= " last=\"".$notification['last']."\"";
         $notification_part .= " next=\"".$notification['next']."\"";
         $notification_part .= " report_id=\"".$this->favReportMap[$notification['report_id']]."\"";
-        $notification_part .= " email=\"".htmlspecialchars($notification['email'])."\"";
-        $notification_part .= " cc=\"".htmlspecialchars($notification['cc'])."\"";
-        $notification_part .= " subject=\"".htmlspecialchars($notification['subject'])."\"";
-        $notification_part .= " comment=\"".htmlspecialchars($notification['comment'])."\"";
-        $notification_part .= " report_condition=\"".htmlspecialchars($notification['report_condition'])."\"";
+        $notification_part .= " email=\"".(is_null($notification['email']) ? '' : htmlspecialchars($notification['email']))."\"";
+        $notification_part .= " cc=\"".(is_null($notification['cc']) ? '' : htmlspecialchars($notification['cc']))."\"";
+        $notification_part .= " subject=\"".(is_null($notification['subject']) ? '' : htmlspecialchars($notification['subject']))."\"";
+        $notification_part .= " comment=\"".(is_null($notification['comment']) ? '' : htmlspecialchars($notification['comment']))."\"";
+        $notification_part .= " report_condition=\"".(is_null($notification['report_condition']) ? '' : htmlspecialchars($notification['report_condition']))."\"";
         $notification_part .= " status=\"".$notification['status']."\"";
         $notification_part .= "></notification>\n";
         fwrite($this->file, $notification_part);
@@ -629,7 +630,7 @@ class ttGroupExportHelper {
       foreach ($user_params as $user_param) {
         $user_param_part = $this->indentation.'    '."<user_param user_id=\"".$this->userMap[$user_param['user_id']]."\"";
         $user_param_part .= " param_name=\"".htmlspecialchars($user_param['param_name'])."\"";
-        $user_param_part .= " param_value=\"".htmlspecialchars($user_param['param_value'])."\"";
+        $user_param_part .= " param_value=\"".(is_null($user_param['param_value']) ? '' : htmlspecialchars($user_param['param_value']))."\"";
         $user_param_part .= "></user_param>\n";
         fwrite($this->file, $user_param_part);
       }
@@ -667,7 +668,7 @@ class ttGroupExportHelper {
   //
   // TODO: investigate whether we need to encode \t, etc.
   private function encodeLineBreaks($source) {
-    $result = htmlspecialchars($source);
+    $result = is_null($source) ? '' : htmlspecialchars($source);
     $result = str_replace ("\n", '&#10;', $result);
     $result = str_replace ("\r", '&#13;', $result);
     return $result;
