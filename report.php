@@ -21,27 +21,27 @@ $config = new ttConfigHelper($user->getConfig());
 $show_cost_per_hour = $config->getDefinedValue('report_cost_per_hour') && ($user->can('manage_invoices') || $user->isClient());
 
 if ($user->isPluginEnabled('ap')) {
-  $cl_mark_approved_select_option = $request->getParameter('mark_approved_select_options', ($request->isPost() ? null : @$_SESSION['mark_approved_select_option']));
+  $cl_mark_approved_select_option = $request->getParameter('mark_approved_select_options', ($request->isPost() ? '' : @$_SESSION['mark_approved_select_option']));
   $_SESSION['mark_approved_select_option'] = $cl_mark_approved_select_option;
-  $cl_mark_approved_action_option = $request->getParameter('mark_approved_action_options', ($request->isPost() ? null : @$_SESSION['mark_approved_action_option']));
+  $cl_mark_approved_action_option = $request->getParameter('mark_approved_action_options', ($request->isPost() ? '' : @$_SESSION['mark_approved_action_option']));
   $_SESSION['mark_aproved_action_option'] = $cl_mark_approved_action_option;
 }
 if ($user->isPluginEnabled('ps')) {
-  $cl_mark_paid_select_option = $request->getParameter('mark_paid_select_options', ($request->isPost() ? null : @$_SESSION['mark_paid_select_option']));
+  $cl_mark_paid_select_option = $request->getParameter('mark_paid_select_options', ($request->isPost() ? '' : @$_SESSION['mark_paid_select_option']));
   $_SESSION['mark_paid_select_option'] = $cl_mark_paid_select_option;
-  $cl_mark_paid_action_option = $request->getParameter('mark_paid_action_options', ($request->isPost() ? null : @$_SESSION['mark_paid_action_option']));
+  $cl_mark_paid_action_option = $request->getParameter('mark_paid_action_options', ($request->isPost() ? '' : @$_SESSION['mark_paid_action_option']));
   $_SESSION['mark_paid_action_option'] = $cl_mark_paid_action_option;
 }
 if ($user->isPluginEnabled('iv')) {
-  $cl_assign_invoice_select_option = $request->getParameter('assign_invoice_select_options', ($request->isPost() ? null : @$_SESSION['assign_invoice_select_option']));
+  $cl_assign_invoice_select_option = $request->getParameter('assign_invoice_select_options', ($request->isPost() ? '' : @$_SESSION['assign_invoice_select_option']));
   $_SESSION['assign_invoice_select_option'] = $cl_assign_invoice_select_option;
-  $cl_recent_invoice_option = $request->getParameter('recent_invoice', ($request->isPost() ? null : @$_SESSION['recent_invoice_option']));
+  $cl_recent_invoice_option = $request->getParameter('recent_invoice', ($request->isPost() ? '' : @$_SESSION['recent_invoice_option']));
   $_SESSION['recent_invoice_option'] = $cl_recent_invoice_option;
 }
 if ($user->isPluginEnabled('ts')) {
-  $cl_assign_timesheet_select_option = $request->getParameter('assign_timesheet_select_options', ($request->isPost() ? null : @$_SESSION['assign_timesheet_select_option']));
+  $cl_assign_timesheet_select_option = $request->getParameter('assign_timesheet_select_options', ($request->isPost() ? '' : @$_SESSION['assign_timesheet_select_option']));
   $_SESSION['assign_timesheet_select_option'] = $cl_assign_timesheet_select_option;
-  $cl_timesheet_option = $request->getParameter('timesheet', ($request->isPost() ? null : @$_SESSION['timesheet_option']));
+  $cl_timesheet_option = $request->getParameter('timesheet', ($request->isPost() ? '' : @$_SESSION['timesheet_option']));
   $_SESSION['timesheet_option'] = $cl_timesheet_option;
 }
 

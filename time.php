@@ -153,10 +153,10 @@ if ($user->isPluginEnabled('mq')){
 }
 
 // Initialize variables.
-$cl_start = is_null($request->getParameter('start')) ? null : trim($request->getParameter('start'));
-$cl_finish = is_null($request->getParameter('finish')) ? null : trim($request->getParameter('finish'));
-$cl_duration = is_null($request->getParameter('duration')) ? null : trim($request->getParameter('duration'));
-$cl_note = is_null($request->getParameter('note')) ? null : trim($request->getParameter('note'));
+$cl_start = is_null($request->getParameter('start')) ? '' : trim($request->getParameter('start'));
+$cl_finish = is_null($request->getParameter('finish')) ? '' : trim($request->getParameter('finish'));
+$cl_duration = is_null($request->getParameter('duration')) ? '' : trim($request->getParameter('duration'));
+$cl_note = is_null($request->getParameter('note')) ? '' : trim($request->getParameter('note'));
 $cl_billable = 1;
 if ($showBillable) {
   if ($request->isPost()) {
@@ -166,11 +166,11 @@ if ($showBillable) {
     if (isset($_SESSION['billable']))
       $cl_billable = $_SESSION['billable'];
 }
-$cl_client = $request->getParameter('client', ($request->isPost() ? null : @$_SESSION['client']));
+$cl_client = $request->getParameter('client', ($request->isPost() ? '' : @$_SESSION['client']));
 $_SESSION['client'] = $cl_client;
-$cl_project = $request->getParameter('project', ($request->isPost() ? null : @$_SESSION['project']));
+$cl_project = $request->getParameter('project', ($request->isPost() ? '' : @$_SESSION['project']));
 $_SESSION['project'] = $cl_project;
-$cl_task = $request->getParameter('task', ($request->isPost() ? null : @$_SESSION['task']));
+$cl_task = $request->getParameter('task', ($request->isPost() ? '' : @$_SESSION['task']));
 $_SESSION['task'] = $cl_task;
 
 // Handle time custom fields.
@@ -178,7 +178,7 @@ $timeCustomFields = array();
 if (isset($custom_fields) && $custom_fields->timeFields) {
   foreach ($custom_fields->timeFields as $timeField) {
     $control_name = 'time_field_'.$timeField['id'];
-    $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? null : @$_SESSION[$control_name]));
+    $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? '' : @$_SESSION[$control_name]));
     $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
     $_SESSION[$control_name] = $cl_control_name;
     $timeCustomFields[$timeField['id']] = array(

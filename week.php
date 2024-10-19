@@ -130,13 +130,13 @@ if ($showBillable) {
     if (isset($_SESSION['billable']))
       $cl_billable = $_SESSION['billable'];
 }
-$cl_client = $request->getParameter('client', ($request->isPost() ? null : @$_SESSION['client']));
+$cl_client = $request->getParameter('client', ($request->isPost() ? '' : @$_SESSION['client']));
 $_SESSION['client'] = $cl_client;
-$cl_project = $request->getParameter('project', ($request->isPost() ? null : @$_SESSION['project']));
+$cl_project = $request->getParameter('project', ($request->isPost() ? '' : @$_SESSION['project']));
 $_SESSION['project'] = $cl_project;
-$cl_task = $request->getParameter('task', ($request->isPost() ? null : @$_SESSION['task']));
+$cl_task = $request->getParameter('task', ($request->isPost() ? '' : @$_SESSION['task']));
 $_SESSION['task'] = $cl_task;
-$cl_note = $request->getParameter('comment', ($request->isPost() ? null : @$_SESSION['comment']));
+$cl_note = $request->getParameter('comment', ($request->isPost() ? '' : @$_SESSION['comment']));
 $_SESSION['comment'] = $cl_note;
 
 $timeCustomFields = array();
@@ -144,7 +144,7 @@ $timeCustomFields = array();
 if (isset($custom_fields) && $custom_fields->timeFields) {
   foreach ($custom_fields->timeFields as $timeField) {
     $control_name = 'time_field_'.$timeField['id'];
-    $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? null : @$_SESSION[$control_name]));
+    $cl_control_name = $request->getParameter($control_name, ($request->isPost() ? '' : @$_SESSION[$control_name]));
     $cl_control_name = is_null($cl_control_name) ? '' : trim($cl_control_name);
     $_SESSION[$control_name] = $cl_control_name;
     $timeCustomFields[$timeField['id']] = array(
