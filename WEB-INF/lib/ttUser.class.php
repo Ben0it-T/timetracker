@@ -169,22 +169,22 @@ class ttUser {
 
   // getName returns user name on behalf of whom the current user is operating.
   function getName() {
-    return ($this->behalfUser ? $this->behalfUser->name : $this->name);
+    return (isset($this->behalfUser) ? $this->behalfUser->name : $this->name);
   }
 
   // getQuotaPercent returns quota percent for active user.
   function getQuotaPercent() {
-    return ($this->behalfUser ? $this->behalfUser->quota_percent : $this->quota_percent);
+    return (isset($this->behalfUser) ? $this->behalfUser->quota_percent : $this->quota_percent);
   }
 
   // getEmail returns email for active user.
   function getEmail() {
-    return ($this->behalfUser ? $this->behalfUser->email : $this->email);
+    return (isset($this->behalfUser) ? $this->behalfUser->email : $this->email);
   }
 
   // getPasswordComplexity returns password complexity for active user.
   function getPasswordComplexity() {
-    return ($this->behalfUser ? $this->behalfUser->password_complexity : $this->password_complexity);
+    return (isset($this->behalfUser) ? $this->behalfUser->password_complexity : $this->password_complexity);
   }
 
   // The getGroup returns group id on behalf of which the current user is operating.
