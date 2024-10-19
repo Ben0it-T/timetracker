@@ -918,7 +918,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->timeFields) {
       foreach ($custom_fields->timeFields as $timeField) {
         $field_name = 'time_field_'.$timeField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         if ($field_value) {
           $cflTable = 'cfl'.$timeField['id'];
           if ($timeField['type'] == CustomFields::TYPE_TEXT) {
@@ -936,7 +936,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->userFields) {
       foreach ($custom_fields->userFields as $userField) {
         $field_name = 'user_field_'.$userField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         $entity_type = CustomFields::ENTITY_USER;
         if ($field_value) {
           // We need to add left joins when input is not null.
@@ -956,7 +956,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->projectFields) {
       foreach ($custom_fields->projectFields as $projectField) {
         $field_name = 'project_field_'.$projectField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         $entity_type = CustomFields::ENTITY_PROJECT;
         if ($field_value) {
           // We need to add left joins when input is not null.
@@ -1081,8 +1081,8 @@ class ttReportHelper {
         new ttDate($options['period_end'], $dateFormat));
     }
 
-    $totals['start_date'] = $period->getStartDate($user->getDateFormat());
-    $totals['end_date'] = $period->getEndDate($user->getDateFormat());
+    $totals['start_date'] = isset($period) ? $period->getStartDate($user->getDateFormat()) : '';
+    $totals['end_date'] = isset($period) ? $period->getEndDate($user->getDateFormat()) : '';
     $totals['time'] = $total_time;
     $totals['minutes'] = $val['time'] / 60;
     $totals['units'] = isset($val['units']) ? $val['units'] : null;
@@ -2575,7 +2575,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->timeFields) {
       foreach ($custom_fields->timeFields as $timeField) {
         $field_name = 'time_field_'.$timeField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         if ($field_value || ttReportHelper::groupingBy($field_name, $options)) {
           $cflTable = 'cfl'.$timeField['id'];
           if ($timeField['type'] == CustomFields::TYPE_TEXT) {
@@ -2594,7 +2594,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->userFields) {
       foreach ($custom_fields->userFields as $userField) {
         $field_name = 'user_field_'.$userField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         $entity_type = CustomFields::ENTITY_USER;
         if ($field_value || ttReportHelper::groupingBy($field_name, $options)) {
           // We need to add left joins when input is not null.
@@ -2615,7 +2615,7 @@ class ttReportHelper {
     if (isset($custom_fields) && $custom_fields->projectFields) {
       foreach ($custom_fields->projectFields as $projectField) {
         $field_name = 'project_field_'.$projectField['id'];
-        $field_value = $options[$field_name];
+        $field_value = isset($options[$field_name]) ? $options[$field_name] : false;
         $entity_type = CustomFields::ENTITY_PROJECT;
         if ($field_value || ttReportHelper::groupingBy($field_name, $options)) {
           // We need to add left joins when input is not null.

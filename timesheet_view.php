@@ -31,6 +31,8 @@ if ($request->isPost()) {
 }
 
 $options = ttTimesheetHelper::getReportOptions($timesheet);
+$options['period_start'] = $timesheet['start_date'];
+$options['period_end'] = $timesheet['end_date'];
 $subtotals = ttReportHelper::getSubtotals($options);
 $totals = ttReportHelper::getTotals($options);
 
