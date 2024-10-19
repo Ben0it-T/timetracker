@@ -44,8 +44,18 @@
 		 * @param Color line color
 		 */
 		public function line($x1, $y1, $x2, $y2, $color, $width = 1) {
-			imagefilledpolygon($this->img, array($x1, $y1 - $width / 2, $x1, $y1 + $width / 2, $x2, $y2 + $width / 2, $x2, $y2 - $width / 2), 4, $color->getColor($this->img));
-			// imageline($this->img, $x1, $y1, $x2, $y2, $color->getColor($this->img));
+		  //imagefilledpolygon($this->img, array($x1, $y1 - $width / 2, $x1, $y1 + $width / 2, $x2, $y2 + $width / 2, $x2, $y2 - $width / 2), 4, $color->getColor($this->img));
+		  // imageline($this->img, $x1, $y1, $x2, $y2, $color->getColor($this->img));
+		  
+		  if (version_compare(phpversion(), '8.0', '>=')) {
+		  	// PHP > 8.1 : Using the $num_points parameter is deprecated
+		    // imagefilledpolygon(GdImage $image, array $points, int $color): bool
+			imagefilledpolygon($this->img, array($x1, $y1 - $width / 2, $x1, $y1 + $width / 2, $x2, $y2 + $width / 2, $x2, $y2 - $width / 2), $color->getColor($this->img));
+		  }
+		  else {
+		  	// imagefilledpolygon(GdImage $image, array $points, int $num_points, int $color): bool
+		    imagefilledpolygon($this->img, array($x1, $y1 - $width / 2, $x1, $y1 + $width / 2, $x2, $y2 + $width / 2, $x2, $y2 - $width / 2), 4, $color->getColor($this->img));
+		  }	
 		}
 
 		/**
