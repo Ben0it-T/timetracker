@@ -63,11 +63,11 @@ $confirm_save = $user->getConfigOption('confirm_save');
 // Initialize variables.
 $cl_start = $cl_finish = $cl_duration = $cl_date = $cl_note = $cl_project = $cl_task = $cl_billable = null;
 if ($request->isPost()) {
-  $cl_start = is_null($request->getParameter('start')) ? null : trim($request->getParameter('start'));
-  $cl_finish = is_null($request->getParameter('finish')) ? null : trim($request->getParameter('finish'));
-  $cl_duration = is_null($request->getParameter('duration')) ? null : trim($request->getParameter('duration'));
+  $cl_start = is_null($request->getParameter('start')) ? '' : trim($request->getParameter('start'));
+  $cl_finish = is_null($request->getParameter('finish')) ? '' : trim($request->getParameter('finish'));
+  $cl_duration = is_null($request->getParameter('duration')) ? '' : trim($request->getParameter('duration'));
   $cl_date = $request->getParameter('date');
-  $cl_note = is_null($request->getParameter('note')) ? null : trim($request->getParameter('note'));
+  $cl_note = is_null($request->getParameter('note')) ? '' : trim($request->getParameter('note'));
   // If we have time custom fields - collect input.
   if (isset($custom_fields) && $custom_fields->timeFields) {
     foreach ($custom_fields->timeFields as $timeField) {
@@ -77,7 +77,7 @@ if ($request->isPost()) {
         'label' => $timeField['label'],
         'type' => $timeField['type'],
         'required' => $timeField['required'],
-        'value' => is_null($request->getParameter($control_name)) ? null : trim($request->getParameter($control_name)));
+        'value' => is_null($request->getParameter($control_name)) ? '' : trim($request->getParameter($control_name)));
     }
   }
   $cl_client = $request->getParameter('client');
