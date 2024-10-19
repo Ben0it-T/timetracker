@@ -174,7 +174,7 @@
 
 				if ($angle2 - $angle1 <= 0)
 					$angle2 = $angle1 + 1;
-				imagefilledarc($img, $this->pieCenterX, $cy, $this->pieWidth, $this->pieHeight, $angle1, $angle2, $color->getColor($img), $mode);
+				imagefilledarc($img, intval($this->pieCenterX), intval($cy), intval($this->pieWidth), intval($this->pieHeight), intval($angle1), intval($angle2), $color->getColor($img), $mode);
 
 				$angle1 = $angle2;
 
