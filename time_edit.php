@@ -65,7 +65,7 @@ $cl_start = $cl_finish = $cl_duration = $cl_date = $cl_note = $cl_project = $cl_
 if ($request->isPost()) {
   $cl_start = is_null($request->getParameter('start')) ? '' : trim($request->getParameter('start'));
   $cl_finish = is_null($request->getParameter('finish')) ? '' : trim($request->getParameter('finish'));
-  $cl_duration = is_null($request->getParameter('duration')) ? '' : trim($request->getParameter('duration'));
+  $cl_duration = is_null($request->getParameter('duration')) ? null : trim($request->getParameter('duration'));
   $cl_date = $request->getParameter('date');
   $cl_note = is_null($request->getParameter('note')) ? '' : trim($request->getParameter('note'));
   // If we have time custom fields - collect input.

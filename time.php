@@ -155,7 +155,7 @@ if ($user->isPluginEnabled('mq')){
 // Initialize variables.
 $cl_start = is_null($request->getParameter('start')) ? '' : trim($request->getParameter('start'));
 $cl_finish = is_null($request->getParameter('finish')) ? '' : trim($request->getParameter('finish'));
-$cl_duration = is_null($request->getParameter('duration')) ? '' : trim($request->getParameter('duration'));
+$cl_duration = is_null($request->getParameter('duration')) ? null : trim($request->getParameter('duration'));
 $cl_note = is_null($request->getParameter('note')) ? '' : trim($request->getParameter('note'));
 $cl_billable = 1;
 if ($showBillable) {
@@ -412,6 +412,15 @@ if ($request->isPost()) {
       if (false === ttTimeHelper::postedDurationToMinutes($cl_duration))
         $err->add($i18n->get('error.field'), $i18n->get('label.duration'));
     }
+
+    echo "<pre>";
+    print_r($cl_start);
+    echo "<br>";
+    print_r($cl_finish);
+    echo "<br>";
+    print_r($cl_duration);
+    echo "</pre>";
+
     if (!ttValidString($cl_note, true)) $err->add($i18n->get('error.field'), $i18n->get('label.note'));
     if ($user->isPluginEnabled('tp') && !ttValidTemplateText($cl_note)) {
       $err->add($i18n->get('error.field'), $i18n->get('label.note'));
