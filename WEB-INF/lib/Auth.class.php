@@ -31,16 +31,18 @@ class Auth {
   // isAuthenticated - checks authentication status for user.
   function isAuthenticated() {
     if (isset($_SESSION['authenticated'])) {
-// This check does not work properly because we are not getting here. Need to improve.
-//        if (!isset($_COOKIE[LOGIN_COOKIE_NAME])) {
-//          die ("Your browser's cookie functionality is turned off. Please turn it on.");
-//        }
+      // This check does not work properly because we are not getting here. Need to improve.
+      //        if (!isset($_COOKIE[LOGIN_COOKIE_NAME])) {
+      //          die ("Your browser's cookie functionality is turned off. Please turn it on.");
+      //        }
 
       global $smarty;
       $smarty->assign('authenticated', true); // Used in header.tpl for menu display.
       return true;
     }
     session_write_close();
+    global $smarty;
+    $smarty->assign('authenticated', false); // Used in header.tpl for menu display.
     return false;
   }
 
