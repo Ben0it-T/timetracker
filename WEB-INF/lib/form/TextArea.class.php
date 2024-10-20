@@ -46,7 +46,6 @@ class TextArea extends FormElement {
 		$html .= " name=\"$this->name\" id=\"$this->id\"";
 
 		if ($this->max_length!="") {
-			if ($this->mOnKeyPress) $this->mOnKeyPress .= ";";
 			$html .= " maxlength=\"$this->max_length\"";
 		}
 

@@ -30,6 +30,7 @@ class Form {
         import('form.TextField');
         $el = new TextField($params['name']);
         if (isset($params['class'])) $el->setCssClass($params['class']);
+        if (isset($params['minlength'])) $el->setMinLength($params['minlength']);
         if (isset($params['maxlength'])) $el->setMaxLength($params['maxlength']);
         if (isset($params['placeholder'])) $el->setPLaceholder($params['placeholder']);
         break;
@@ -38,7 +39,8 @@ class Form {
         import('form.PasswordField');
         $el = new PasswordField($params['name']);
         if (isset($params['class'])) $el->setCssClass($params['class']);
-        if (isset($params['maxlength'])) $el->setMaxLength($params['maxlength']);
+        if (isset($params['minlength'])) $el->setMinLength($params['minlength']);
+        if (isset($params['maxlength'])) $el->setMaxLength($params['maxlength']);        
         break;
 
       case 'datefield':

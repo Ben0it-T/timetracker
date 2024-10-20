@@ -27,11 +27,11 @@ class PasswordField extends FormElement {
     if ($this->style != '')
       $html.= ' style="'.$this->style.'"';
 
-    if ($this->max_length != '')
-      $html.= ' maxlength="'.$this->max_length.'"';
-
     if ($this->min_length != '')
       $html.= ' minlength="'.$this->min_length.'"';
+
+    if ($this->max_length != '')
+      $html.= ' maxlength="'.$this->max_length.'"';
 
     if ($this->on_change != '')
       $html.= ' onchange="'.$this->on_change.'"';
