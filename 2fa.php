@@ -18,7 +18,7 @@ $cl_password = $request->getParameter('password');
 $cl_auth_code = $request->getParameter('auth_code');
 
 $form = new Form('twoFactorAuthForm');
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'login','value'=>$cl_login));
+$form->addInput(array('type'=>'text','maxlength'=>'80','name'=>'login','value'=>$cl_login));
 $form->getElement('login')->setEnabled(false);
 $form->addInput(array('type'=>'password','maxlength'=>'50','name'=>'password','value'=>$cl_password));
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'auth_code','value'=>$cl_auth_code));

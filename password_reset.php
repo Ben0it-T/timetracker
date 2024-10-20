@@ -15,7 +15,7 @@ if ($auth->isPasswordExternal()) {
 $cl_login = $request->getParameter('login');
 
 $form = new Form('resetPasswordForm');
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'login','value'=>$cl_login));
+$form->addInput(array('type'=>'text','maxlength'=>'80','name'=>'login','value'=>$cl_login));
 $form->addInput(array('type'=>'submit','name'=>'btn_submit','value'=>$i18n->get('button.reset_password')));
 
 if ($request->isPost()) {

@@ -24,7 +24,7 @@ if ($cl_login == null && $request->isGet()) $cl_login = @$_COOKIE[LOGIN_COOKIE_N
 $cl_password = $request->getParameter('password');
 
 $form = new Form('loginForm');
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'login','value'=>$cl_login));
+$form->addInput(array('type'=>'text','maxlength'=>'80','name'=>'login','value'=>$cl_login));
 $form->addInput(array('type'=>'password','maxlength'=>'50','name'=>'password','value'=>$cl_password));
 $form->addInput(array('type'=>'hidden','name'=>'browser_today','value'=>'')); // User current date, which gets filled in on btn_login click.
 $form->addInput(array('type'=>'submit','name'=>'btn_login','onclick'=>'browser_today.value=get_date()','value'=>$i18n->get('button.login')));
