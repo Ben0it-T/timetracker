@@ -397,7 +397,8 @@ if ($request->isPost()) {
         'start'=>$record['start'],
         'finish'=>$cl_finish,
         'note'=>$record['comment'],
-        'billable'=>$record['billable']));
+        'billable'=>$record['billable'],
+        'paid' => $record['paid']));
       if ($res) {
         header('Location: puncher.php');
         exit();
