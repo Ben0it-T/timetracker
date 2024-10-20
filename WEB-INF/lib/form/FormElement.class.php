@@ -11,6 +11,7 @@ class FormElement {
   var $placeholder = ''; // placeholder
   var $size = '';        // control size
   var $max_length = '';  // max length of text in control
+  var $min_length = '';  // min length of text in control
   var $on_change = '';   // what happens when value of control changes
   var $on_click = '';    // what happens when the control is clicked
   var $label = '';       // optional label for control
@@ -51,6 +52,9 @@ class FormElement {
 
   function setMaxLength($value) { $this->max_length = $value; }
   function getMaxLength() { return $this->max_length; }
+
+  function setMinLength($value) { $this->min_length = $value; }
+  function getMinLength() { return $this->min_length; }
 
   function setStyle($value) { $this->style = $value; }
   function getStyle() { return $this->style; }
