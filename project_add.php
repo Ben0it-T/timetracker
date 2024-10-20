@@ -83,8 +83,8 @@ if ($request->isPost()) {
 }
 
 $form = new Form('projectForm');
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'project_name','value'=>$cl_name));
-$form->addInput(array('type'=>'textarea','name'=>'description','value'=>$cl_description));
+$form->addInput(array('type'=>'text','maxlength'=>'80','name'=>'project_name','value'=>$cl_name));
+$form->addInput(array('type'=>'textarea','maxlength'=>'255','name'=>'description','value'=>$cl_description));
 // If we have custom fields - add controls for them.
 if (isset($custom_fields) && $custom_fields->projectFields) {
   foreach ($custom_fields->projectFields as $projectField) {

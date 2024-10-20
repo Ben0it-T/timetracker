@@ -44,8 +44,8 @@ if ($request->isPost()) {
 
 $form = new Form('taskForm');
 $form->addInput(array('type'=>'hidden','name'=>'id','value'=>$cl_task_id));
-$form->addInput(array('type'=>'text','name'=>'name','value'=>$cl_name));
-$form->addInput(array('type'=>'textarea','name'=>'description','value'=>$cl_description));
+$form->addInput(array('type'=>'text','maxlength'=>'80','name'=>'name','value'=>$cl_name));
+$form->addInput(array('type'=>'textarea','maxlength'=>'255','name'=>'description','value'=>$cl_description));
 $form->addInput(array('type'=>'combobox','name'=>'status','value'=>$cl_status,
   'data'=>array(ACTIVE=>$i18n->get('dropdown.status_active'),INACTIVE=>$i18n->get('dropdown.status_inactive'))));
 $form->addInput(array('type'=>'checkboxgroup','name'=>'projects','layout'=>'H','data'=>$projects,'datakeys'=>array('id','name'),'value'=>$cl_projects));
