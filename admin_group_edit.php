@@ -65,7 +65,7 @@ if ($request->isPost()) {
       $err->add($i18n->get('error.field'), $i18n->get('label.manager_name'));
     if (!ttValidString($cl_manager_login))
       $err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
-    if (AUTH_MODULE == 'db' && strlen($cl_manager_login) < AUTH_DB_LOGIN_MINLENGTH)
+    if (AUTH_MODULE == 'db' && mb_strlen($cl_manager_login) < AUTH_DB_LOGIN_MINLENGTH)
       $err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
     // If we change login, it must be unique.
     if ($cl_manager_login != $org_details['manager_login']) {

@@ -57,7 +57,7 @@ if ($request->isPost()) {
   // Validate user input.
   if (!ttValidString($cl_name)) $err->add($i18n->get('error.field'), $i18n->get('label.person_name'));
   if (!ttValidString($cl_login)) $err->add($i18n->get('error.field'), $i18n->get('label.login'));
-  if (AUTH_MODULE == 'db' && strlen($cl_login) < AUTH_DB_LOGIN_MINLENGTH)
+  if (AUTH_MODULE == 'db' && mb_strlen($cl_login) < AUTH_DB_LOGIN_MINLENGTH)
       $err->add($i18n->get('error.field'), $i18n->get('label.login'));
 
   // New login must be unique.

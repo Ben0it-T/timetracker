@@ -51,7 +51,7 @@ class ttRegistrator {
       $this->err->add($i18n->get('error.field'), $i18n->get('label.manager_name'));
     if (!ttValidString($this->login, false, MAX_NAME_CHARS))
       $this->err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
-    if (AUTH_MODULE == 'db' && strlen($this->login) < AUTH_DB_LOGIN_MINLENGTH)
+    if (AUTH_MODULE == 'db' && mb_strlen($this->login) < AUTH_DB_LOGIN_MINLENGTH)
       $this->err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
     if (!ttValidString($this->password1))
       $this->err->add($i18n->get('error.field'), $i18n->get('label.password'));
