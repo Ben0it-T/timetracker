@@ -65,7 +65,7 @@ if ($request->isPost()) {
 
 $form = new Form('userForm');
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'name','value'=>$cl_name));
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'login','value'=>$cl_login));
+$form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'login','value'=>$cl_login));
 if (!$auth->isPasswordExternal()) {
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'pas1','value'=>$cl_password1));
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'pas2','value'=>$cl_password2));
@@ -160,6 +160,8 @@ if ($request->isPost()) {
   // Validate user input.
   if (!ttValidString($cl_name)) $err->add($i18n->get('error.field'), $i18n->get('label.person_name'));
   if (!ttValidString($cl_login)) $err->add($i18n->get('error.field'), $i18n->get('label.login'));
+  if (AUTH_MODULE == 'db' && strlen($cl_login) < AUTH_DB_LOGIN_MINLENGTH)
+      $err->add($i18n->get('error.field'), $i18n->get('label.login'));
   if (!$auth->isPasswordExternal()) {
     if (!ttValidString($cl_password1)) $err->add($i18n->get('error.field'), $i18n->get('label.password'));
     if (!ttValidString($cl_password2)) $err->add($i18n->get('error.field'), $i18n->get('label.confirm_password'));

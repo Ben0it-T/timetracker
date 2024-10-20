@@ -51,7 +51,7 @@ $longname_lang = mu_sort($longname_lang, 'name');
 $form->addInput(array('type'=>'combobox','name'=>'lang','data'=>$longname_lang,'datakeys'=>array('id','name'),'value'=>$cl_lang));
 
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'manager_name','value'=>$cl_manager_name));
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'manager_login','value'=>$cl_manager_login));
+$form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'manager_login','value'=>$cl_manager_login));
 if (!$auth->isPasswordExternal()) {
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password1','value'=>$cl_password1));
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password2','value'=>$cl_password2));
@@ -66,6 +66,8 @@ if ($request->isPost()) {
   if (!ttValidString($cl_manager_name))
     $err->add($i18n->get('error.field'), $i18n->get('label.manager_name'));
   if (!ttValidString($cl_manager_login))
+    $err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
+  if (AUTH_MODULE == 'db' && strlen($cl_manager_login) < AUTH_DB_LOGIN_MINLENGTH)
     $err->add($i18n->get('error.field'), $i18n->get('label.manager_login'));
   if (ttUserHelper::getUserByLogin($cl_manager_login))
     $err->add($i18n->get('error.user_exists'));

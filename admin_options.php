@@ -31,7 +31,7 @@ if ($request->isPost()) {
 
 $form = new Form('optionsForm');
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'name','value'=>$cl_name));
-$form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'login','value'=>$cl_login));
+$form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'login','value'=>$cl_login));
 if (!$auth->isPasswordExternal()) {
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password1','value'=>$cl_password1));
   $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password2','value'=>$cl_password2));
@@ -44,6 +44,8 @@ if ($request->isPost()) {
   if (!ttValidString($cl_name))
     $err->add($i18n->get('error.field'), $i18n->get('label.person_name'));
   if (!ttValidString($cl_login))
+    $err->add($i18n->get('error.field'), $i18n->get('label.login'));
+  if (AUTH_MODULE == 'db' && strlen($cl_login) < AUTH_DB_LOGIN_MINLENGTH)
     $err->add($i18n->get('error.field'), $i18n->get('label.login'));
   // If we change login, it must be unique.
   if ($cl_login != $user->login && ttUserHelper::getUserByLogin($cl_login))

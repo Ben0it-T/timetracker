@@ -58,7 +58,7 @@ $longname_lang = mu_sort($longname_lang, 'name');
 $form->addInput(array('type'=>'combobox','name'=>'lang','data'=>$longname_lang,'datakeys'=>array('id','name'),'value'=>$cl_lang));
 
 $form->addInput(array('type'=>'text','name'=>'manager_name','value'=>$cl_manager_name));
-$form->addInput(array('type'=>'text','name'=>'manager_login','value'=>$cl_manager_login));
+$form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'manager_login','value'=>$cl_manager_login));
 $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password1','value'=>$cl_password1));
 $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password2','value'=>$cl_password2));
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'manager_email','value'=>$cl_manager_email));

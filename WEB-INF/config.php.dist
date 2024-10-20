@@ -151,6 +151,9 @@ define('AUTH_DB_HASH_ALGORITHM', 'BCRYPT');
 // 
 define('AUTH_DB_HASH_ALGORITHM_OPTIONS', array('cost' => 10));
 
+// Login minlength
+//
+//define('AUTH_DB_LOGIN_MINLENGTH', 5);
 
 // LDAP authentication examples.
 // Go to https://www.anuko.com/time-tracker/install-guide/ldap-auth/index.htm for detailed configuration instructions.
