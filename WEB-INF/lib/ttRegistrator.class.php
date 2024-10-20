@@ -59,6 +59,8 @@ class ttRegistrator {
       $this->err->add($i18n->get('error.field'), $i18n->get('label.confirm_password'));
     if ($this->password1 !== $this->password2)
       $this->err->add($i18n->get('error.not_equal'), $i18n->get('label.password'), $i18n->get('label.confirm_password'));
+    if (AUTH_MODULE == 'db' && mb_strlen($this->password1) < AUTH_DB_PWD_MINLENGTH)
+      $this->err->add($i18n->get('error.weak_password'));
     if (!ttValidEmail($this->email, !isTrue('EMAIL_REQUIRED')))
       $this->err->add($i18n->get('error.field'), $i18n->get('label.email'));
     if (!ttUserHelper::canAdd())

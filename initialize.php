@@ -111,7 +111,7 @@ if (AUTH_DB_HASH_ALGORITHM !== '') {
 
 // AUTH_DB - Login minlength
 if (!defined('AUTH_DB_LOGIN_MINLENGTH')) define('AUTH_DB_LOGIN_MINLENGTH', 5);
-
+if (!defined('AUTH_DB_PWD_MINLENGTH')) define('AUTH_DB_PWD_MINLENGTH', 8);
 // Smarty initialization.
 import('smarty.Smarty');
 $smarty = new Smarty;

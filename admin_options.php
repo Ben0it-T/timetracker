@@ -19,8 +19,8 @@ if ($request->isPost()) {
   $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
   $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
-    $cl_password1 = $request->getParameter('password1');
-    $cl_password2 = $request->getParameter('password2');
+    $cl_password1 = is_null($request->getParameter('password1')) ? '' : $request->getParameter('password1');
+    $cl_password2 = is_null($request->getParameter('password2')) ? '' : $request->getParameter('password2');
   }
   $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
 } else {
@@ -33,8 +33,8 @@ $form = new Form('optionsForm');
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'name','value'=>$cl_name));
 $form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'login','value'=>$cl_login));
 if (!$auth->isPasswordExternal()) {
-  $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password1','value'=>$cl_password1));
-  $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'password2','value'=>$cl_password2));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'password1','value'=>$cl_password1));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'password2','value'=>$cl_password2));
 }
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'email','value'=>$cl_email));
 $form->addInput(array('type'=>'submit','name'=>'btn_submit','value'=>$i18n->get('button.submit')));
@@ -57,6 +57,8 @@ if ($request->isPost()) {
         $err->add($i18n->get('error.field'), $i18n->get('label.confirm_password'));
       if ($cl_password1 !== $cl_password2)
         $err->add($i18n->get('error.not_equal'), $i18n->get('label.password'), $i18n->get('label.confirm_password'));
+      if (AUTH_MODULE == 'db' && mb_strlen($cl_password1) < AUTH_DB_PWD_MINLENGTH)
+        $err->add($i18n->get('error.weak_password'));
     }
   if (!ttValidEmail($cl_email, true))
     $err->add($i18n->get('error.field'), $i18n->get('label.email'));

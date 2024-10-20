@@ -49,8 +49,8 @@ if ($request->isPost()) {
   $cl_name = is_null($request->getParameter('name')) ? '' : trim($request->getParameter('name'));
   $cl_login = is_null($request->getParameter('login')) ? '' : trim($request->getParameter('login'));
   if (!$auth->isPasswordExternal()) {
-    $cl_password1 = $request->getParameter('pas1');
-    $cl_password2 = $request->getParameter('pas2');
+    $cl_password1 = is_null($request->getParameter('pas1')) ? '' : $request->getParameter('pas1');
+    $cl_password2 = is_null($request->getParameter('pas2')) ? '' : $request->getParameter('pas2');
   }
   $cl_email = is_null($request->getParameter('email')) ? '' : trim($request->getParameter('email'));
   $cl_role_id = $request->getParameter('role');
@@ -114,8 +114,8 @@ $form = new Form('userForm');
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'name','value'=>$cl_name));
 $form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'login','value'=>$cl_login));
 if (!$auth->isPasswordExternal()) {
-  $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'pas1','value'=>$cl_password1));
-  $form->addInput(array('type'=>'password','maxlength'=>'30','name'=>'pas2','value'=>$cl_password2));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'pas1','value'=>$cl_password1));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'pas2','value'=>$cl_password2));
 }
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'email','value'=>$cl_email));
 
@@ -195,6 +195,8 @@ if ($request->isPost()) {
     // Check password complexity.
     if (!ttCheckPasswordComplexity($cl_password1))
       $err->add($i18n->get('error.weak_password'));
+    if (AUTH_MODULE == 'db' && mb_strlen($cl_password1) < AUTH_DB_PWD_MINLENGTH)
+      $err->add($i18n->get('error.weak_password')); 
   }
   if (!ttValidEmail($cl_email, true)) $err->add($i18n->get('error.field'), $i18n->get('label.email'));
   // Require selection of a client for a client role.
