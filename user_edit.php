@@ -114,8 +114,8 @@ $form = new Form('userForm');
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'name','value'=>$cl_name));
 $form->addInput(array('type'=>'text','minlength'=> AUTH_DB_LOGIN_MINLENGTH,'maxlength'=>'80','name'=>'login','value'=>$cl_login));
 if (!$auth->isPasswordExternal()) {
-  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'pas1','value'=>$cl_password1));
-  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'30','name'=>'pas2','value'=>$cl_password2));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'128','name'=>'pas1','value'=>$cl_password1));
+  $form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'128','name'=>'pas2','value'=>$cl_password2));
 }
 $form->addInput(array('type'=>'text','maxlength'=>'100','name'=>'email','value'=>$cl_email));
 

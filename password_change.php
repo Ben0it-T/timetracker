@@ -43,8 +43,8 @@ $cl_password1 = is_null($request->getParameter('password1')) ? '' : $request->ge
 $cl_password2 = is_null($request->getParameter('password2')) ? '' : $request->getParameter('password2');
 
 $form = new Form('newPasswordForm');
-$form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'120','name'=>'password1','value'=>$cl_password1));
-$form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'120','name'=>'password2','value'=>$cl_password2));
+$form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'128','name'=>'password1','value'=>$cl_password1));
+$form->addInput(array('type'=>'password','minlength'=>AUTH_DB_PWD_MINLENGTH,'maxlength'=>'128','name'=>'password2','value'=>$cl_password2));
 $form->addInput(array('type'=>'hidden','name'=>'ref','value'=>$cl_ref));
 $form->addInput(array('type'=>'submit','name'=>'btn_save','value'=>$i18n->get('button.save')));
 
