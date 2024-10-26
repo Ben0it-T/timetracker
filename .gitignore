@@ -13,7 +13,7 @@ nbproject/
 # Config
 config/config.php
 
-# WEB-INF
+# App
 api/
 src/lib/tcpdf/
 upload/
