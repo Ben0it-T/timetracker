@@ -62,6 +62,7 @@ class I18n {
   // (this means we end up with default English strings when keys are missing in the translation file),
   // and then from a group custom translation field, if available.
   function load($langName) {
+    $langName = is_null($langName) ? '' : $langName;
     // Load default English keys first.
     $defaultFileName = RESOURCE_DIR . '/' . $this->defaultLang . '.lang.php';
     if (file_exists($defaultFileName)) {
