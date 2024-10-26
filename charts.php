@@ -251,8 +251,15 @@ if (is_array($img_files)) {
 $chart->renderEx(array('fileName'=>$file_name,'hideLogo'=>true,'hideTitle'=>true,'hideLabel'=>true));
 // At this point libchart usage is complete and we have chart image on disk.
 
+// Convert an image to Base64 encoding
+$imgData = file_get_contents($file_name);
+$imgType = 'png';
+$imgBase64 = 'data:image/' . $imgType . ';base64,' . base64_encode($imgData);
+
+
 $smarty->assign('large_screen_calendar_row_span', $largeScreenCalendarRowSpan);
-$smarty->assign('img_file_name', $img_ref);
+//$smarty->assign('img_file_name', $img_ref);
+$smarty->assign('img_file_name', $imgBase64);
 $smarty->assign('chart_selector', $chart_selector);
 $smarty->assign('onload', 'onLoad="adjustTodayLinks();handleFavReportSelection();"');
 $smarty->assign('forms', array($chart_form->getName() => $chart_form->toArray()));
