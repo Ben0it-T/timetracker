@@ -10,7 +10,7 @@ For example, for PEAR it will be http://pear.php.net/package/PEAR/download
 PEAR PACKAGE
 
 - Download PEAR package from http://pear.php.net/package/PEAR/download
-- Extract the files (what is in the deepest PEAR-1.9.1 folder) into WEB-INF/lib/pear/ folder in Time Tracker, so that you have something like:
+- Extract the files (what is in the deepest PEAR-1.9.1 folder) into src/lib/pear/ folder in Time Tracker, so that you have something like:
 
 folders:
 
@@ -22,7 +22,7 @@ and files
 
 INSTALL
 LICENSE
-and others in your WEB-INF/lib/pear/ folder.
+and others in your src/lib/pear/ folder.
 
 
 DB PACKAGES
@@ -33,15 +33,15 @@ When the migration is finished the DB module will be removed.
 
 DB PACKAGE
 - Download DB module from http://pear.php.net/package/DB/download
-- From archive DB-1.7.14RC1.tgz take "DB.php" file and DB folder and put them into WEB-INF/lib/pear
+- From archive DB-1.7.14RC1.tgz take "DB.php" file and DB folder and put them into src/lib/pear
 
 MDB2 PACKAGE
 - Download MDB2 module from http://pear.php.net/package/MDB2/download
-- From archive MDB2-2.5.0b3.tgz take "MDB2.php" file and MDB2 folder and put them into WEB-INF/lib/pear
+- From archive MDB2-2.5.0b3.tgz take "MDB2.php" file and MDB2 folder and put them into src/lib/pear
 
 MDB2_Driver_mysql package
 - Download MDB2_Driver_mysql module from http://pear.php.net/package/MDB2_Driver_mysql/download
-- From archive MDB2_Driver_mysql_1.5.0b3.tgz merge the content of MDB2 folder with your WEB-INF/lib/pear/MDB2
+- From archive MDB2_Driver_mysql_1.5.0b3.tgz merge the content of MDB2 folder with your src/lib/pear/MDB2
 (a collection of mysql.php files organized in a directory structure).
 
 If you need Time Tracker to work with non mysql data sources install additional MDB2 drivers
@@ -51,19 +51,19 @@ If you need Time Tracker to work with non mysql data sources install additional 
 Net_SMTP PACKAGE
 
 - Download Net_SMTP module from http://pear.php.net/package/Net_SMTP/download
-- From archive Net_SMTP-1.4.2.tgz take the "SMTP.php" file and put it into WEB-INF/lib/pear/Net(you will need to create the Net folder).
+- From archive Net_SMTP-1.4.2.tgz take the "SMTP.php" file and put it into src/lib/pear/Net(you will need to create the Net folder).
 
 
 Net_Socket PACKAGE
 
 - Download Net_Socket module (dependency of Net_SMTP) from http://pear.php.net/package/Net_Socket/download
-- From archive Net_Socket-1.0.9.tgz take the "Socket.php" file and put it into WEB-INF/lib/pear/Net folder.
+- From archive Net_Socket-1.0.9.tgz take the "Socket.php" file and put it into src/lib/pear/Net folder.
 
 
 Mail PACKAGE
 
 - Download Mail module from http://pear.php.net/package/Mail/download
-- From archive Mail-1.2.0.tgz take "Mail.php" file and Mail folder. Put them in WEB-INF/lib/pear folder.
+- From archive Mail-1.2.0.tgz take "Mail.php" file and Mail folder. Put them in src/lib/pear folder.
 
 Now we have PEAR, and PEAR DB, PEAR MDB2, PEAR Net_SMTP, PEAR Mail modules installed.
 

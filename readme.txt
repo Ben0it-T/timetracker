@@ -23,13 +23,13 @@ The general installation procedure looks like this:
 - Install, configure, and test Anuko Time Tracker like so:
 
 1) Unpack distribution files into a selected directory for your web server.
-2) Allow writing to WEB-INF/templates_c/. Some hosting providers like Hostmonster additionally require files having 644 and directories 755. Otherwise you'll see error 500 (bad permissions, writable by group).
+2) Allow writing to var/cache, var/templates and var/tmp. Some hosting providers like Hostmonster additionally require files having 644 and directories 755. Otherwise you'll see error 500 (bad permissions, writable by group).
 3) Create a database using the mysql.sql file in the distribution.
 4) Create user name and password to access the time tracker database.
-5) Create a config file by coping WEB-INF/config.php.dist to WEB-INF/config.php.
-6) Change $dsn value in /WEB-INF/config.php file to reflect your database connection parameters (user name and password).
+5) Create a config file by coping config/config.php.dist to config/config.php.
+6) Change $dsn value in config/config.php file to reflect your database connection parameters (user name and password).
 7) If you are upgrading from earlier Time Tracker version run dbinstall.php from your browser and do only the required "Update database structure" steps.
-8) If you install time tracker into a sub-directory of your site reflect this in the DIR_NAME parameter in /WEB-INF/config.php file. For example, for http://localhost/timetracker/ set DIR_NAME = "timetracker".
+8) If you install time tracker into a sub-directory of your site reflect this in the DIR_NAME parameter in config/config.php file. For example, for http://localhost/timetracker/ set DIR_NAME = "timetracker".
 9) Login to your time tracker site as admin with password "secret" without quotes and create at least one group.
 10) Change admin password (on the admin "options" page). You can also use the following SQL console command:
   update tt_users set password = md5('new_password_here') where login='admin'
@@ -50,7 +50,7 @@ If you see a blank page in when trying to access Anuko Time Tracker it may mean 
     * Time tracker database not created.
     * Access (login / password) to the database is not configured properly in config.php.
     * MySQL service is down.
-    * On UNIX systems - no full access rights for catalog WEB-INF/templates_c/ (chmod 777 templates_c).
+    * On UNIX systems - no full access rights for var/cache, var/templates and var/tmp.
 
 You need to thoroughly test each and every component to make sure they work together nicely.
 
