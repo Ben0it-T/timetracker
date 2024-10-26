@@ -119,13 +119,16 @@ class ttAdmin {
     $user_id = $fields['user_id'];
     $login_part = 'login = '.$mdb2->quote($fields['new_login']);
     $password_part = '';
-    if ($fields['password1']) {
-      if (AUTH_DB_HASH_ALGORITHM !== '') {
-        $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
-      }
-      else {
-        // md5 hash
-        $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+
+    if (isset($fields['password1'])) {
+      if ($fields['password1'] != '') {
+        if (AUTH_DB_HASH_ALGORITHM !== '') {
+          $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+        }
+        else {
+          // md5 hash
+          $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+        }
       }
     }
     $name_part = ', name = '.$mdb2->quote($fields['user_name']);
@@ -147,12 +150,14 @@ class ttAdmin {
     $login_part = 'login = '.$mdb2->quote($fields['login']);
     $password_part = '';
     if (isset($fields['password1'])) {
-      if (AUTH_DB_HASH_ALGORITHM !== '') {
-        $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
-      }
-      else {
-        // md5 hash
-        $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+      if ($fields['password1'] != '') {
+        if (AUTH_DB_HASH_ALGORITHM !== '') {
+          $password_part = ', password = ' . $mdb2->quote(password_hash($fields['password1'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+        }
+        else {
+          // md5 hash
+          $password_part = ', password = md5('.$mdb2->quote($fields['password1']).')';
+        }
       }
     }
     $name_part = ', name = '.$mdb2->quote($fields['name']);
