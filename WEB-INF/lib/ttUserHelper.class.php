@@ -150,12 +150,14 @@ class ttUserHelper {
     }
 
     if (isset($fields['password'])) {
-      if (AUTH_DB_HASH_ALGORITHM !== '') {
-        $pass_part = ', password = ' . $mdb2->quote(password_hash($fields['password'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
-      }
-      else {
-        // md5 hash
-        $pass_part = ', password = md5('.$mdb2->quote($fields['password']).')';
+      if ($fields['password'] != '') {
+        if (AUTH_DB_HASH_ALGORITHM !== '') {
+          $pass_part = ', password = ' . $mdb2->quote(password_hash($fields['password'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+        }
+        else {
+          // md5 hash
+          $pass_part = ', password = md5('.$mdb2->quote($fields['password']).')';
+        }
       }
     }
 
