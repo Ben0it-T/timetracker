@@ -11,13 +11,12 @@ Thumbs.db
 nbproject/
 
 # Config
-config.php
+config/config.php
 
 # WEB-INF
-WEB-INF/cache/
-WEB-INF/templates_c/*.*
-WEB-INF/templates_c/import_*
-WEB-INF/templates_c/tt*
-WEB-INF/lib/tcpdf/
-upload/
 api/
+src/lib/tcpdf/
+upload/
+var/cache/*.*
+var/templates/*.*
+var/tmp/*.*
