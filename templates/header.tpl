@@ -2,16 +2,17 @@
 <html lang="{$smarty.const.LANG_DEFAULT}">
 <head>
   <meta charset="{$smarty.const.CHARSET}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+           <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="css/{$smarty.const.DEFAULT_CSS}" rel="stylesheet">
-{if (isset($i18n.language.rtl) && $i18n.language.rtl)}
-  <link href="css/{$smarty.const.RTL_CSS}" rel="stylesheet">
-{/if}
-{if $user->getCustomCss()}
-  <link href="custom_css.php" rel="stylesheet">
-{/if}
+  {if (isset($i18n.language.rtl) && $i18n.language.rtl)}
+    <link href="css/{$smarty.const.RTL_CSS}" rel="stylesheet">
+  {/if}
+  {if $user->getCustomCss()}
+    <link href="custom_css.php" rel="stylesheet">
+  {/if}
   <title>Time Tracker{if isset($title) && $title} - {$title}{/if}</title>
   <script src="js/strftime.js"></script>
   <script>
@@ -21,14 +22,10 @@
   <script src="js/strptime.js"></script>
 </head>
 
-<body{if isset($onload)} {$onload}{/if}>
+<body {if isset($onload)}{$onload}{/if}>
 
 <div class="logo">
-{if $user->custom_logo}
-  <img alt="Time Tracker" width="300" height="43" src="{$custom_logo}">
-{else}
-  <a href="https://www.anuko.com/lp/tt_1.htm" target="_blank"><img alt="Anuko Time Tracker" width="300" height="43" src="img/logo.png"></a>
-{/if}
+  <img alt="Time Tracker" width="300" height="43" src="{if $user->custom_logo}{$custom_logo}{else}img/logo.png{/if}">
 </div>
 
 {* top menu for small screens *}
