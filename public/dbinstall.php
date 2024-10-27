@@ -1220,12 +1220,12 @@ if ($_POST) {
 
   if (array_key_exists('convert12205to12206', $_POST)) {
     // Feature store sessions in database
-    ttExecute("ALTER TABLE `timetracker`.`tt_log` ADD INDEX `status_idx` (`status`);");
-    ttExecute("ALTER TABLE `timetracker`.`tt_log` ADD INDEX `org_idx` (`org_id`);");
-    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD UNIQUE `idx` (`created`, `ref`, `user_id`);");
-    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `created_idx` (`created`);");
-    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `ref_idx` (`ref`);");
-    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `user_idx` (`user_id`);");
+    ttExecute("ALTER TABLE `tt_log` ADD INDEX `status_idx` (`status`);");
+    ttExecute("ALTER TABLE `tt_log` ADD INDEX `org_idx` (`org_id`);");
+    ttExecute("ALTER TABLE `tt_tmp_refs` ADD UNIQUE `idx` (`created`, `ref`, `user_id`);");
+    ttExecute("ALTER TABLE `tt_tmp_refs` ADD INDEX `created_idx` (`created`);");
+    ttExecute("ALTER TABLE `tt_tmp_refs` ADD INDEX `ref_idx` (`ref`);");
+    ttExecute("ALTER TABLE `tt_tmp_refs` ADD INDEX `user_idx` (`user_id`);");
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.6', modified = now() where param_name = 'version_db' and param_value = '1.22.5'");
   }
 
