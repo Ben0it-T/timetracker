@@ -226,6 +226,8 @@ create index invoice_idx on tt_log(invoice_id);
 create index project_idx on tt_log(project_id);
 create index task_idx on tt_log(task_id);
 create index timesheet_idx on tt_log(timesheet_id);
+create index `status_idx` on tt_log(`status`);
+create index `org_idx` on tt_log(`org_id`);
 
 
 #
@@ -254,6 +256,11 @@ CREATE TABLE `tt_tmp_refs` (
   `ref` char(32) NOT NULL default '',              # unique reference for user, used in urls
   `user_id` int(11) NOT NULL                       # user id
 );
+create index `idx` on tt_tmp_refs(`created`, `ref`, `user_id`);
+create index `created_idx` on tt_tmp_refs(`created`);
+create index `ref_idx` on tt_tmp_refs(`ref`);
+create index `user_idx` on tt_tmp_refs(`user_id`);
+
 
 
 #
@@ -623,7 +630,7 @@ CREATE TABLE `tt_site_config` (
   PRIMARY KEY  (`param_name`)
 );
 
-INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.5', now()); # TODO: change when structure changes.
+INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.6', now()); # TODO: change when structure changes.
 
 
 #

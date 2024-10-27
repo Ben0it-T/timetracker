@@ -1218,6 +1218,17 @@ if ($_POST) {
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.5', modified = now() where param_name = 'version_db' and param_value = '1.22.4'");
   }
 
+  if (array_key_exists('convert12205to12206', $_POST)) {
+    // Feature store sessions in database
+    ttExecute("ALTER TABLE `timetracker`.`tt_log` ADD INDEX `status_idx` (`status`);");
+    ttExecute("ALTER TABLE `timetracker`.`tt_log` ADD INDEX `org_idx` (`org_id`);");
+    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD UNIQUE `idx` (`created`, `ref`, `user_id`);");
+    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `created_idx` (`created`);");
+    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `ref_idx` (`ref`);");
+    ttExecute("ALTER TABLE `timetracker`.`tt_tmp_refs` ADD INDEX `user_idx` (`user_id`);");
+    ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.6', modified = now() where param_name = 'version_db' and param_value = '1.22.5'");
+  }
+
   if (array_key_exists('cleanup', $_POST)) {
     $mdb2 = getConnection();
     $inactive_orgs = ttOrgHelper::getInactiveOrgs();
@@ -1275,7 +1286,7 @@ if ($_POST) {
 <h2>DB Install</h2>
 <table width="80%" border="1" cellpadding="10" cellspacing="0">
   <tr>
-    <td width="80%"><b>Create database structure (v1.22.5)</b>
+    <td width="80%"><b>Create database structure (v1.22.6)</b>
     <br>(applies only to new installations, do not execute when updating)</br></td><td><input type="submit" name="crstructure" value="Create"></td>
   </tr>
 </table>
@@ -1334,6 +1345,10 @@ if ($_POST) {
   <tr valign="top">
     <td>Update database structure (v1.22.4 to v1.22.5)</td>
     <td><input type="submit" name="convert12204to12205" value="Update"></td>
+  </tr>
+  <tr valign="top">
+    <td>Update database structure (v1.22.5 to v1.22.6)</td>
+    <td><input type="submit" name="convert12205to12206" value="Update"></td>
   </tr>
 </table>
 
