@@ -374,6 +374,14 @@ class ttUserHelper {
     return (!is_a($affected, 'PEAR_Error'));
   }
 
+  // clean tt_tmp_refs
+  static function cleanTmpRefs() {
+    $mdb2 = getConnection();
+    $sql = "delete from tt_tmp_refs where created < now() - interval 1 hour";
+    $affected = $mdb2->exec($sql);
+    return (!is_a($affected, 'PEAR_Error'));
+  }
+
   // insertBind - inserts a user to project bind into tt_user_project_binds table.
   static function insertBind($fields) {
     global $user;

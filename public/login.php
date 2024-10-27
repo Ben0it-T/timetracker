@@ -19,6 +19,9 @@ if ($request->isPost()) {
 }
 // End of access checks.
 
+// Clean TmpRefs
+ttUserHelper::cleanTmpRefs();
+
 $cl_login = $request->getParameter('login');
 if ($cl_login == null && $request->isGet()) $cl_login = @$_COOKIE[LOGIN_COOKIE_NAME];
 $cl_password = $request->getParameter('password');
