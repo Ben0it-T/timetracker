@@ -258,7 +258,7 @@ $imgBase64 = 'data:image/' . $imgType . ';base64,' . base64_encode($imgData);
 $smarty->assign('large_screen_calendar_row_span', $largeScreenCalendarRowSpan);
 $smarty->assign('img_file_name', $imgBase64);
 $smarty->assign('chart_selector', $chart_selector);
-$smarty->assign('onload', 'onLoad="adjustTodayLinks();handleFavReportSelection();"');
+$smarty->assign('onload', 'onload="adjustTodayLinks();handleFavReportSelection();"');
 $smarty->assign('forms', array($chart_form->getName() => $chart_form->toArray()));
 $smarty->assign('title', $i18n->get('title.charts'));
 $smarty->assign('content_page_name', 'charts.tpl');

@@ -545,7 +545,7 @@ $smarty->assign('project_list', $project_list);
 $smarty->assign('task_list', $task_list);
 $smarty->assign('one_uncompleted', $oneUncompleted);
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="fillDropdowns();prepopulateNote();adjustTodayLinks()"');
+$smarty->assign('onload', 'onload="fillDropdowns();prepopulateNote();adjustTodayLinks()"');
 $smarty->assign('timestring', $selected_date->toString($user->getDateFormat()));
 $smarty->assign('title', $i18n->get('title.time'));
 $smarty->assign('content_page_name', 'time.tpl');

@@ -77,7 +77,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.invoiceForm.number.focus()"');
+$smarty->assign('onload', 'onload="document.invoiceForm.number.focus()"');
 $smarty->assign('show_project', $show_project);
 $smarty->assign('title', $i18n->get('title.add_invoice'));
 $smarty->assign('content_page_name', 'invoice_add.tpl');

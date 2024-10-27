@@ -47,7 +47,7 @@ if ($request->isPost()) {
 }
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.swapForm.btn_cancel.focus()"');
+$smarty->assign('onload', 'onload="document.swapForm.btn_cancel.focus()"');
 $smarty->assign('title', $i18n->get('title.swap_roles'));
 $smarty->assign('content_page_name', 'swap_roles.tpl');
 $smarty->display('index.tpl');

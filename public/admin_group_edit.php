@@ -112,7 +112,7 @@ if ($request->isPost()) {
 
 $smarty->assign('auth_external', $auth->isPasswordExternal());
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.groupForm.manager_name.focus()"');
+$smarty->assign('onload', 'onload="document.groupForm.manager_name.focus()"');
 $smarty->assign('title', $i18n->get('title.edit_group'));
 $smarty->assign('content_page_name', 'admin_group_edit.tpl');
 $smarty->display('index.tpl');

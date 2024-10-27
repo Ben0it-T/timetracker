@@ -77,7 +77,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.timesheetForm.timesheet_name.focus()"');
+$smarty->assign('onload', 'onload="document.timesheetForm.timesheet_name.focus()"');
 $smarty->assign('show_client', $showClient);
 $smarty->assign('show_project', $showProject);
 $smarty->assign('title', $i18n->get('title.add_timesheet'));

@@ -79,7 +79,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.timesheetForm.timesheet_name.focus()"');
+$smarty->assign('onload', 'onload="document.timesheetForm.timesheet_name.focus()"');
 $smarty->assign('can_delete', $canDelete);
 $smarty->assign('title', $i18n->get('title.edit_timesheet'));
 $smarty->assign('content_page_name', 'timesheet_edit.tpl');

@@ -138,7 +138,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="handlePluginCheckboxes();"');
+$smarty->assign('onload', 'onload="handlePluginCheckboxes();"');
 $smarty->assign('user_exists', $user->exists());
 $smarty->assign('title', $i18n->get('title.plugins'));
 $smarty->assign('content_page_name', 'plugins.tpl');

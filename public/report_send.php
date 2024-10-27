@@ -73,6 +73,6 @@ if ($request->isPost()) {
 
 $smarty->assign('title', $i18n->get('title.send_report'));
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.mailForm.'.($cl_receiver?'comment':'receiver').'.focus()"');
+$smarty->assign('onload', 'onload="document.mailForm.'.($cl_receiver?'comment':'receiver').'.focus()"');
 $smarty->assign('content_page_name', 'mail.tpl');
 $smarty->display('index.tpl');

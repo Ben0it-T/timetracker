@@ -66,7 +66,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.fieldForm.name.focus()"');
+$smarty->assign('onload', 'onload="document.fieldForm.name.focus()"');
 $smarty->assign('title', $i18n->get('title.cf_edit_custom_field'));
 $smarty->assign('content_page_name', 'cf_custom_field_edit.tpl');
 $smarty->display('index.tpl');

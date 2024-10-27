@@ -49,7 +49,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.optionEditForm.name.focus()"');
+$smarty->assign('onload', 'onload="document.optionEditForm.name.focus()"');
 $smarty->assign('title', $i18n->get('title.cf_edit_dropdown_option'));
 $smarty->assign('content_page_name', 'cf_dropdown_option_edit.tpl');
 $smarty->display('index.tpl');

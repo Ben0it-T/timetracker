@@ -94,7 +94,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.fileForm.description.focus()"');
+$smarty->assign('onload', 'onload="document.fileForm.description.focus()"');
 $smarty->assign('title', $i18n->get('title.edit_file'));
 $smarty->assign('content_page_name', 'file_edit.tpl');
 $smarty->display('index.tpl');

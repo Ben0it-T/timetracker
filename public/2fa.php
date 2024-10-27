@@ -58,7 +58,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.twoFactorAuthForm.auth_code.focus()"');
+$smarty->assign('onload', 'onload="document.twoFactorAuthForm.auth_code.focus()"');
 $smarty->assign('title', $i18n->get('title.2fa'));
 $smarty->assign('content_page_name', '2fa.tpl');
 $smarty->display('index.tpl');

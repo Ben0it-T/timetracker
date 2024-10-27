@@ -45,7 +45,7 @@ if ($request->isPost()) {
 
 $smarty->assign('project_to_delete', $project_to_delete);
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.projectDeleteForm.btn_cancel.focus()"');
+$smarty->assign('onload', 'onload="document.projectDeleteForm.btn_cancel.focus()"');
 $smarty->assign('title', $i18n->get('title.delete_project'));
 $smarty->assign('content_page_name', 'project_delete.tpl');
 $smarty->display('index.tpl');

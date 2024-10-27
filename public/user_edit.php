@@ -282,7 +282,7 @@ $smarty->assign('auth_external', $auth->isPasswordExternal());
 $smarty->assign('active_roles', $active_roles);
 $smarty->assign('can_swap', $can_swap);
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.userForm.name.focus();handleClientRole();"');
+$smarty->assign('onload', 'onload="document.userForm.name.focus();handleClientRole();"');
 $smarty->assign('show_quota', $show_quota);
 $smarty->assign('show_projects', $show_projects);
 $smarty->assign('user_id', $user_id);

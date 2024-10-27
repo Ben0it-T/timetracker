@@ -168,7 +168,7 @@ if ($request->isPost()) {
 } // isPost
 
 $smarty->assign('forms', array($form->getName()=>$form->toArray()));
-$smarty->assign('onload', 'onLoad="document.projectForm.project_name.focus()"');
+$smarty->assign('onload', 'onload="document.projectForm.project_name.focus()"');
 $smarty->assign('show_users', count($users) > 0);
 $smarty->assign('show_tasks', $show_tasks);
 $smarty->assign('title', $i18n->get('title.edit_project'));
