@@ -10,7 +10,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT); // & ~E_DEPRECATED);
 // E_ALL tends to change as PHP evolves, therefore we use & here instead of exclusive OR (^).
 
 // Disable displaying errors on screen.
-ini_set('display_errors', 'On');
+ini_set('display_errors', 'Off');
 
 // Disable mysqli fatal error behaviour when using php8.1 or greater.
 // See https://php.watch/versions/8.1/mysqli-error-mode
