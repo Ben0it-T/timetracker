@@ -253,7 +253,7 @@ create unique index name_idx on tt_invoices(group_id, name, status);
 #
 CREATE TABLE `tt_tmp_refs` (
   `created` datetime default NULL,                 # creation timestamp
-  `ref` char(32) NOT NULL default '',              # unique reference for user, used in urls
+  `ref` char(64) NOT NULL default '',              # unique reference for user, used in urls
   `user_id` int(11) NOT NULL                       # user id
 );
 create index `idx` on tt_tmp_refs(`created`, `ref`, `user_id`);
@@ -630,7 +630,7 @@ CREATE TABLE `tt_site_config` (
   PRIMARY KEY  (`param_name`)
 );
 
-INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.6', now()); # TODO: change when structure changes.
+INSERT INTO `tt_site_config` (`param_name`, `param_value`, `created`) VALUES ('version_db', '1.22.7', now()); # TODO: change when structure changes.
 
 
 #

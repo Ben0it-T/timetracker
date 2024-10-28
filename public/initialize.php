@@ -46,6 +46,8 @@ if (!defined("DSN")) {
   die ("DSN value is not defined. Check your config.php file.");
 }
 
+if (!defined("APP_2FA_SALT")) die ("2FA_SALT not defined. Check your config.php file.");
+
 // Depending on DSN, require either mysqli or mysql extensions.
 if (strrpos(DSN, 'mysqli://', -strlen(DSN)) !== FALSE) {
   check_extension('mysqli'); // DSN starts with mysqli:// - require mysqli extension.

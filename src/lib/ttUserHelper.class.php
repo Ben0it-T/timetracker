@@ -68,7 +68,8 @@ class ttUserHelper {
 
     $types = array('text');
     $sth = $mdb2->prepare('SELECT user_id FROM tt_tmp_refs WHERE ref=:ref', $types);
-    $data = array('ref' => $ref);
+    $data = array('ref' => hash('sha256', $ref . APP_2FA_SALT));
+    
     $res = $sth->execute($data);
 
     if (!is_a($res, 'PEAR_Error')) {
@@ -369,7 +370,7 @@ class ttUserHelper {
     $types = array('text', 'integer');
     $sth = $mdb2->prepare('INSERT INTO tt_tmp_refs (created, ref, user_id) VALUES (now(), :ref, :usrId)', $types);
     $data = array(
-      'ref' => $ref,
+      'ref' => hash('sha256', $ref . APP_2FA_SALT),
       'usrId' => $user_id
     );
     $affected = $sth->execute($data);

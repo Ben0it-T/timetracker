@@ -133,6 +133,11 @@ define('EXPORT_DECIMAL_DURATION', true);
 define('REPORT_FOOTER', true);
 
 
+// App 2F# salt
+//
+define('APP_2FA_SALT', 'put your unique phrase here');
+
+
 // Authentication module (see lib/auth/)
 // Possible authentication methods:
 //   db - internal database, logins and password hashes are stored in time tracker database.

@@ -1219,7 +1219,6 @@ if ($_POST) {
   }
 
   if (array_key_exists('convert12205to12206', $_POST)) {
-    // Feature store sessions in database
     ttExecute("ALTER TABLE `tt_log` ADD INDEX `status_idx` (`status`);");
     ttExecute("ALTER TABLE `tt_log` ADD INDEX `org_idx` (`org_id`);");
     ttExecute("ALTER TABLE `tt_tmp_refs` ADD UNIQUE `idx` (`created`, `ref`, `user_id`);");
@@ -1227,6 +1226,11 @@ if ($_POST) {
     ttExecute("ALTER TABLE `tt_tmp_refs` ADD INDEX `ref_idx` (`ref`);");
     ttExecute("ALTER TABLE `tt_tmp_refs` ADD INDEX `user_idx` (`user_id`);");
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.6', modified = now() where param_name = 'version_db' and param_value = '1.22.5'");
+  }
+
+  if (array_key_exists('convert12206to12207', $_POST)) {
+    ttExecute("ALTER TABLE `tt_tmp_refs` CHANGE `ref` `ref` CHAR(64);");
+    ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.7', modified = now() where param_name = 'version_db' and param_value = '1.22.6'");
   }
 
   if (array_key_exists('cleanup', $_POST)) {
@@ -1349,6 +1353,10 @@ if ($_POST) {
   <tr valign="top">
     <td>Update database structure (v1.22.5 to v1.22.6)</td>
     <td><input type="submit" name="convert12205to12206" value="Update"></td>
+  </tr>
+  <tr valign="top">
+    <td>Update database structure (v1.22.6 to v1.22.7)</td>
+    <td><input type="submit" name="convert12206to12207" value="Update"></td>
   </tr>
 </table>
 
