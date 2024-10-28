@@ -119,25 +119,28 @@ class ttRegistrator {
   // of user registration process. This is a top group for user as top manager.
   function createGroup() {
     $mdb2 = getConnection();
+    // Insert Group
+    $types = array('text', 'text', 'text', 'text', 'text', 'timestamp', 'text');
+    $sth = $mdb2->prepare('INSERT INTO tt_groups (group_key, name, currency, lang, plugins, created, created_ip) VALUES (:groupKey, :groupName, :groupCurrency, :groupLang, :groupPlugins, :groupCreated, :groupCreatedIp)', $types);
+    $data = array(
+      'groupKey' => ttRandomString(),
+      'groupName' => $this->group_name,
+      'groupCurrency' => $this->currency,
+      'groupLang' => $this->lang,
+      'groupPlugins' => defined('DEFAULT_PLUGINS') ? DEFAULT_PLUGINS : null,
+      'groupCreated' => date("Y-m-d H:i:s"),
+      'groupCreatedIp' => $_SERVER['REMOTE_ADDR']
+    );
+    $affected = $sth->execute($data);
 
-    $group_key = $mdb2->quote(ttRandomString());
-    $name = $mdb2->quote($this->group_name);
-    $currency = $mdb2->quote($this->currency);
-    $lang = $mdb2->quote($this->lang);
-    $plugins = $mdb2->quote(defined('DEFAULT_PLUGINS') ? DEFAULT_PLUGINS : null);
-    $created = 'now()';
-    $created_ip = $mdb2->quote($_SERVER['REMOTE_ADDR']);
-
-    $sql = "insert into tt_groups (group_key, name, currency, lang, plugins, created, created_ip)".
-      " values($group_key, $name, $currency, $lang, $plugins, $created, $created_ip)";
-    $affected = $mdb2->exec($sql);
     if (is_a($affected, 'PEAR_Error')) return false;
-
+    
+    // Update org_id
     $group_id = $mdb2->lastInsertID('tt_groups', 'id');
-
-    // Update org_id with group_id.
-    $sql = "update tt_groups set org_id = $group_id where org_id is NULL and id = $group_id";
-    $affected = $mdb2->exec($sql);
+    $types = array('integer');
+    $sth = $mdb2->prepare('UPDATE tt_groups SET org_id=:groupId WHERE org_id is NULL AND  id=:groupId', $types);
+    $data = array('groupId' => $group_id);
+    $affected = $sth->execute($data);
     if (is_a($affected, 'PEAR_Error')) return false;
 
     return $group_id;
@@ -146,23 +149,28 @@ class ttRegistrator {
   // The createUser creates a user in database as part of registration process.
   function createUser() {
     $mdb2 = getConnection();
-
-    $login = $mdb2->quote($this->login);
     if (AUTH_DB_HASH_ALGORITHM !== '') {
-      $password = $mdb2->quote(password_hash($this->password1, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS));
+      $password = password_hash($this->password1, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS);
     }
     else {
       // md5 hash
-      $password = 'md5('.$mdb2->quote($this->password1).')';
+      $password = md5($this->password1);
     }
-    $name = $mdb2->quote($this->user_name);
-    $email = $mdb2->quote($this->email);
-    $created = 'now()';
-    $created_ip = $mdb2->quote($_SERVER['REMOTE_ADDR']);
-    $values = "values($login, $password, $name, $this->group_id, $this->org_id, $this->role_id, $email, $created, $created_ip)";
+    $types = array('text', 'text', 'text', 'integer', 'integer', 'timestamp', 'text', 'timestamp', 'text');
+    $sth = $mdb2->prepare('INSERT INTO tt_users (login, password, name, group_id, org_id, role_id, email, created, created_ip) VALUES (:login, :password, :name, :groupId, :orgId, :roleId, :email, :created, :createdIp)', $types);
+    $data = array(
+      'login' => $this->login,
+      'password' => $password,
+      'name' => $this->user_name,
+      'groupId' => $this->group_id,
+      'orgId' => $this->org_id,
+      'roleId' => $this->role_id,
+      'email' => $this->email,
+      'created' => date("Y-m-d H:i:s"),
+      'createdIp' => $_SERVER['REMOTE_ADDR']
+    );
+    $affected = $sth->execute($data);
 
-    $sql = 'insert into tt_users (login, password, name, group_id, org_id, role_id, email, created, created_ip) '.$values;
-    $affected = $mdb2->exec($sql);
     if (!is_a($affected, 'PEAR_Error')) {
       $user_id = $mdb2->lastInsertID('tt_users', 'id');
       return $user_id;
@@ -178,16 +186,30 @@ class ttRegistrator {
     $mdb2 = getConnection();
 
     // Update group.
-    $sql = "update tt_groups set created_by = $user_id where id = $this->group_id and org_id = $this->org_id";
-    $affected = $mdb2->exec($sql);
+    $types = array('integer', 'integer', 'integer');
+    $sth = $mdb2->prepare('UPDATE tt_groups SET created_by=:usrId WHERE id=:grpId AND org_id=:orgId', $types);
+    $data = array(
+      'usrId' => $user_id,
+      'grpId' => $this->group_id,
+      'orgId' => $this->org_id
+    );
+    $affected = $sth->execute($data);
+
     if (is_a($affected, 'PEAR_Error')) {
       $this->err->add($i18n->get('error.db'));
       return false;
     }
 
     // Update top manager.
-    $sql = "update tt_users set created_by = $user_id where id = $this->user_id and group_id = $this->group_id and org_id = $this->org_id";
-    $affected = $mdb2->exec($sql);
+    $types = array('integer', 'integer', 'integer', 'integer');
+    $sth = $mdb2->prepare('UPDATE tt_users SET created_by=:userId WHERE id=:usrId AND group_id=:grpId AND org_id=:orgId', $types);
+    $data = array(
+      'userId' => $user_id,
+      'usrId' => $this->user_id , 
+      'grpId' => $this->group_id,
+      'orgId' => $this->org_id
+    );
+    $affected = $sth->execute($data);
     if (is_a($affected, 'PEAR_Error')) {
       $this->err->add($i18n->get('error.db'));
       return false;
@@ -205,9 +227,10 @@ class ttRegistrator {
   function registeredRecently() {
     $mdb2 = getConnection();
 
-    $ip_part = ' created_ip = '.$mdb2->quote($_SERVER['REMOTE_ADDR']);
-    $sql = 'select count(*) as cnt from tt_groups where '.$ip_part.' and created > now() - interval 15 minute';
-    $res = $mdb2->query($sql);
+    $types = array('text');
+    $sth = $mdb2->prepare('SELECT count(*) as cnt FROM tt_groups WHERE created_ip=:createdIp AND created > now() - interval 15 minute', $types);
+    $data = array('createdIp' => $_SERVER['REMOTE_ADDR']);
+    $res = $sth->execute($data);
     if (is_a($res, 'PEAR_Error'))
       return false;
     $val = $res->fetchRow();
@@ -218,8 +241,10 @@ class ttRegistrator {
 
     // If we are here, there was exactly one registration during last 15 minutes.
     // Determine if it occurred within the last minute in a separate query.
-    $sql = 'select created from tt_groups where '.$ip_part.' and created > now() - interval 1 minute';
-    $res = $mdb2->query($sql);
+    $types = array('text');
+    $sth = $mdb2->prepare('SELECT created FROM tt_groups WHERE created_ip=:createdIp AND created > now() - interval 1 minute', $types);
+    $data = array('createdIp' => $_SERVER['REMOTE_ADDR']);
+    $res = $sth->execute($data);
     if (is_a($res, 'PEAR_Error'))
       return false;
     $val = $res->fetchRow();

@@ -25,8 +25,14 @@ class ttUserHelper {
   static function getUserByLogin($login) {
     $mdb2 = getConnection();
 
-    $sql = "select id, name from tt_users where login = ".$mdb2->quote($login)." and (status = 1 or status = 0)";
-    $res = $mdb2->query($sql);
+    //$sql = "select id, name from tt_users where login = ".$mdb2->quote($login)." and (status = 1 or status = 0)";
+    //$res = $mdb2->query($sql);
+    
+    $types = array('text');
+    $sth = $mdb2->prepare('SELECT id, name FROM tt_users WHERE login=:login AND (status = 1 OR status = 0)', $types);
+    $data = array('login' => $login);
+    $res = $sth->execute($data);
+
     if (!is_a($res, 'PEAR_Error')) {
       if ($val = $res->fetchRow()) {
         return $val;
