@@ -120,15 +120,14 @@ class ttRegistrator {
   function createGroup() {
     $mdb2 = getConnection();
     // Insert Group
-    $types = array('text', 'text', 'text', 'text', 'text', 'timestamp', 'text');
-    $sth = $mdb2->prepare('INSERT INTO tt_groups (group_key, name, currency, lang, plugins, created, created_ip) VALUES (:groupKey, :groupName, :groupCurrency, :groupLang, :groupPlugins, :groupCreated, :groupCreatedIp)', $types);
+    $types = array('text', 'text', 'text', 'text', 'text', 'text');
+    $sth = $mdb2->prepare('INSERT INTO tt_groups (group_key, name, currency, lang, plugins, created, created_ip) VALUES (:groupKey, :groupName, :groupCurrency, :groupLang, :groupPlugins, now(), :groupCreatedIp)', $types);
     $data = array(
       'groupKey' => ttRandomString(),
       'groupName' => $this->group_name,
       'groupCurrency' => $this->currency,
       'groupLang' => $this->lang,
       'groupPlugins' => defined('DEFAULT_PLUGINS') ? DEFAULT_PLUGINS : null,
-      'groupCreated' => date("Y-m-d H:i:s"),
       'groupCreatedIp' => $_SERVER['REMOTE_ADDR']
     );
     $affected = $sth->execute($data);
@@ -156,8 +155,8 @@ class ttRegistrator {
       // md5 hash
       $password = md5($this->password1);
     }
-    $types = array('text', 'text', 'text', 'integer', 'integer', 'timestamp', 'text', 'timestamp', 'text');
-    $sth = $mdb2->prepare('INSERT INTO tt_users (login, password, name, group_id, org_id, role_id, email, created, created_ip) VALUES (:login, :password, :name, :groupId, :orgId, :roleId, :email, :created, :createdIp)', $types);
+    $types = array('text', 'text', 'text', 'integer', 'integer', 'integer', 'text', 'text');
+    $sth = $mdb2->prepare('INSERT INTO tt_users (login, password, name, group_id, org_id, role_id, email, created, created_ip) VALUES (:login, :password, :name, :groupId, :orgId, :roleId, :email, now(), :createdIp)', $types);
     $data = array(
       'login' => $this->login,
       'password' => $password,
@@ -166,7 +165,6 @@ class ttRegistrator {
       'orgId' => $this->org_id,
       'roleId' => $this->role_id,
       'email' => $this->email,
-      'created' => date("Y-m-d H:i:s"),
       'createdIp' => $_SERVER['REMOTE_ADDR']
     );
     $affected = $sth->execute($data);
