@@ -24,10 +24,6 @@ class ttUserHelper {
   // The getUserByLogin function obtains data for a user, who is identified by login.
   static function getUserByLogin($login) {
     $mdb2 = getConnection();
-
-    //$sql = "select id, name from tt_users where login = ".$mdb2->quote($login)." and (status = 1 or status = 0)";
-    //$res = $mdb2->query($sql);
-    
     $types = array('text');
     $sth = $mdb2->prepare('SELECT id, name FROM tt_users WHERE login=:login AND (status = 1 OR status = 0)', $types);
     $data = array('login' => $login);
@@ -45,10 +41,11 @@ class ttUserHelper {
   // This function works only when one such active user exists.
   static function getUserByEmail($email) {
     $mdb2 = getConnection();
-
-    $sql = "select login, count(*) as cnt from tt_users where email = ".$mdb2->quote($email)." and status = 1 group by email";
-    $res = $mdb2->query($sql);
-
+    $types = array('text');
+    $sth = $mdb2->prepare('SELECT ANY_VALUE(login) as login, COUNT(*) as cnt FROM tt_users WHERE email=:email AND status = 1 group by email', $types);
+    $data = array('email' => $email);
+    $res = $sth->execute($data);
+    
     if (is_a($res, 'PEAR_Error'))
       return false;
 
@@ -69,8 +66,10 @@ class ttUserHelper {
     $sql = "delete from tt_tmp_refs where created < now() - interval 1 hour";
     $affected = $mdb2->exec($sql);
 
-    $sql = "select user_id from tt_tmp_refs where ref = ".$mdb2->quote($ref);
-    $res = $mdb2->query($sql);
+    $types = array('text');
+    $sth = $mdb2->prepare('SELECT user_id FROM tt_tmp_refs WHERE ref=:ref', $types);
+    $data = array('ref' => $ref);
+    $res = $sth->execute($data);
 
     if (!is_a($res, 'PEAR_Error')) {
       $val = $res->fetchRow();
@@ -326,8 +325,10 @@ class ttUserHelper {
   static function recentRefExists($user_id) {
     $mdb2 = getConnection();
 
-    $sql = "select count(*) as cnt from tt_tmp_refs where user_id = $user_id and created > now() - interval 15 minute";
-    $res = $mdb2->query($sql);
+    $types = array('integer');
+    $sth = $mdb2->prepare('SELECT COUNT(*) as cnt FROM tt_tmp_refs WHERE user_id=:usrId AND created > now() - interval 15 minute', $types);
+    $data = array('usrId' => $user_id);
+    $res = $sth->execute($data);
     if (is_a($res, 'PEAR_Error'))
       return false;
     $val = $res->fetchRow();
@@ -338,8 +339,10 @@ class ttUserHelper {
 
     // If we are here, there was exactly one reference during last 15 minutes.
     // Determine if it occurred within the last minute in a separate query.
-    $sql = "select created from tt_tmp_refs where user_id = $user_id and created > now() - interval 1 minute";
-    $res = $mdb2->query($sql);
+    $types = array('integer');
+    $sth = $mdb2->prepare('SELECT created FROM tt_tmp_refs WHERE user_id=:usrId AND created > now() - interval 1 minute', $types);
+    $data = array('usrId' => $user_id);
+    $res = $sth->execute($data);
     if (is_a($res, 'PEAR_Error'))
       return false;
     $val = $res->fetchRow();
@@ -353,25 +356,43 @@ class ttUserHelper {
   static function saveTmpRef($ref, $user_id) {
     $mdb2 = getConnection();
 
+    // Delete old tmp_refs
     $sql = "delete from tt_tmp_refs where created < now() - interval 1 hour";
     $affected = $mdb2->exec($sql);
 
-    $sql = "insert into tt_tmp_refs (created, ref, user_id) values(now(), ".$mdb2->quote($ref).", $user_id)";
-    $affected = $mdb2->exec($sql);
+    // Delete all tmp_refs for this user
+    $types = array('integer');
+    $sth = $mdb2->prepare('DELETE FROM tt_tmp_refs WHERE user_id=:usrId', $types);
+    $data = array('usrId' => $user_id);
+    $affected = $sth->execute($data);
+
+    $types = array('text', 'integer');
+    $sth = $mdb2->prepare('INSERT INTO tt_tmp_refs (created, ref, user_id) VALUES (now(), :ref, :usrId)', $types);
+    $data = array(
+      'ref' => $ref,
+      'usrId' => $user_id
+    );
+    $affected = $sth->execute($data);
+
   }
 
   // The setPassword function updates password for user.
   static function setPassword($user_id, $password) {
     $mdb2 = getConnection();
-
     if (AUTH_DB_HASH_ALGORITHM !== '') {
-      $sql = "update `tt_users` set `password` = '".password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)."' where `id` = $user_id";
+      $pwd = password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS);
     }
     else {
       // md5 hash
-      $sql = "update tt_users set password = md5(".$mdb2->quote($password).") where id = $user_id";
+      $pwd = md5($password);
     }
-    $affected = $mdb2->exec($sql);
+    $types = array('text', 'integer');
+    $sth = $mdb2->prepare('UPDATE tt_users SET password=:pwd WHERE id =:usrId', $types);
+    $data = array(
+      'pwd' => $pwd,
+      'usrId' => $user_id
+    );
+    $affected = $sth->execute($data);
 
     if (!is_a($affected, 'PEAR_Error')) {
       $sql = "delete from tt_tmp_refs where user_id = $user_id";
