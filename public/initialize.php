@@ -121,7 +121,10 @@ if (!defined('AUTH_DB_LOGIN_MINLENGTH')) define('AUTH_DB_LOGIN_MINLENGTH', 5);
 if (!defined('AUTH_DB_PWD_MINLENGTH')) define('AUTH_DB_PWD_MINLENGTH', 8);
 
 // Smarty initialization.
-import('smarty.Smarty');
+//import('smarty.Smarty');
+require(APP_LIB_DIR . "/smarty/libs/Smarty.class.php");
+use Smarty\Smarty;
+
 $smarty = new Smarty;
 $smarty->setUseSubDirs(false);
 $smarty->setTemplateDir(TEMPLATE_DIR);
