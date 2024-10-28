@@ -4217,6 +4217,7 @@ class MDB2_Statement_Common
 
     var $db;
     var $statement;
+    var $positions;
     var $query;
     var $result_types;
     var $types;
