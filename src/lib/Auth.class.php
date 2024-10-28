@@ -65,28 +65,22 @@ class Auth {
   // doLogin - perfoms a login procedure.
   function doLogin($login, $password) {
     $auth = $this->authenticate($login, $password);
-
-    if (isTrue('DEBUG')) {
-      echo '<br>'; var_dump($auth); echo '<br />';
+    if ($auth === false) {
+      return false;
     }
 
-    if ($auth === false)
-      return false;
-
     $login = $auth['login'];
-
     $mdb2 = getConnection();
-    $sql = "SELECT id FROM tt_users WHERE login = ".$mdb2->quote($login)." AND status = 1";
-    $res = $mdb2->query($sql);
+    $types = array('text', 'integer');
+    $sth = $mdb2->prepare('SELECT id FROM tt_users WHERE login=:login AND status=:status', $types);
+    $data = array('login' => $login, 'status' => 1);
+    $res = $sth->execute($data);
+
     if (is_a($res, 'PEAR_Error')) {
-      if (isTrue('DEBUG'))
-        echo 'db error!<br />';
       return false;
     }
     $val = $res->fetchRow();
     if (!$val['id']) {
-      if (isTrue('DEBUG'))
-        echo 'login "'.$login.'" does not exist in Time Tracker database.<br />';
       return false;
     }
 

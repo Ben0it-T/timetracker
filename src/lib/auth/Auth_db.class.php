@@ -20,8 +20,11 @@ class Auth_db extends Auth {
     $mdb2 = getConnection();
 
     if (AUTH_DB_HASH_ALGORITHM !== '') {
-      $sql = "SELECT id, password as hash FROM tt_users"." WHERE login = ".$mdb2->quote($login)." AND status = 1";
-      $res = $mdb2->query($sql);
+      $types = array('text', 'integer');
+      $sth = $mdb2->prepare('SELECT id, password as hash FROM tt_users WHERE login=:login AND status=:status', $types);
+      $data = array('login' => $login, 'status' => 1);
+      $res = $sth->execute($data);
+      
       if (is_a($res, 'PEAR_Error')) {
         die($res->getMessage());
       }
@@ -29,9 +32,12 @@ class Auth_db extends Auth {
       if (isset($val['id']) && $val['id'] > 0) {
         if (password_verify($password, $val['hash'])) {
           if (password_needs_rehash($val['hash'], PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)) {
-            $sql = "update `tt_users` set `password` = '".password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS)."' where `id` = " . $mdb2->quote($val['id']);
-            $affected = $mdb2->exec($sql);
-            if (is_a($res, 'PEAR_Error')) die($res->getMessage());
+            $types = array('text', 'integer');
+            $sth = $mdb2->prepare('UPDATE tt_users SET password=:password WHERE id=:id', $types);
+            $data = array('password' => password_hash($password, PASSWORD_ALGORITHM, AUTH_DB_HASH_ALGORITHM_OPTIONS), 'id' => $val['id']);
+            $affected = $sth->execute($data);
+
+            if (is_a($affected, 'PEAR_Error')) die($affected->getMessage());
           }
           return array('login'=>$login,'id'=>$val['id']);
         }
@@ -39,8 +45,11 @@ class Auth_db extends Auth {
     }
     else {
       // md5 hash
-      $sql = "SELECT id FROM tt_users"." WHERE login = ".$mdb2->quote($login)." AND password = md5(".$mdb2->quote($password).") AND status = 1";
-      $res = $mdb2->query($sql);
+      $types = array('text', 'text', 'integer');
+      $sth = $mdb2->prepare('SELECT id FROM tt_users WHERE login=:login AND password=:password AND status=:status', $types);
+      $data = array('login' => $login, 'password' => md5($password), 'status' => 1);
+      $res = $sth->execute($data);
+
       if (is_a($res, 'PEAR_Error')) {
         die($res->getMessage());
       }
