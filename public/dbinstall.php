@@ -1233,6 +1233,11 @@ if ($_POST) {
     ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.7', modified = now() where param_name = 'version_db' and param_value = '1.22.6'");
   }
 
+  if (array_key_exists('convert12207to12208', $_POST)) {
+    ttExecute("UPDATE `tt_fav_reports` SET `report_spec` = REPLACE(`report_spec`, '&', '|');");
+    ttExecute("UPDATE `tt_site_config` SET param_value = '1.22.8', modified = now() where param_name = 'version_db' and param_value = '1.22.7'");
+  }
+
   if (array_key_exists('cleanup', $_POST)) {
     $mdb2 = getConnection();
     $inactive_orgs = ttOrgHelper::getInactiveOrgs();
@@ -1290,7 +1295,7 @@ if ($_POST) {
 <h2>DB Install</h2>
 <table width="80%" border="1" cellpadding="10" cellspacing="0">
   <tr>
-    <td width="80%"><b>Create database structure (v1.22.6)</b>
+    <td width="80%"><b>Create database structure (v1.22.8)</b>
     <br>(applies only to new installations, do not execute when updating)</br></td><td><input type="submit" name="crstructure" value="Create"></td>
   </tr>
 </table>
@@ -1357,6 +1362,10 @@ if ($_POST) {
   <tr valign="top">
     <td>Update database structure (v1.22.6 to v1.22.7)</td>
     <td><input type="submit" name="convert12206to12207" value="Update"></td>
+  </tr>
+  <tr valign="top">
+    <td>Update database structure (v1.22.7 to v1.22.8)</td>
+    <td><input type="submit" name="convert12207to12208" value="Update"></td>
   </tr>
 </table>
 
