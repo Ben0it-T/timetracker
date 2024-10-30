@@ -21,14 +21,14 @@ if (version_compare(phpversion(), '8.1', '>=')) {
     die("mysqli_report function is not available."); // No point to continue as mysqli will not work.
 }
 
-// Defines APP_ constant
+// Defines APP_
 define('APP_VERSION', '1.22.22.5818');
 define('APP_DIR', __DIR__);
 define('APP_CONFIG', APP_DIR . '/../config');
 define('APP_TMP_DIR', APP_DIR . '/../var/tmp');
 define('APP_LIB_DIR', APP_DIR . '/../src/lib');
 define('APP_PLUGINS_DIR', APP_DIR . '/../src/plugins');
-define('TEMPLATE_DIR', APP_DIR . '/../templates');            // smarty templates dir
+define('SMARTY_TPL_DIR', APP_DIR . '/../templates');            // smarty templates dir
 define('SMARTY_CACHE_DIR', APP_DIR . '/../var/cache');        // smarty cache dir
 define('SMARTY_COMPILE_DIR', APP_DIR . '/../var/templates');  // smarty compile dir
 define('SMARTY_CONFIG_DIR', APP_DIR . '/../config');          // smarty configs dir
@@ -128,7 +128,7 @@ if (!defined('MAIL_CHARSET')) define('MAIL_CHARSET', 'utf-8');
 // Smarty initialization.
 $smarty = new Smarty;
 $smarty->setUseSubDirs(false);
-$smarty->setTemplateDir(TEMPLATE_DIR);
+$smarty->setTemplateDir(SMARTY_TPL_DIR);
 $smarty->setConfigDir(SMARTY_CONFIG_DIR);
 $smarty->setCompileDir(SMARTY_COMPILE_DIR);
 $smarty->setCacheDir(SMARTY_CACHE_DIR);

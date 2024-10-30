@@ -17,8 +17,7 @@ class ttOrgExportHelper {
     global $user;
 
     // Create a temporary file.
-    $dirName = dirname(TEMPLATE_DIR . '_c/.');
-    $tmp_file = tempnam($dirName, 'tt');
+    $tmp_file = tempnam(APP_TMP_DIR, 'export_');
 
     // Open the file for writing.
     $file = fopen($tmp_file, 'wb');
@@ -37,7 +36,7 @@ class ttOrgExportHelper {
     fclose($file);
 
     if ($compress) {
-      $this->fileName = tempnam($dirName, 'tt');
+      $this->fileName = tempnam(APP_TMP_DIR, 'export_');
       $this->compress($tmp_file, $this->fileName);
       unlink($tmp_file);
     } else

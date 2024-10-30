@@ -578,8 +578,7 @@ class ttOrgImportHelper {
     }
 
     // Create a temporary file.
-    $dirName = dirname(TEMPLATE_DIR . '_c/.');
-    $filename = tempnam($dirName, 'import_');
+    $filename = tempnam(APP_TMP_DIR, 'import_');
 
     // If the file is compressed - uncompress it.
     if ($compressed) {
