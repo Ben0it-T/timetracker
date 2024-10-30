@@ -71,6 +71,7 @@ class ttOrgHelper {
     // Construct $org_sizes_part (if we have to).
     $sql = "show tables like 'org_sizes'";
     $res = $mdb2->query($sql);
+    $org_sizes_part = "";
     if (!is_a($res, 'PEAR_Error') && $res->fetchRow()) {
        // org_sizes table exist.
        $sql = "select org_id from org_sizes order by org_id";
