@@ -343,7 +343,7 @@ class ttFavReportHelper {
         // Project ids.
         $project_ids = ttFavReportHelper::getFieldSettingFromReportSpec('project_ids', $report_spec);
         if (isset($project_ids)) {
-          $projects = explode('&', $project_ids);
+          $projects = explode('|', $project_ids);
           $bean->setAttribute('project', $projects);
         }
       }
@@ -470,7 +470,7 @@ class ttFavReportHelper {
     // Obtain project ids from report_spec.
     $project_ids = ttFavReportHelper::getFieldSettingFromReportSpec('project_ids', $options['report_spec']);
     if (isset($project_ids)) {
-       $projects = explode('&', $project_ids);
+       $projects = explode('|', $project_ids);
        $options['project_ids'] = join(',', $projects);
     }
 
@@ -684,7 +684,7 @@ class ttFavReportHelper {
       $selectedProjects = $bean->getAttribute('project[]');
     }
     if (is_array($selected_projects_in_bean) && !empty($selected_projects_in_bean[0])) {
-      $selectedProjectsSpec = join('&', $selected_projects_in_bean);
+      $selectedProjectsSpec = join('|', $selected_projects_in_bean);
     }
     if (isset($selectedProjectsSpec)) $reportSpecArray[] = 'project_ids:'.$selectedProjectsSpec;
 
