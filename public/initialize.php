@@ -2,6 +2,9 @@
 /* Copyright (c) Anuko International Ltd. https://www.anuko.com
 License: See license.txt */
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 use Smarty\Smarty;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -18,16 +21,17 @@ if (version_compare(phpversion(), '8.1', '>=')) {
     die("mysqli_report function is not available."); // No point to continue as mysqli will not work.
 }
 
-define("APP_VERSION", "1.22.22.5818");
-define("APP_DIR", __DIR__);
-define("APP_CONFIG", APP_DIR . '/../config');
-define("APP_TMP_DIR", APP_DIR . '/../var/tmp');
-define("APP_LIB_DIR", APP_DIR . '/../src/lib');
-define("APP_PLUGINS_DIR", APP_DIR . '/../src/plugins');
-define("TEMPLATE_DIR", APP_DIR . '/../templates');            // smarty templates dir
-define("SMARTY_CACHE_DIR", APP_DIR . '/../var/cache');        // smarty cache dir
-define("SMARTY_COMPILE_DIR", APP_DIR . '/../var/templates');  // smarty compile dir
-define("SMARTY_CONFIG_DIR", APP_DIR . '/../config');          // smarty configs dir
+// Defines APP_ constant
+define('APP_VERSION', '1.22.22.5818');
+define('APP_DIR', __DIR__);
+define('APP_CONFIG', APP_DIR . '/../config');
+define('APP_TMP_DIR', APP_DIR . '/../var/tmp');
+define('APP_LIB_DIR', APP_DIR . '/../src/lib');
+define('APP_PLUGINS_DIR', APP_DIR . '/../src/plugins');
+define('TEMPLATE_DIR', APP_DIR . '/../templates');            // smarty templates dir
+define('SMARTY_CACHE_DIR', APP_DIR . '/../var/cache');        // smarty cache dir
+define('SMARTY_COMPILE_DIR', APP_DIR . '/../var/templates');  // smarty compile dir
+define('SMARTY_CONFIG_DIR', APP_DIR . '/../config');          // smarty configs dir
 // Date format for database and URI parameters.
 define('DB_DATEFORMAT', '%Y-%m-%d');
 define('MAX_RANK', 512); // Max user rank.
@@ -39,11 +43,9 @@ if (!file_exists(APP_CONFIG . '/config.php')) die ("config.php file does not exi
 require_once(APP_CONFIG . '/config.php');
 
 // Check whether DSN is defined.
-if (!defined("DSN")) {
-  die ("DSN value is not defined. Check your config.php file.");
-}
+if (!defined('DSN')) die ("DSN value is not defined. Check your config.php file.");
 
-if (!defined("APP_2FA_SALT")) die ("2FA_SALT not defined. Check your config.php file.");
+if (!defined('APP_2FA_SALT')) die ("2FA_SALT not defined. Check your config.php file.");
 
 // Depending on DSN, require either mysqli or mysql extensions.
 if (strrpos(DSN, 'mysqli://', -strlen(DSN)) !== FALSE) {
@@ -113,9 +115,15 @@ if (AUTH_DB_HASH_ALGORITHM !== '') {
   }
 }
 
-// AUTH_DB - Login minlength
+// AUTH_DB_
 if (!defined('AUTH_DB_LOGIN_MINLENGTH')) define('AUTH_DB_LOGIN_MINLENGTH', 5);
 if (!defined('AUTH_DB_PWD_MINLENGTH')) define('AUTH_DB_PWD_MINLENGTH', 8);
+
+// MAIL_
+if (!defined('MAIL_FROM_NAME')) define('MAIL_FROM_NAME', 'Anuko Time Tracker');
+if (!defined('MAIL_FROM_ADDR')) define('MAIL_FROM_ADDR', 'no-reply@timetracker.anuko.com');
+if (!defined('MAIL_MODE')) define('MAIL_MODE', 'mail');
+if (!defined('MAIL_CHARSET')) define('MAIL_CHARSET', 'utf-8');
 
 // Smarty initialization.
 $smarty = new Smarty;
@@ -298,4 +306,54 @@ function init_js_date_locale()
       p: ['AM', 'PM']
     };";
   $smarty->assign('js_date_locale', $js);
+}
+
+// sendMail
+// TODO: move this
+function send_mail($toAddr, $toName, $subject, $body, $addCC = "", $addBCC = "") {
+  $mail = new PHPMailer(true);
+  try {
+    //Server settings
+    if (MAIL_MODE == 'smtp') {
+      $mail->isSMTP();
+      if (MAIL_SMTP_DEBUG) {
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+      }
+      else {
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+      }
+      $mail->SMTPAuth = MAIL_SMTP_AUTH;
+      $mail->Host = MAIL_SMTP_HOST;
+      $mail->Port = MAIL_SMTP_PORT;
+      $mail->Username = MAIL_SMTP_USERNAME;
+      $mail->Password = MAIL_SMTP_PASSWORD;
+      if (MAIL_SMTP_SECURE == 'ENCRYPTION_SMTPS') {
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+      }
+      else if (MAIL_SMTP_SECURE == 'ENCRYPTION_STARTTLS') {
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      }
+    } else if (MAIL_MODE == 'sendmail') {
+      $mail->isSendmail();
+    }
+
+    $mail->setFrom(MAIL_FROM_ADDR, MAIL_FROM_NAME);
+    $mail->addAddress($toAddr, $toName);
+    if (!empty($addCC)) $mail->addCC($addCC);
+    if (!empty($addBCC)) $mail->addBCC($addBCC);
+
+    $mail->CharSet = MAIL_CHARSET;
+    $mail->Encoding = 'base64';
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = nl2br($body);
+    if (!$mail->send()) {
+      echo 'NOT SEND : Mailer error: ' . $mail->ErrorInfo;
+      return false;
+    }
+    return true;
+  } catch (Exception $e) {
+    echo 'ERROR Mailer error: ' . $mail->ErrorInfo;
+    return false;
+  }
 }

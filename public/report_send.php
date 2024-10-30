@@ -53,21 +53,13 @@ if ($request->isPost()) {
     // Prepare report body.
     $body = ttReportHelper::prepareReportBody($options, $cl_comment);
 
-    import('mail.Mailer');
-    $mailer = new Mailer();
-    $mailer->setCharSet(CHARSET);
-    $mailer->setContentType('text/html');
-    $mailer->setSender(SENDER);
-    $mailer->setReceiver($cl_receiver);
-    if (isset($cl_cc))
-      $mailer->setReceiverCC($cl_cc);
-    if (!empty($user->bcc_email))
-      $mailer->setReceiverBCC($user->bcc_email);
-    $mailer->setMailMode(MAIL_MODE);
-    if ($mailer->send($cl_subject, $body))
-      $msg->add($i18n->get('form.mail.report_sent'));
-    else
+    $bcc = (!empty($user->bcc_email) ? $user->bcc_email : "");
+    if (!send_mail($cl_receiver, "", $cl_subject, $body, $cl_cc, $bcc)) {
       $err->add($i18n->get('error.mail_send'));
+    }
+    else {
+      $msg->add($i18n->get('form.mail.report_sent'));
+    }
   }
 }
 

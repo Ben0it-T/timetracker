@@ -378,20 +378,13 @@ class ttTimesheetHelper {
     global $user;
 
     // Send email.
-    import('mail.Mailer');
-    $mailer = new Mailer();
-    $mailer->setCharSet(CHARSET);
-    if ($html)
-      $mailer->setContentType('text/html');
-    $mailer->setSender(SENDER);
-    $mailer->setReceiver($fields['to']);
-    if (!empty($user->bcc_email))
-      $mailer->setReceiverBCC($user->bcc_email);
-    $mailer->setMailMode(MAIL_MODE);
-    if (!$mailer->send($fields['subject'], $fields['body']))
+    $bcc = (!empty($user->bcc_email) ? $user->bcc_email : "");
+    if (!send_mail($fields['to'], "", $fields['subject'], $fields['body'], "", $bcc)) {
       return false;
-
-    return true;
+    }
+    else {
+      return true;
+    }
   }
 
   // markApproved marks a timesheet as approved.

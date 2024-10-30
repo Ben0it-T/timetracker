@@ -96,18 +96,11 @@ if ($request->isPost()) {
 
     // Send 2FA_code email to user.
     if ($receiver) {
-      import('mail.Mailer');
-      $mailer = new Mailer();
-      $mailer->setCharSet(CHARSET);
-      $mailer->setSender(SENDER);
-      $mailer->setReceiver("$receiver");
-
       $subject = $user_i18n->get('email.2fa_code.subject');
       $body = sprintf($user_i18n->get('email.2fa_code.body'), $temp_ref);
-
-      $mailer->setMailMode(MAIL_MODE);
-      if (!$mailer->send($subject, $body))
+      if (!send_mail($receiver, $user->name, $subject, $body)) {
         $err->add($i18n->get('error.mail_send'));
+      }
     }
 
     $auth->doLogout();

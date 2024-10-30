@@ -87,23 +87,27 @@ define('FORUM_LINK', 'https://www.anuko.com/forum/viewforum.php?f=4');
 define('HELP_LINK', 'https://www.anuko.com/time-tracker/user-guide/index.htm');
 
 
-// Default sender for mail.
-//
-define('SENDER', 'Anuko Time Tracker <no-reply@timetracker.anuko.com>');
-
-
-// MAIL_MODE - mail sending mode. Can be 'mail' or 'smtp'.
-// 'mail' - sending through php mail() function.
-// 'smtp' - sending directly through SMTP server.
-// See https://www.anuko.com/time-tracker/install-guide/mail.htm
-//
-define('MAIL_MODE', 'smtp');
-define('MAIL_SMTP_HOST', 'localhost'); // For gmail use 'ssl://smtp.gmail.com' instead of 'localhost' and port 465.
+// MAIL configuration
+// ------------------
+// Default sender for mail:
+define('MAIL_FROM_NAME', 'Anuko Time Tracker');
+define('MAIL_FROM_ADDR', 'no-reply@timetracker.anuko.com');
+// Mail sending mode:
+// 'mail'     - sending a message using PHP's mail() function.
+// 'sendmail' - sending a message using a local sendmail binary
+// 'smtp'     - ssending a message through SMTP server.
+define('MAIL_MODE', 'mail');
+define('MAIL_CHARSET', 'utf-8');
+// define('MAIL_SMTP_HOST', 'localhost'); // For gmail use 'smtp.gmail.com' and port 465.
 // define('MAIL_SMTP_PORT', '465');
-// define('MAIL_SMTP_USER', 'yourname@yourdomain.com');
-// define('MAIL_SMTP_PASSWORD', 'yourpassword');
 // define('MAIL_SMTP_AUTH', true);
-// define('MAIL_SMTP_DEBUG', true);
+// define('MAIL_SMTP_USERNAME', 'yourname@yourdomain.com');
+// define('MAIL_SMTP_PASSWORD', 'yourpassword');
+// Encryption
+// 'ENCRYPTION_SMTPS'     - port 465
+// 'ENCRYPTION_STARTTLS'  - port 587
+// define('MAIL_SMTP_SECURE', 'ENCRYPTION_SMTPS');
+// define('MAIL_SMTP_DEBUG', false);
 
 
 // CSS files. They are located in the root of Time Tracker installation.

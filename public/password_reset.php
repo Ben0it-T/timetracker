@@ -71,35 +71,19 @@ if ($request->isPost()) {
     }
 
     if ($receiver) {
-      import('mail.Mailer');
-      $mailer = new Mailer();
-      $mailer->setCharSet(CHARSET);
-      $mailer->setSender(SENDER);
-      $mailer->setReceiver("$receiver");
-      $secure_connection = false;
-      if ((!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] !== 'off')) || ($_SERVER['SERVER_PORT'] == 443))
-        $secure_connection = true;
-      if($secure_connection)
-        $http = 'https';
-      else
-        $http = 'http';
+      $subject = $user_i18n->get('form.reset_password.email_subject');
+      $path = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "/"));
+      $pass_edit_url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://". $_SERVER["HTTP_HOST"] . $path . "/password_change.php?ref=".$temp_ref;
+      $body = sprintf($user_i18n->get('form.reset_password.email_body'), $_SERVER['REMOTE_ADDR'], $pass_edit_url);
 
-      $cl_subject = $user_i18n->get('form.reset_password.email_subject');
-
-      $dir_name = $app_root = '';
-      if (defined('DIR_NAME'))
-        $dir_name = trim(constant('DIR_NAME'), '/');
-      if (!empty($dir_name))
-        $app_root = '/'.$dir_name;
-
-      $pass_edit_url = $http.'://'.$_SERVER['HTTP_HOST'].$app_root.'/password_change.php?ref='.$temp_ref;
-
-      $mailer->setMailMode(MAIL_MODE);
-      if ($mailer->send($cl_subject, sprintf($user_i18n->get('form.reset_password.email_body'), $_SERVER['REMOTE_ADDR'], $pass_edit_url)))
-        $msg->add($i18n->get('form.reset_password.message'));
-      else
+      if (!send_mail($receiver, $user->name, $subject, $body)) {
         $err->add($i18n->get('error.mail_send'));
+      }
+      else {
+        $msg->add($i18n->get('form.reset_password.message'));
+      }
     }
+
   }
 } // isPost
 

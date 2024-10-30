@@ -1732,22 +1732,13 @@ class ttReportHelper {
     // Prepare report body.
     $body = ttReportHelper::prepareReportBody($options, $comment);
 
-    import('mail.Mailer');
-    $mailer = new Mailer();
-    $mailer->setCharSet(CHARSET);
-    $mailer->setContentType('text/html');
-    $mailer->setSender(SENDER);
-    if (!empty($cc))
-      $mailer->setReceiverCC($cc);
-    if (!empty($user->bcc_email))
-      $mailer->setReceiverBCC($user->bcc_email);
-    $mailer->setReceiver($email);
-    $mailer->setMailMode(MAIL_MODE);
-    if (empty($subject)) $subject = $options['name'];
-    if (!$mailer->send($subject, $body))
+    $bcc = (!empty($user->bcc_email) ? $user->bcc_email : "");
+    if (!send_mail($email, "", $subject, $body, $cc, $bcc)) {
       return false;
-
-    return true;
+    }
+    else {
+      return true;
+    }
   }
 
   // getReportOptions - returns an array of report options constructed from session bean.
