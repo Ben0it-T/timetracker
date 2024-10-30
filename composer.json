@@ -1,7 +1,7 @@
 {
     "require": {
-        "phpmailer/phpmailer": "^6.9.2",
-        "smarty/smarty": "^5.4.1"
+        "phpmailer/phpmailer": "6.9.2",
+        "smarty/smarty": "5.4.1"
     },"autoload": {
         "psr-4": {"TimeTracker\\": "src/"}
     }
