@@ -1,11 +1,11 @@
 <?php
 
-	define('IDX_MINUTE',			0);
-	define('IDX_HOUR',			1);
-	define('IDX_DAY',			2);
-	define('IDX_MONTH',			3);
-	define('IDX_WEEKDAY',			4);
-	define('IDX_YEAR',			5);
+	define('IDX_MINUTE',   0);
+	define('IDX_HOUR',     1);
+	define('IDX_DAY',      2);
+	define('IDX_MONTH',    3);
+	define('IDX_WEEKDAY',  4);
+	define('IDX_YEAR',     5);
 
 	/*
 	 * tdCron v0.0.1 beta - CRON-Parser for PHP
