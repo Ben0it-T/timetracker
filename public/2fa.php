@@ -46,6 +46,8 @@ if ($request->isPost()) {
     }
 
     if ($err->no()) {
+      // Delete user TmpRef
+      ttUserHelper::deleteUserTmpRef($user_id);
       // Redirect, depending on user role.
       if ($user->isClient()) {
         header('Location: reports.php');

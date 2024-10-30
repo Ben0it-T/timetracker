@@ -80,6 +80,15 @@ class ttUserHelper {
     return false;
   }
 
+  // Delete usr TmpRef
+  static function deleteUserTmpRef($usrId) {
+    $mdb2 = getConnection();
+    $types = array('integer');
+    $sth = $mdb2->prepare('DELETE FROM tt_tmp_refs WHERE user_id=:usrId', $types);
+    $data = array('usrId' => $usrId);
+    $affected = $sth->execute($data);
+  }
+
   // insert - inserts a user into database.
   static function insert($fields, $hash = true) {
     global $user;
