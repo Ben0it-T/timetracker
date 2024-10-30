@@ -255,6 +255,9 @@ $imgData = file_get_contents($file_name);
 $imgType = 'png';
 $imgBase64 = 'data:image/' . $imgType . ';base64,' . base64_encode($imgData);
 
+// Delete tmp file
+unlink($file_name);
+
 $smarty->assign('large_screen_calendar_row_span', $largeScreenCalendarRowSpan);
 $smarty->assign('img_file_name', $imgBase64);
 $smarty->assign('chart_selector', $chart_selector);
