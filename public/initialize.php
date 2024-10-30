@@ -218,7 +218,6 @@ $user = new ttUser(null, $auth->getUserId());
 if ($user->custom_logo) {
   if (file_exists('img/'.$user->group_id.'.png')) {
     $smarty->assign('custom_logo', 'img/'.$user->group_id.'.png');
-    $smarty->assign('mobile_custom_logo', '../img/'.$user->group_id.'.png');
   }
   else {
     $user->custom_logo = 0;
