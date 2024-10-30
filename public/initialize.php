@@ -2,15 +2,10 @@
 /* Copyright (c) Anuko International Ltd. https://www.anuko.com
 License: See license.txt */
 
-// Report all errors except E_NOTICE and E_STRICT.
-// Ignoring E_STRICT is here because PEAR 1.9.4 that we use is not E_STRICT compliant.
-if (!defined('E_STRICT')) define('E_STRICT', 2048);
-// if (!defined('E_DEPRECATED')) define('E_DEPRECATED', 8192);
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT); // & ~E_DEPRECATED);
-// E_ALL tends to change as PHP evolves, therefore we use & here instead of exclusive OR (^).
+require __DIR__ . '/../vendor/autoload.php';
 
-// Disable displaying errors on screen.
-ini_set('display_errors', 'Off');
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT); // Report all errors except E_NOTICE and E_STRICT.
+ini_set('display_errors', 'Off'); // Disable displaying errors on screen.
 
 // Disable mysqli fatal error behaviour when using php8.1 or greater.
 // See https://php.watch/versions/8.1/mysqli-error-mode

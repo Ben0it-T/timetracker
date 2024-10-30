@@ -13,6 +13,11 @@ nbproject/
 # Config
 config/config.php
 
+# Composer
+composer.phar
+composer.lock
+vendor/
+
 # App
 api/
 src/lib/tcpdf/
