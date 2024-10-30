@@ -30,14 +30,6 @@ define('MULTIORG_MODE', true);
 define('EMAIL_REQUIRED', false);
 
 
-// Directory name.
-// If you install time tracker into a sub-directory of your site reflect this in the DIR_NAME parameter.
-// For example, for http://localhost/timetracker/ define DIR_NAME as 'timetracker'.
-//
-// define('DIR_NAME', 'timetracker');
-//
-
-
 // WEEKEND_START_DAY
 //
 // This option defines which days are highlighted with weekend color.
