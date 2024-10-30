@@ -1,5 +1,7 @@
 {
-    "autoload": {
+    "require": {
+        "smarty/smarty": "^5.4.1"
+    },"autoload": {
         "psr-4": {"TimeTracker\\": "src/"}
     }
 }

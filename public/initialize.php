@@ -2,6 +2,8 @@
 /* Copyright (c) Anuko International Ltd. https://www.anuko.com
 License: See license.txt */
 
+use Smarty\Smarty;
+
 require __DIR__ . '/../vendor/autoload.php';
 
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT); // Report all errors except E_NOTICE and E_STRICT.
@@ -116,10 +118,6 @@ if (!defined('AUTH_DB_LOGIN_MINLENGTH')) define('AUTH_DB_LOGIN_MINLENGTH', 5);
 if (!defined('AUTH_DB_PWD_MINLENGTH')) define('AUTH_DB_PWD_MINLENGTH', 8);
 
 // Smarty initialization.
-//import('smarty.Smarty');
-require(APP_LIB_DIR . "/smarty/libs/Smarty.class.php");
-use Smarty\Smarty;
-
 $smarty = new Smarty;
 $smarty->setUseSubDirs(false);
 $smarty->setTemplateDir(TEMPLATE_DIR);
