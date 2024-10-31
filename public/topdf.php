@@ -19,13 +19,6 @@ if (!(ttAccessAllowed('view_own_reports') || ttAccessAllowed('view_reports') || 
 }
 // End of access checks.
 
-// Check whether TCPDF library is available.
-if (!file_exists(APP_LIB_DIR . '/tcpdf/'))
-  die('TCPDF library is not found.');
-
-// Include TCPDF library.
-require_once(APP_LIB_DIR . '/tcpdf/tcpdf.php');
-
 // Use custom fields plugin if it is enabled.
 if ($user->isPluginEnabled('cf')) {
   require_once(APP_PLUGINS_DIR . '/CustomFields.class.php');
@@ -83,7 +76,7 @@ if ($totals_only) {
   // Table header.
   $html .= '<thead>';
   $html .= "<tr $styleHeader>";
-  $html .= '<td>'.htmlspecialchars($group_by_header).'</td>';
+  $html .= '<td>'. (is_null($group_by_header) ? '' : htmlspecialchars($group_by_header)).'</td>';
   if ($bean->getAttribute('chduration')) { $colspan++; $html .= "<td $styleCentered>".$i18n->get('label.duration').'</td>'; }
   if ($bean->getAttribute('chunits')) { $colspan++; $html .= "<td $styleCentered>".$i18n->get('label.work_units_short').'</td>'; }
   if ($bean->getAttribute('chcost')) { $colspan++; $html .= "<td $styleCentered>".$i18n->get('label.cost').'</td>'; }
@@ -92,7 +85,7 @@ if ($totals_only) {
   // Print subtotals.
   foreach ($subtotals as $subtotal) {
     $html .= '<tr>';
-    $html .= '<td>'.htmlspecialchars($subtotal['name']).'</td>';
+    $html .= '<td>'.(is_null($subtotal['name']) ? '' : htmlspecialchars($subtotal['name'])).'</td>';
     if ($bean->getAttribute('chduration')) $html .= "<td $styleRightAligned>".$subtotal['time'].'</td>';
     if ($bean->getAttribute('chunits')) $html .= "<td $styleRightAligned>".$subtotal['units'].'</td>';
     if ($bean->getAttribute('chcost')) {
@@ -113,7 +106,7 @@ if ($totals_only) {
   if ($bean->getAttribute('chunits')) $html .= "<td $styleRightAligned>".$totals['units'].'</td>';
   if ($bean->getAttribute('chcost')) {
       $html .= "<td $styleRightAligned>";
-      $html .= htmlspecialchars($user->currency).' ';
+      $html .= (is_null($user->currency) ? '' : htmlspecialchars($user->currency)).' ';
       if ($user->can('manage_invoices') || $user->isClient())
         $html .= $totals['cost'];
       else
@@ -135,7 +128,7 @@ if ($totals_only) {
     foreach ($custom_fields->userFields as $userField) {
       $field_name = 'user_field_'.$userField['id'];
       $checkbox_control_name = 'show_'.$field_name;
-      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.htmlspecialchars($userField['label']).'</td>'; }
+      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.(is_null($userField['label']) ? '' : htmlspecialchars($userField['label'])).'</td>'; }
     }
   }
   if ($bean->getAttribute('chclient')) { $colspan++; $html .= '<td>'.$i18n->get('label.client').'</td>'; }
@@ -145,7 +138,7 @@ if ($totals_only) {
     foreach ($custom_fields->projectFields as $projectField) {
       $field_name = 'project_field_'.$projectField['id'];
       $checkbox_control_name = 'show_'.$field_name;
-      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.htmlspecialchars($projectField['label']).'</td>'; }
+      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.(is_null($projectField['label']) ? '' : htmlspecialchars($projectField['label'])).'</td>'; }
     }
   }
   if ($bean->getAttribute('chtask')) { $colspan++; $html .= '<td>'.$i18n->get('label.task').'</td>'; }
@@ -154,7 +147,7 @@ if ($totals_only) {
     foreach ($custom_fields->timeFields as $timeField) {
       $field_name = 'time_field_'.$timeField['id'];
       $checkbox_control_name = 'show_'.$field_name;
-      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.htmlspecialchars($timeField['label']).'</td>'; }
+      if ($bean->getAttribute($checkbox_control_name)) { $colspan++; $html .= '<td>'.(is_null($timeField['label']) ? '' : htmlspecialchars($timeField['label'])).'</td>'; }
     }
   }
   if ($bean->getAttribute('chstart')) { $colspan++; $html .= "<td $styleCentered>".$i18n->get('label.start').'</td>'; }
@@ -182,7 +175,7 @@ if ($totals_only) {
         $html .= '<td>'.$i18n->get('label.subtotal').'</td>';
         if ($user->can('view_reports') || $user->can('view_all_reports') || $user->isClient()) {
             $html .= '<td>';
-            $html .= htmlspecialchars($subtotals[$prev_grouped_by]['user']);
+            $html .= (is_null($subtotals[$prev_grouped_by]['user']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['user']));
             $html .= '</td>';
         }
         // User custom fields.
@@ -195,12 +188,12 @@ if ($totals_only) {
         }
         if ($bean->getAttribute('chclient')) {
             $html .= '<td>';
-            $html .= htmlspecialchars($subtotals[$prev_grouped_by]['client']);
+            $html .= (is_null($subtotals[$prev_grouped_by]['client']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['client']));
             $html .= '</td>';
         }
         if ($bean->getAttribute('chproject')) {
             $html .= '<td>';
-            $html .= htmlspecialchars($subtotals[$prev_grouped_by]['project']);
+            $html .= (is_null($subtotals[$prev_grouped_by]['project']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['project']));
             $html .= '</td>';
         }
         // Project custom fields.
@@ -213,7 +206,7 @@ if ($totals_only) {
         }
         if ($bean->getAttribute('chtask')) {
             $html .= '<td>';
-            $html .= htmlspecialchars($subtotals[$prev_grouped_by]['task']);
+            $html .= (is_null($subtotals[$prev_grouped_by]['task']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['task']));
             $html .= '</td>';
         }
         // Time custom fields.
@@ -261,39 +254,39 @@ if ($totals_only) {
     // Print a regular row.
     $html .= '<tr>';
     $html .= '<td>'.$item['date'].'</td>';
-    if ($user->can('view_reports') || $user->can('view_all_reports') || $user->isClient()) $html .= '<td>'.htmlspecialchars($item['user']).'</td>';
+    if ($user->can('view_reports') || $user->can('view_all_reports') || $user->isClient()) $html .= '<td>'.(is_null($item['user']) ? '' : htmlspecialchars($item['user'])).'</td>';
     // User custom fields.
     if (isset($custom_fields) && $custom_fields->userFields) {
       foreach ($custom_fields->userFields as $userField) {
         $field_name = 'user_field_'.$userField['id'];
         $checkbox_control_name = 'show_'.$field_name;
-        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.htmlspecialchars($item[$field_name]).'</td>';
+        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.(is_null($item[$field_name]) ? '' : htmlspecialchars($item[$field_name])).'</td>';
       }
     }
-    if ($bean->getAttribute('chclient')) $html .= '<td>'.htmlspecialchars($item['client']).'</td>';
-    if ($bean->getAttribute('chproject')) $html .= '<td>'.htmlspecialchars($item['project']).'</td>';
+    if ($bean->getAttribute('chclient')) $html .= '<td>'.(is_null($item['client']) ? '' : htmlspecialchars($item['client'])).'</td>';
+    if ($bean->getAttribute('chproject')) $html .= '<td>'.(is_null($item['project']) ? '' : htmlspecialchars($item['project'])).'</td>';
     // Project custom fields.
     if (isset($custom_fields) && $custom_fields->projectFields) {
       foreach ($custom_fields->projectFields as $projectField) {
         $field_name = 'project_field_'.$projectField['id'];
         $checkbox_control_name = 'show_'.$field_name;
-        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.htmlspecialchars($item[$field_name]).'</td>';
+        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.(is_null($item[$field_name]) ? '' : htmlspecialchars($item[$field_name])).'</td>';
       }
     }
-    if ($bean->getAttribute('chtask')) $html .= '<td>'.htmlspecialchars($item['task']).'</td>';
+    if ($bean->getAttribute('chtask')) $html .= '<td>'.(is_null($item['task']) ? '' : htmlspecialchars($item['task'])).'</td>';
     // Time custom fields.
     if (isset($custom_fields) && $custom_fields->timeFields) {
       foreach ($custom_fields->timeFields as $timeField) {
         $field_name = 'time_field_'.$timeField['id'];
         $checkbox_control_name = 'show_'.$field_name;
-        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.htmlspecialchars($item[$field_name]).'</td>';
+        if ($bean->getAttribute($checkbox_control_name)) $html .= '<td>'.(is_null($item[$field_name]) ? '' : htmlspecialchars($item[$field_name])).'</td>';
       }
     }
     if ($bean->getAttribute('chstart')) $html .= "<td $styleRightAligned>".$item['start'].'</td>';
     if ($bean->getAttribute('chfinish')) $html .= "<td $styleRightAligned>".$item['finish'].'</td>';
     if ($bean->getAttribute('chduration')) $html .= "<td $styleRightAligned>".$item['duration'].'</td>';
     if ($bean->getAttribute('chunits')) $html .= "<td $styleRightAligned>".$item['units'].'</td>';
-    if ($show_note_column) $html .= '<td>'.htmlspecialchars($item['note']).'</td>';
+    if ($show_note_column) $html .= '<td>'.(is_null($item['note']) ? '' : htmlspecialchars($item['note'])).'</td>';
     if ($bean->getAttribute('chcost') && $show_cost_per_hour) {
       $html .= "<td $styleRightAligned>";
       $html .= $item['cost_per_hour'];
@@ -322,15 +315,15 @@ if ($totals_only) {
         $html .= $item['modified'] ? $item['modified_ip'].' '.$item['modified'] : $item['created_ip'].' '.$item['created'];
         $html .= '</td>';
     }
-    if ($bean->getAttribute('chinvoice')) $html .= '<td>'.htmlspecialchars($item['invoice']).'</td>';
-    if ($bean->getAttribute('chtimesheet')) $html .= '<td>'.htmlspecialchars($item['timesheet_name']).'</td>';
+    if ($bean->getAttribute('chinvoice')) $html .= '<td>'.(is_null($item['invoice']) ? '' : htmlspecialchars($item['invoice'])).'</td>';
+    if ($bean->getAttribute('chtimesheet')) $html .= '<td>'.(is_null($item['timesheet_name']) ? '' : htmlspecialchars($item['timesheet_name'])).'</td>';
     $html .= '</tr>';
 
     if ($show_note_row && $item['note']) {
       $html .= '<tr>';
       $html .= "<td $styleRightAligned>".$i18n->get('label.note').'</td>';
       $noteSpan = $colspan-1;
-      $html .= '<td colspan="'.$noteSpan.'">'.htmlspecialchars($item['note']).'</td>';
+      $html .= '<td colspan="'.$noteSpan.'">'.(is_null($item['note']) ? '' : htmlspecialchars($item['note'])).'</td>';
       $html .= '</tr>';
     }
 
@@ -344,7 +337,7 @@ if ($totals_only) {
     $html .= '<td>'.$i18n->get('label.subtotal').'</td>';
     if ($user->can('view_reports') || $user->can('view_all_reports') || $user->isClient()) {
       $html .= '<td>';
-      $html .= htmlspecialchars($subtotals[$prev_grouped_by]['user']);
+      $html .= (is_null($subtotals[$prev_grouped_by]['user']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['user']));
       $html .= '</td>';
     }
     // User custom fields.
@@ -357,12 +350,12 @@ if ($totals_only) {
     }
     if ($bean->getAttribute('chclient')) {
       $html .= '<td>';
-      $html .= htmlspecialchars($subtotals[$prev_grouped_by]['client']);
+      $html .= (is_null($subtotals[$prev_grouped_by]['client']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['client']));
       $html .= '</td>';
     }
     if ($bean->getAttribute('chproject')) {
       $html .= '<td>';
-      $html .= htmlspecialchars($subtotals[$prev_grouped_by]['project']);
+      $html .= (is_null($subtotals[$prev_grouped_by]['project']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['project']));
       $html .= '</td>';
     }
     // Project custom fields.
@@ -375,7 +368,7 @@ if ($totals_only) {
     }
     if ($bean->getAttribute('chtask')) {
       $html .= '<td>';
-      $html .= htmlspecialchars($subtotals[$prev_grouped_by]['task']);
+      $html .= (is_null($subtotals[$prev_grouped_by]['task']) ? '' : htmlspecialchars($subtotals[$prev_grouped_by]['task']));
       $html .= '</td>';
     }
     // Time custom fields.
@@ -447,7 +440,7 @@ if ($totals_only) {
   if ($show_note_column) $html .= '<td></td>';
   if ($bean->getAttribute('chcost') && $show_cost_per_hour) $html .= '<td></td>';
   if ($bean->getAttribute('chcost')) {
-    $html .= "<td $styleRightAligned>".htmlspecialchars($user->currency).' ';
+    $html .= "<td $styleRightAligned>".(is_null($user->currency) ? '' : htmlspecialchars($user->currency)).' ';
     if ($user->can('manage_invoices') || $user->isClient())
       $html .= $totals['cost'];
     else

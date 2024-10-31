@@ -28,7 +28,7 @@ define('APP_CONFIG', APP_DIR . '/../config');
 define('APP_TMP_DIR', APP_DIR . '/../var/tmp');
 define('APP_LIB_DIR', APP_DIR . '/../src/lib');
 define('APP_PLUGINS_DIR', APP_DIR . '/../src/plugins');
-define('SMARTY_TPL_DIR', APP_DIR . '/../templates');            // smarty templates dir
+define('SMARTY_TPL_DIR', APP_DIR . '/../templates');          // smarty templates dir
 define('SMARTY_CACHE_DIR', APP_DIR . '/../var/cache');        // smarty cache dir
 define('SMARTY_COMPILE_DIR', APP_DIR . '/../var/templates');  // smarty compile dir
 define('SMARTY_CONFIG_DIR', APP_DIR . '/../config');          // smarty configs dir
