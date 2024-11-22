@@ -199,7 +199,7 @@ if ($_POST) {
   print "Processing...<br>\n";
 
   if (array_key_exists('crstructure', $_POST)) {
-    $sqlQuery = join("\n", file(APP_DIR . '/../db/mysql.sql'));
+    $sqlQuery = join("\n", file(APP_DIR . '/db/mysql.sql'));
     $sqlQuery = str_replace("TYPE=MyISAM","",$sqlQuery);
     $queries  = explode(";",$sqlQuery);
     if (is_array($queries)) {

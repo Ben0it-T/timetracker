@@ -23,15 +23,15 @@ if (version_compare(phpversion(), '8.1', '>=')) {
 
 // Defines APP_
 define('APP_VERSION', '1.22.22.5818');
-define('APP_DIR', __DIR__);
-define('APP_CONFIG', APP_DIR . '/../config');
-define('APP_TMP_DIR', APP_DIR . '/../var/tmp');
-define('APP_LIB_DIR', APP_DIR . '/../src/lib');
-define('APP_PLUGINS_DIR', APP_DIR . '/../src/plugins');
-define('SMARTY_TPL_DIR', APP_DIR . '/../templates');          // smarty templates dir
-define('SMARTY_CACHE_DIR', APP_DIR . '/../var/cache');        // smarty cache dir
-define('SMARTY_COMPILE_DIR', APP_DIR . '/../var/templates');  // smarty compile dir
-define('SMARTY_CONFIG_DIR', APP_DIR . '/../config');          // smarty configs dir
+define('APP_DIR', dirname(__DIR__));
+define('APP_CONFIG', dirname(__DIR__) . '/config');
+define('APP_TMP_DIR', dirname(__DIR__) . '/var/tmp');
+define('APP_LIB_DIR', dirname(__DIR__) . '/src/lib');
+define('APP_PLUGINS_DIR', dirname(__DIR__) . '/src/plugins');
+define('SMARTY_TPL_DIR', dirname(__DIR__) . '/templates');          // smarty templates dir
+define('SMARTY_CACHE_DIR', dirname(__DIR__) . '/var/cache');        // smarty cache dir
+define('SMARTY_COMPILE_DIR', dirname(__DIR__) . '/var/templates');  // smarty compile dir
+define('SMARTY_CONFIG_DIR', dirname(__DIR__) . '/config');          // smarty configs dir
 // Date format for database and URI parameters.
 define('DB_DATEFORMAT', '%Y-%m-%d');
 define('MAX_RANK', 512); // Max user rank.
@@ -177,7 +177,7 @@ $auth = Auth::factory(AUTH_MODULE, $GLOBALS['AUTH_MODULE_PARAMS']);
 
 // Some defines we'll need.
 //
-define('RESOURCE_DIR', APP_DIR.'/../translations');
+define('RESOURCE_DIR', dirname(__DIR__) . '/translations');
 define('COOKIE_EXPIRE', 60*60*24*30); // Cookies expire in 30 days.
 
 // Status values for projects, users, etc.
